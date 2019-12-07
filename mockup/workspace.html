@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <link rel="stylesheet" href="styles/monokai-sublime.css"> -->
+  <link rel="stylesheet" href="styles/solarized-dark.css" id="highlightjs_style">
+	<script src="highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+
+<style>
+body, html { width: 100%; height: 100%; max-height: 100%}
+
+ul.tabs {
+font-family: 'Source Code Pro', monospace; font-size:12pt;margin-top:10px;padding:0;list-style:none;display:flex;margin-bottom:0;
+}
+
+code, input.code {
+font-family: 'Source Code Pro', monospace;
+font-size: 14pt !important;
+}
+
+input.code, span.code, div.code {
+border:0px; color: white;
+background:rgba(255,255,255,0.1);
+padding: 2px 4px;
+outline: 1px dashed white;
+margin: 0 4px;
+}
+span.code{min-width:200px;display:inline-block;}
+div.code {margin:8px 0; display:inline-block;min-width:90%;}
+
+span.code:empty::before, div.code:empty::before{
+	content: attr(placeholder);
+  font-style: italic;
+	color: #aaa;
+}
+
+article img {
+  max-width: 100%;
+}
+
+#file_list a{
+  background: #343a40;
+  color: #ddd;
+}
+#file_list a:hover {
+  background: #444a50;
+}
+
+#file_list a.active {
+  background: white;
+  color: #343a40;
+  /* font-weight: bold; */
+}
+
+.fa-vam:before {
+  vertical-align: middle;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9999;
+
+    border-radius: 10px;
+    /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999d;
+}
+i.fa-python::before {
+
+	background: radial-gradient(circle at 59% 35%, rgba(54,115,167,1) 0%, rgba(54,115,167,1) 18%, rgba(240,199,0,0) 18%, rgba(240,199,0,0) 100%), radial-gradient(circle at 42% 65%, rgba(240,199,0,1) 0%,rgba(240,199,0,1) 18%, rgba(54,115,167,0) 18%, rgba(54,115,167,0) 100%),  linear-gradient(138deg, rgba(54,115,167,1) 0%, rgba(54,115,167,1) 50%, rgba(240,199,0,1) 50%, rgba(240,199,0,1) 100%);
+	-webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/*article{position:relative;}
+article::before {
+  content: 'xxx';
+  background: red;
+  display:block;
+  position:fixed;
+  bottom:0;
+  right: 0; left:0;
+  height: 50px;
+  background: linear-gradient(0deg, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%);
+
+}*/
+</style>
+
+<body class="d-flex flex-column" style="max-height:100%; background: white">
+
+<nav class="navbar navbar-expand-lg navbar-light py-0 justify-content-between flex-grow-0 flex-shrink-0 bg-light" style="background:#ccc">
+  <a class="navbar-brand" href="#" style="line-height:48px; font-family: 'Margarine'; font-size:22pt;font-weight:bold;color:#343a40;"><!-- style="color: #454545;font-weight: bold; background:url(https://heartyfoundation.com/wp-content/uploads/2019/03/heartyfun-logo.png) no-repeat;background-size:contain;padding-left:3.2cm;font-family:'Ubuntu'">-->
+    <img src="https://heartyfoundation.com/wp-content/uploads/2019/03/heartyfun-logo.png" height="48" class="d-inline-block align-top mr-3" alt="">
+    PLAYGROUND<img src="http://www.rw-designer.com/icon-image/16287-24x24x32.png" style="margin-top:-24px; margin-left:-4px"/>
+    <!-- <sup class="ml-1"><sup>&beta;</sup></sup> -->
+  </a>
+  <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Strona Główna <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Lista Zadań</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Pomoc</a>
+
+      </li>
+    </ul>
+
+    <div class="btn-group ml-3 rounded-pill">
+
+      <button type="button" class="rounded-pill btn  pl-0 py-0 pr-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="Background:#dadada">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" height="42" class="border-primary rounded-circle mr-1"/>
+        <span style="line-height:42px">Marco Lowery</span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Separated link</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="flex-grow-1 bg-primary overflow-hidden d-flex flex-row" style="border-radius: 8px 8px 0 0">
+  <!-- <div style="background:red">x</div> -->
+  <div class="flex-grow-1 d-flex flex-row bg-primary my-2 ml-2 border-circle" style="overflow: hidden; width: 60%; border-radius: 7px;">
+    <!-- left column -->
+
+    <!-- <div class="bg-dark flex-grow-1 d-flex"> -->
+      <div style="width:20%;background:#343a40; overflow:hidden; " class="d-flex flex-column " >
+        <button type="button" class="flex-grow-0 btn btn-dark text-left btn-lg btn-block rounded-0 border-0" style="line-height:42px; background: #242a30">
+          <i class="fas fa-laptop-code mr-2"></i> Obszar roboczy
+        </button>
+        <div class="list-group list-group-flush text-primary flex-grow-1" id="file_list">
+          <a href="#" class="active list-group-item list-group-item-action list-group-item-dark py-1 pl-3 pr-2"  data-target="index.html"><i class="fab fa-html5 fa-fw" style="color:#ff651d"></i> index.html <i class="fas fa-pencil-alt" style="margin-left: 75px !important; opacity: 0.5"></i></a>
+          <a href="#" class="list-group-item list-group-item-action list-group-item-dark py-1 px-3" data-target="style.css"><i class="fab fa-css3-alt fa-fw" style="color:#35a8db"></i> style.css</a>
+          <a href="#" class="list-group-item list-group-item-action list-group-item-dark py-1 px-3" data-target="script.js"><i class="fab fa-js fa-fw" style="color: #ffc735"></i> script.js</a>
+          <a href="#" class="list-group-item list-group-item-action list-group-item-dark py-1 px-3" data-target="main.py"><i class="fab fa-python fa-fw" style="color: #f6cd3f"></i> main.py</a>
+          <a href="#" class="list-group-item list-group-item-action list-group-item-dark py-1 px-3" data-target="data.json"><i class="fas fa-table fa-fw" style="color: #8c48b9"></i> data.json</a>
+          <a href="#" class="list-group-item list-group-item-action list-group-item-dark py-1 px-3 disabled"><i class="far fa-folder fa-fw"></i> gfx</a>
+          <a href="#" class="list-group-item list-group-item-action list-group-item-dark py-1 px-3" data-target="gfx/logo.png"><i class="far fa-file-image ml-3 fa-fw"></i> logo.png</a>
+          <a href="#" class="list-group-item list-group-item-action list-group-item-dark py-1 px-3" data-target="gfx/obrazek.jpg"><i class="far fa-file-image ml-3 fa-fw"></i> obrazek.jpg</a>
+          <a href="#" class="list-group-item list-group-item-action list-group-item-dark py-1 px-3" data-target="gfx/sample.png"><i class="far fa-file-image ml-3 fa-fw"></i> sample.png</a>
+        </div>
+        <button type="button" class="flex-grow-0 btn btn-dark text-center  btn-block rounded-0" style="border-top: 1px solid #666; opacity:0.5">
+          <i class="fas fa-file-export mr-2"></i> Wyeksportuj pliki
+        </button>
+      </div>
+      <div style="background:green;" class="flex-grow-1 d-flex flex-column text-light bg-dark">
+        <!-- editor header-->
+        <ul class="nav  nav-pills p-2 flex-grow-0" style="line-height: 42px">
+          <!-- <li class="bg-secondary"><a href="#"><i class="fas fa-caret-square-left fa-2x"></i></a></li> -->
+          <li class="pl-2" style="font-size:20px;">EDYTOR <span style="color: #bbb" id="filename" class="ml-2">index.html</span></li>
+          <li class="ml-auto">
+            <select onchange="javascript:update_css(this)" class="form-control d-inline w-auto align-middle">
+              <option>a11y-dark</option>
+              <option>a11y-light</option>
+              <option>agate</option>
+              <option>androidstudio</option>
+              <option>an-old-hope</option>
+              <option>arduino-light</option>
+              <option>arta</option>
+              <option>ascetic</option>
+              <option>atelier-cave-dark</option>
+              <option>atelier-cave-light</option>
+              <option>atelier-dune-dark</option>
+              <option>atelier-dune-light</option>
+              <option>atelier-estuary-dark</option>
+              <option>atelier-estuary-light</option>
+              <option>atelier-forest-dark</option>
+              <option>atelier-forest-light</option>
+              <option>atelier-heath-dark</option>
+              <option>atelier-heath-light</option>
+              <option>atelier-lakeside-dark</option>
+              <option>atelier-lakeside-light</option>
+              <option>atelier-plateau-dark</option>
+              <option>atelier-plateau-light</option>
+              <option>atelier-savanna-dark</option>
+              <option>atelier-savanna-light</option>
+              <option>atelier-seaside-dark</option>
+              <option>atelier-seaside-light</option>
+              <option>atelier-sulphurpool-dark</option>
+              <option>atelier-sulphurpool-light</option>
+              <option>atom-one-dark</option>
+              <option>atom-one-dark-reasonable</option>
+              <option>atom-one-light</option>
+              <option>brown-paper</option>
+              <option>codepen-embed</option>
+              <option>color-brewer</option>
+              <option>darcula</option>
+              <option>dark</option>
+              <option>darkula</option>
+              <option>default</option>
+              <option>docco</option>
+              <option>dracula</option>
+              <option>far</option>
+              <option>foundation</option>
+              <option>github</option>
+              <option>github-gist</option>
+              <option>gml</option>
+              <option>googlecode</option>
+              <option>grayscale</option>
+              <option>gruvbox-dark</option>
+              <option>gruvbox-light</option>
+              <option>hopscotch</option>
+              <option>hybrid</option>
+              <option>idea</option>
+              <option>ir-black</option>
+              <option>isbl-editor-dark</option>
+              <option>isbl-editor-light</option>
+              <option>kimbie.dark</option>
+              <option>kimbie.light</option>
+              <option>lightfair</option>
+              <option>magula</option>
+              <option>mono-blue</option>
+              <option>monokai</option>
+              <option>monokai-sublime</option>
+              <option>night-owl</option>
+              <option>nord</option>
+              <option>obsidian</option>
+              <option>ocean</option>
+              <option>paraiso-dark</option>
+              <option>paraiso-light</option>
+              <option>pojoaque</option>
+              <option>purebasic</option>
+              <option>qtcreator_dark</option>
+              <option>qtcreator_light</option>
+              <option>railscasts</option>
+              <option>rainbow</option>
+              <option>routeros</option>
+              <option>school-book</option>
+              <option>shades-of-purple</option>
+              <option>solarized-dark</option>
+              <option>solarized-light</option>
+              <option>sunburst</option>
+              <option>tomorrow</option>
+              <option>tomorrow-night-blue</option>
+              <option>tomorrow-night-bright</option>
+              <option>tomorrow-night</option>
+              <option>tomorrow-night-eighties</option>
+              <option>vs2015</option>
+              <option>vs</option>
+              <option>xcode</option>
+              <option>xt256</option>
+              <option>zenburn</option>
+            </select>
+            <button type="button" class="btn btn-outline-secondary"><i class="fas fa-cog"></i> Ustawienia</button>
+            <button type="button" class="btn btn-secondary"><i class="fas fa-play"></i> Uruchom</button>
+          </li>
+        </ul>
+      <!-- end of editor header-->
+
+
+
+
+        <pre style="white-space:pre-wrap;margin-top:0; " class="hljs flex-grow-1 m-0" id="input"><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;<span class="code" contenteditable="true"></span>&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;body&gt;
+&lt;table title="hello"&gt;
+&lt;tr&gt;
+  &lt;th&gt;Np.&lt;/th&gt;
+  &lt;th&gt;Kraj&lt;/th&gt;
+  &lt;th&gt;Stolica&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td&gt;1.&lt;/td&gt;
+  &lt;td&gt;Polska&lt;/td&gt;
+  &lt;td&gt;<span class="code" contenteditable="true" placeholder="Nazwa stolicy Polski?"></span>&lt;/td&gt;
+&lt;/tr&gt;
+<div class="code" contenteditable="true" id="editor" placeholder="Tutaj utwórz nowy wiersz tabeli"></div>
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </code></pre>
+      </div>
+    <!-- end of left column -->
+  </div>
+
+  <div class="bg-primary flex-grow-0 flex-shrink-0 d-flex flex-column" style="width: 40%;">
+    <!-- right column -->
+    <header class="flex-grow-0 flex-shrink-0 mb-0  text-light bg-primary " style="z-index:1">
+      <h1 class="p-2 px-3 mb-0 d-flex align-text-bottom" style="font-family: 'Margarine'">
+          <i class="fab fa-html5 mr-2 fa-fw fa-vam"></i>
+          <span class="badge badge-dark mr-3">1.7</span>
+          <span class="text-truncate" title="Flex od podstaw">
+            Flex od podstaw
+        </span>
+        <span class="ml-auto badge badge-light"><i class="fas fa-medal"></i></span>
+      </h1>
+
+      <ul id="myTab" role="tablist" class="nav bg-light nav-pills p-2 mx-2 mt-2" style="box-shadow: 0 2px 6px rgba(0,0,5,0.1);font-family: 'Margarine'; text-transform: uppercase; font-weight: bold; border-radius: 6px 6px 0 0">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#tab-tutorial" role="tab">Tutorial</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#tab-preview" role="tab">Podgląd</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#tab-tests" role="tab">Testy</a>
+        </li>
+				<li class="nav-item ml-auto">
+					<a class="nav-link" data-toggle="tab" href="#tab-info" role="tab"><i class="fas fa-info"></i></a>
+				</li>
+      </ul>
+    </header>
+    <article class="tab-content p-4 flex-grow-1 text-justify mx-2 mb-2"  style="overflow-y: auto; font-size: 14pt; line-height: 150%; background: #eee; border-radius: 0 0 6px 6px">
+      <div class="tab-pane fade show active" id="tab-tutorial" role="tabpanel">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/HTML5_Badge.svg/1024px-HTML5_Badge.svg.png" style="width:200px; float:right" class="ml-2"/>
+
+        <p>Suspendisse elit tincidunt sapien. Fusce interdum. Nulla vehicula neque. Integer mi at eros. Mauris molestie placerat, nulla fermentum nec, accumsan congue, sem pede sit amet risus. Suspendisse eget orci magna suscipit sed, ornare laoreet. Sed at est. Maecenas eleifend vel, semper egestas. Suspendisse diam. Vestibulum ante sodales semper, nunc ac lectus. Vivamus volutpat ante, varius eu, cursus dui vitae ante. Donec at urna mattis ac, ultricies est. Pellentesque ac ligula libero, fringilla enim. Nunc velit a dui. Pellentesque nibh nulla, accumsan fringilla vel, eros. Donec ipsum ac risus. Fusce nonummy porttitor tempus. Quisque quis leo. Integer mi id lacus. Phasellus.</p>
+
+        <p>Nam sed lorem nec augue. Vivamus justo. Curabitur arcu luctus non, arcu. Pellentesque laoreet fermentum. Aliquam feugiat velit. Mauris in nulla facilisis eget, ante. Phasellus adipiscing. Nulla sed justo. Vestibulum scelerisque. Proin at est. Suspendisse sapien. Morbi bibendum. Nulla mi id enim. Suspendisse at erat volutpat. Nam convallis diam pede quis metus. Sed fringilla enim. Etiam volutpat at, enim. Aenean posuere consectetuer. Quisque sed leo. Ut vel neque eu ante. Vestibulum non ante. Maecenas eget elit odio, a lorem lorem pretium convallis. Donec congue. Nam turpis et ultrices augue. Fusce ut lacus sagittis lacus. Nulla dignissim. Aliquam ultricies porta. Ut.</p>
+
+        <pre><code class="lang-js">var oop = require("../lib/oop");
+        // defines the parent mode
+        var TextMode = require("./text").Mode;
+        var Tokenizer = require("../tokenizer").Tokenizer;
+        var MatchingBraceOutdent = require("./matching_brace_outdent").MatchingBraceOutdent;
+        </code></pre>
+
+        <h2>Przykłady</h2>
+        <p>Curabitur ornare laoreet. Morbi tellus tincidunt tellus pede turpis viverra neque, quis erat a leo. Donec quis viverra nonummy, erat. Proin in faucibus vestibulum. Nullam nec felis fermentum malesuada. Etiam tellus. Aenean ligula turpis, accumsan orci. Donec non imperdiet neque. Donec interdum wisi at lorem a ante ipsum vitae odio tellus nec sem at lacus pretium quis, egestas sit amet quam. Mauris ultrices. Vestibulum ante ipsum primis in aliquam purus. Sed dolor. Vestibulum ante pretium nec, pharetra volutpat. Pellentesque quam hendrerit risus. Aliquam fermentum ut, fermentum pellentesque dolor. Donec porttitor interdum. Etiam dictum faucibus orci consequat sapien eu lobortis laoreet.</p>
+
+        <div class="text-center"><img src="https://blogpros-bc85.kxcdn.com/blog/wp-content/uploads/2018/12/Embed-a-YouTube-Video-Illustration.jpg"/></div>
+        <p>Nunc eleifend pede nunc interdum adipiscing vitae, ornare facilisis vel, magna. Curabitur est enim non sem. Aenean lobortis ut, fermentum leo vitae tellus. Fusce nonummy id, bibendum iaculis leo. Pellentesque nunc ac massa ut magna auctor euismod. Sed sagittis odio et magnis dis parturient montes, nascetur ridiculus mus. Morbi sodales rutrum, urna eget volutpat enim diam, suscipit wisi. Sed justo luctus non, tristique ut, gravida massa placerat consequat. Donec mauris sit amet, consectetuer adipiscing elit. Aenean ac lacus. Aliquam feugiat eget, cursus mauris dui nunc, accumsan sit amet, consectetuer nisl. Nam diam. Fusce ullamcorper massa mattis faucibus. Nulla venenatis. Donec.</p>
+
+        <h2>Zadanie do wykonania</h2>
+        <p>Integer at tortor. In hac habitasse platea dictumst. Nunc a mauris. Pellentesque sed turpis. Duis luctus a, vestibulum mauris sit amet libero fermentum turpis faucibus arcu mi libero, ultricies ante. Lorem ipsum primis in nonummy justo felis laoreet porta. Sed justo luctus at, accumsan imperdiet, urna vitae dui aliquam pharetra faucibus. Ut pharetra accumsan faucibus. Maecenas orci diam, suscipit quis, ipsum. Fusce tempor et, enim. Duis condimentum urna, mattis magna. Praesent dictum lectus varius egestas, orci a urna. Vestibulum dolor nonummy sodales eros. Curabitur vel leo. Quisque quis massa. Curabitur arcu turpis at porttitor lectus nec pede. Lorem ipsum at.</p>
+
+        <p>Class aptent taciti sociosqu ad litora torquent per inceptos hymenaeos. Quisque euismod quis, tincidunt congue. Proin erat ut lacus. Vestibulum et erat erat volutpat. Praesent blandit libero. Nullam eleifend nibh, ut arcu. Aenean sed quam sem, rutrum nulla, placerat velit et ultrices metus semper eros. Nullam viverra enim porttitor ullamcorper, lorem nec egestas blandit, est sem, imperdiet quis, placerat augue. Sed mauris sed neque. Suspendisse porttitor vel, viverra enim luctus metus dolor, luctus nibh, volutpat quam ultricies libero ipsum ullamcorper orci sit amet nisl. Nam tempor magna neque, mattis id, turpis. Lorem ipsum sed est congue tristique. Donec congue. Nunc.</p>
+        <div class="text-center">
+          <img src="https://codemyui.com/wp-content/uploads/2018/08/CSS-only-Mobile-Friendly-Table-Layout-690x345.gif"/>
+        </div>
+
+        <hr/>
+
+        <div class="card mt-3">
+          <div class="card-body">
+            <h5 class="card-title">1. Zadanie do wykonania</h5>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <!-- <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a> -->
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-body">
+            <h5 class="card-title">2. Zadanie do wykonania</h5>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <!-- <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a> -->
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab-tests" role="tabpanel">
+        <h3>Wyniki testów</h3>
+        <table class="table table-hover table-bordered">
+          <thead class="thead-dark">
+            <tr><th>id</th><th>name</th><th>result</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Poprawny tytuł strony</td><td>Sukces</td></tr>
+            <tr><td>2</td><td>Nowy wiersz tabeli</td><td>Błąd</td></tr>
+            <tr><td>3</td><td>Uzupełnione pole stolicy</td><td>Wyjątek</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane fade" id="tab-preview" role="tabpanel">
+        <span class="badge badge-primary">Primary</span>
+        <a href="#" class="btn btn-primary">Odśwież</a>
+        <iframe class="flex-grow-1 bg-light" style="height: 500px; width: 100%"></iframe>
+      </div>
+      <div class="tab-pane fade" id="tab-info" role="tabpanel">
+        xxxx
+      </div>
+    </article>
+    <!-- <hr/>
+    <div class="d-flex justify-content-between mt-3">
+      <a href="#" class="btn btn-primary">&laquo; Poprzednie zadanie</a>
+      <a href="#" class="btn btn-primary">Następne zadanie &raquo;</a>
+    </div> -->
+
+    <!-- end of right column -->
+  </div>
+</main>
+<!-- <div class="flex-grow-1 flex-shrink-1" style="background: yellow; overflow-y: scroll">x
+x<div style="background:red; width: 100px; height: 2000px"></div>
+  </div> -->
+
+</body>
+</html>
+<script>
+function update_css(el) {
+  document.getElementById('highlightjs_style').href = 'styles/' + el.value + '.css';
+}
+
+$('#myTab a').on('click', function (e) {
+  e.preventDefault();
+  console.log(this);
+  $(this).tab('show')
+})
+
+$('#file_list a').on('click', function(e, el) {
+  console.log('>>', e.target.dataset.target);
+  let name = e.target.dataset.target;
+  name = name.replace(/\//g, ' / ');
+  $('#filename').text(name);
+});
+</script>
