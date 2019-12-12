@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <link rel="stylesheet" href="styles/monokai-sublime.css"> -->
+  <link rel="stylesheet" href="styles/solarized-dark.css" id="highlightjs_style">
+	<script src="highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+
+<style>
+body, html { width: 100%; height: 100%; max-height: 100%}
+
+ul.tabs {
+font-family: 'Source Code Pro', monospace; font-size:12pt;margin-top:10px;padding:0;list-style:none;display:flex;margin-bottom:0;
+}
+
+code, input.code {
+font-family: 'Source Code Pro', monospace;
+font-size: 14pt !important;
+}
+
+input.code, span.code, div.code {
+border:0px; color: white;
+background:rgba(255,255,255,0.1);
+padding: 2px 4px;
+outline: 1px dashed white;
+margin: 0 4px;
+}
+span.code{min-width:200px;display:inline-block;}
+div.code {margin:8px 0; display:inline-block;min-width:90%;}
+
+span.code:empty::before, div.code:empty::before{
+	content: attr(placeholder);
+  font-style: italic;
+	color: #aaa;
+}
+
+article img {
+  max-width: 100%;
+}
+
+#file_list a{
+  background: #343a40;
+  color: #ddd;
+}
+#file_list a:hover {
+  background: #444a50;
+}
+
+#file_list a.active {
+  background: white;
+  color: #343a40;
+  /* font-weight: bold; */
+}
+
+.fa-vam:before {
+  vertical-align: middle;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9999;
+
+    border-radius: 10px;
+    /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999d;
+}
+i.fa-python::before {
+
+	background: radial-gradient(circle at 59% 35%, rgba(54,115,167,1) 0%, rgba(54,115,167,1) 18%, rgba(240,199,0,0) 18%, rgba(240,199,0,0) 100%), radial-gradient(circle at 42% 65%, rgba(240,199,0,1) 0%,rgba(240,199,0,1) 18%, rgba(54,115,167,0) 18%, rgba(54,115,167,0) 100%),  linear-gradient(138deg, rgba(54,115,167,1) 0%, rgba(54,115,167,1) 50%, rgba(240,199,0,1) 50%, rgba(240,199,0,1) 100%);
+	-webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/*article{position:relative;}
+article::before {
+  content: 'xxx';
+  background: red;
+  display:block;
+  position:fixed;
+  bottom:0;
+  right: 0; left:0;
+  height: 50px;
+  background: linear-gradient(0deg, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%);
+
+}*/
+</style>
+
+<body class="d-flex flex-column" style="max-height:100%; background: white">
+
+<nav class="navbar navbar-expand-lg navbar-light py-0 justify-content-between flex-grow-0 flex-shrink-0 bg-light" style="background:#ccc">
+  <a class="navbar-brand" href="#" style="line-height:48px; font-family: 'Margarine'; font-size:22pt;font-weight:bold;color:#343a40;"><!-- style="color: #454545;font-weight: bold; background:url(https://heartyfoundation.com/wp-content/uploads/2019/03/heartyfun-logo.png) no-repeat;background-size:contain;padding-left:3.2cm;font-family:'Ubuntu'">-->
+    <img src="https://heartyfoundation.com/wp-content/uploads/2019/03/heartyfun-logo.png" height="48" class="d-inline-block align-top mr-3" alt="">
+    PLAYGROUND<img src="http://www.rw-designer.com/icon-image/16287-24x24x32.png" style="margin-top:-24px; margin-left:-4px"/>
+    <!-- <sup class="ml-1"><sup>&beta;</sup></sup> -->
+  </a>
+  <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Strona Główna <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Lista Zadań</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Pomoc</a>
+
+      </li>
+    </ul>
+
+    <div class="btn-group ml-3 rounded-pill">
+
+      <button type="button" class="rounded-pill btn  pl-0 py-0 pr-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="Background:#dadada">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" height="42" class="border-primary rounded-circle mr-1"/>
+        <span style="line-height:42px">Marco Lowery</span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Separated link</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="flex-grow-1  overflow-hidden" style="border-radius: 8px 8px 0 0; background: #eee">
+  <h1 class="text-light bg-primary pt-5" style="background: #eee; padding-bottom: 80px">
+    <div class="container">
+      <i class="fas fa-graduation-cap"></i> Pomoc
+    </div>
+  </h1>
+
+  <div class="container p-3" style="margin-top: -80px">
+
+    <div class="row">
+      <div class="col-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">W czym problem?</h5>
+
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item active">Cras justo odio</li>
+              <li class="list-group-item">Dapibus ac facilisis in</li>
+              <li class="list-group-item">Morbi leo risus</li>
+              <li class="list-group-item">Porta ac consectetur ac</li>
+              <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-8">
+        <div class="card">
+          <div class="card-body">
+            <h2>Hello World</h2>
+            <p>Phasellus vulputate tincidunt, tempor pede convallis nec, sagittis tortor. Phasellus ac lacus. Duis pretium magna. Curabitur scelerisque odio sit amet ligula. Lorem ipsum eget urna. Nulla vehicula neque. Suspendisse potenti. Vestibulum vulputate. Donec suscipit faucibus orci elit, dictum accumsan. Fusce enim. Class aptent taciti sociosqu ad litora torquent per inceptos hymenaeos. Sed euismod purus fermentum eget, molestie turpis egestas. Suspendisse vitae odio. Mauris at ligula. Nam libero odio eget lectus sit amet mi augue, ullamcorper orci ipsum, tempor diam turpis ut sem. Mauris metus. Nulla eget dolor. Praesent wisi vel quam risus, dictum arcu. Praesent sollicitudin, urna felis, eleifend adipiscing.</p>
+
+            <h3>Lorem ipsum</h3>
+            <p>Cras congue, aliquet pulvinar, quam ultricies iaculis augue. Duis nonummy at, enim. Sed non lacus. Vivamus vulputate eu, ullamcorper lorem. Cras vitae metus ac turpis egestas. Integer euismod nulla pellentesque a, mattis egestas, nulla ante, elementum eleifend, ligula. Nam consectetuer adipiscing vitae, bibendum mi, nec scelerisque neque at sem. Donec elit. Nunc viverra, est ultrices urna, id wisi placerat nec, aliquam eros magna vitae fermentum diam mollis tincidunt, velit pede dictum consectetuer. Sed lobortis mauris ac pede. Morbi eget sapien quis sollicitudin justo. Integer hendrerit nibh quis lacus tellus sit amet dui a sapien. Maecenas ac lectus. Sed egestas quam.</p>
+
+            <p>Curabitur ut mi. Cras in enim. Duis hendrerit wisi. In porttitor risus. Nam nunc felis, interdum viverra. Pellentesque placerat. Vivamus nec eros. Quisque est neque, blandit risus ante ipsum wisi, dapibus aliquam. In hac habitasse platea dictumst. Aenean quis ante. Vestibulum quam. Integer mi porttitor varius ac, auctor libero malesuada arcu vitae justo. Aliquam hendrerit eget, volutpat non, fringilla ligula faucibus orci quis venenatis leo et ultrices posuere in, vulputate tortor id sapien auctor auctor consectetuer. Etiam commodo, odio orci, placerat ut, diam. Vestibulum non ipsum. Proin at interdum wisi accumsan cursus molestie. Donec enim aliquam enim. Sed sagittis, elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>
