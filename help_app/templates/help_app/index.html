@@ -1,0 +1,39 @@
+{% extends 'playground/base.html' %}
+
+{% block main %}
+<h1 class="text-light bg-primary pt-5" style="background: #eee; padding-bottom: 80px">
+  <div class="container">
+    <i class="fas fa-graduation-cap"></i> Pomoc
+  </div>
+</h1>
+
+<div class="container p-3" style="margin-top: -80px">
+  <div class="row">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">W czym problem?</h5>
+
+          <div class="list-group list-group-flush">
+            {% for article in articles %}
+              <a href="{% url 'show' article.slug %}" class="list-group-item list-group-item-action{% if article.slug == to_display.slug %} active{% endif %}">
+                {{ article.title }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <h1>{{ to_display.title }}</h1>
+          
+          {{ to_display.content_html | safe }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
