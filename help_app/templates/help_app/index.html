@@ -1,9 +1,12 @@
 {% extends 'playground/base.html' %}
 
+{% load i18n %}
+
+
 {% block main %}
 <h1 class="text-light bg-primary pt-5" style="background: #eee; padding-bottom: 80px">
   <div class="container">
-    <i class="fas fa-graduation-cap"></i> Pomoc
+    <i class="fas fa-graduation-cap"></i> {% trans "Help" %}
   </div>
 </h1>
 
@@ -12,7 +15,7 @@
     <div class="col-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">W czym problem?</h5>
+          <h5 class="card-title">{% trans "What's the problem?" %}</h5>
 
           <div class="list-group list-group-flush">
             {% for article in articles %}
@@ -28,8 +31,13 @@
     <div class="col-8">
       <div class="card">
         <div class="card-body">
-          <h1>{{ to_display.title }}</h1>
-          
+          <h1>
+            {{ to_display.title }}
+            <a href="{% url 'admin:help_app_article_change' to_display.pk %}" class="btn btn-sm btn-outline-primary rounded-pill ml-auto">
+              <i class="fas fa-pencil-alt"></i> {% trans "Edit" %}
+            </a>
+          </h1>
+
           {{ to_display.content_html | safe }}
         </div>
       </div>
