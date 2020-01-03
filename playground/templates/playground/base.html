@@ -126,25 +126,9 @@ article::before {
       <li class="nav-item">
         <a class="nav-link" href="/pomoc/">Pomoc</a>
       </li>
-      <li class="nav-item ml-3">
-        <a class="btn btn-outline-primary rounded-pill" href="#"><i class="fas fa-sign-in-alt"></i> Zaloguj</a>
-      </li>
     </ul>
 
-    <div class="btn-group ml-3 rounded-pill d-none">
-
-      <button type="button" class="rounded-pill btn  pl-0 py-0 pr-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="Background:#dadada">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" height="42" class="border-primary rounded-circle mr-1"/>
-        <span style="line-height:42px">Marco Lowery</span>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Separated link</a>
-      </div>
-    </div>
+    {% include "playground/_user_button.html" %}
   </div>
 </nav>
 
