@@ -1,0 +1,35 @@
+{% load widget_tweaks %}
+
+{% if form.non_field_errors %}
+  {% for error in form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+{# Include the hidden fields #}
+{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+
+{# Include the visible fields #}
+{% for field in form.visible_fields %}
+<div class="form-group">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+    {{ field | add_class:"form-control" | add_error_class:"is-invalid" }}
+
+    {% if field.errors %}
+      <div class="invalid-feedback">
+        {% for error in field.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if field.help_text %}
+      <small id="help_text_{{ field.name }}" class="form-text text-muted">{{ field.help_text | safe }}.</small>
+    {% endif %}
+</div>
+{% endfor %}

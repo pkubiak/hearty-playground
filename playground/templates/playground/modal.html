@@ -1,0 +1,15 @@
+{% extends 'playground/base.html' %}
+
+{% block main %}
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="card col-md-5 mt-5">
+      <div class="card-body">
+        <h3 class="card-title mb-4">{% block content_title %}{% endblock %}</h3>
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
