@@ -1,40 +1,29 @@
-{% extends 'playground/base.html' %}
+{% extends 'playground/modal.html' %}
 
-{% block main %}
+{% block title %}{% block modal_title %}Login form{% endblock %}{% endblock %}
 
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="card col-md-5 mt-5">
-      <div class="card-body">
-        <h3 class="card-title mb-4">Login</h3>
-        <form method="POST" action="{% url 'login' %}">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ next }}">
 
-          {% if next %}
-              {% if user.is_authenticated %}
-              <p>Your account doesn't have access to this page. To proceed,
-              please login with an account that has access.</p>
-              {% else %}
-              <p>Please login to see this page.</p>
-              {% endif %}
-          {% endif %}
+{% block modal_content %}
+  <form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
 
-          {% include "playground/_form.html" %}
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
 
-          <hr/>
+    {% include "playground/_form.html" %}
 
-          <button type="submit" class="btn btn-primary" value="login">Submit</button>
-          <a href="{% url 'password_reset' %}" class="btn btn-link">Lost password?</a>
-
-        </form>
-      </div>
+    <div class="pt-2">
+      <button type="submit" class="btn btn-primary" value="login">Submit</button>
+      <a href="{% url 'password_reset' %}" class="btn btn-link">Lost password?</a>
     </div>
-  </div>
-</div>
 
+  </form>
 
-
-
-
-{% endblock %}
+{% endblock modal_content %}
