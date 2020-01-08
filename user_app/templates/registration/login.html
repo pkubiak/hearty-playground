@@ -1,7 +1,7 @@
 {% extends 'playground/modal.html' %}
 
-{% block title %}{% block modal_title %}Login form{% endblock %}{% endblock %}
-
+{% block title %}Login form{% endblock %}
+{% block modal_title %}Login form{% endblock %}
 
 {% block modal_content %}
   <form method="POST">
@@ -23,7 +23,5 @@
       <button type="submit" class="btn btn-primary" value="login">Submit</button>
       <a href="{% url 'password_reset' %}" class="btn btn-link">Lost password?</a>
     </div>
-
   </form>
-
 {% endblock modal_content %}
