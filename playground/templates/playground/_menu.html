@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="#">Strona Główna <span class="sr-only">(current)</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="{% url "courses.index" %}">{% trans "Courses" %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/pomoc/">Pomoc</a>
+  </li>
+</ul>

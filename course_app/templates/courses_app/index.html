@@ -1,0 +1,63 @@
+{% extends "playground/base.html" %}
+{% load i18n static %}
+
+{% block main %}
+
+<!-- https://www.shutterstock.com/image-vector/vector-hand-drawn-seamless-pattern-education-336615470 -->
+
+<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "bg.png" %}); box-shadow: 0 0 3px #000d">
+  <div class="container">
+    <h1 class="display-4">Courses</h2>
+    <p class="lead text-justify" style="text-shadow:0 0 6px #0009">Whether you’re trying to level up your career, build your side project, or simply play around with programming, you’ve found the right place to start. Explore our programs and courses, try an exercise or two, and join our community of 45 million learners.</p>
+  </div>
+</div>
+
+<div class="container mt--xxl">
+
+  <div class="card mb-3 overflow-hidden mt-4" style="box-shadow: 0 0 4px #0006">
+    <div class="row no-gutters">
+      <div class="col-md-3 overflow-hidden">
+
+        <div class="bg-primary embed-responsive embed-responsive-16by9" style="background:url(https://aplusweb.design/wp-content/uploads/2017/11/html5-and-css3.png) center center;background-size: cover"></div>
+      </div>
+      <div class="col-md-9">
+        <div class="card-body pb-0">
+          <h3 class="card-title font-weight-light">
+            Learn HTML and CSS
+            <a href="#" class="btn btn-link stretched-link float-right">Continue learning (42% completed)</a>
+          </h3>
+          <p class="card-text">Learn how to style and visually organize HTML with CSS. This course covers version 3 of CSS.</p>
+          <ul class="list-inline text-truncate mb-0">
+            {% for i in '01234' %}
+              <li class="list-inline-item"><i class="fas fa-check mx-3"></i>{% lorem 2 w random %}</li>
+            {% endfor %}
+          </ul>
+          <!--<a href="#" class="btn btn-primary stretched-link">Continue learning</a>-->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="display-4 mt-5">{% trans "Full Catalog" %}</h2>
+
+  <div class="row row-cols-1 row-cols-md-3 mb-5">
+    {% for i in '0123456' %}
+      <div class="col mb-3">
+        <div class="card">
+          <div class="card-img-top bg-primary embed-responsive embed-responsive-16by9" style="background:url(https://picsum.photos/480/270?{{i}}) center center;background-size: cover"></div>
+          <div class="card-body">
+            <h3 class="card-title font-weight-light text-truncate" title="{% lorem 5 w random %}">{% lorem 5 w random %}</h3>
+            {# <p class="card-text text-justify">Learn how to style and visually organize HTML with CSS. This course covers version 3 of CSS.</p> #}
+            <p class="card-text text-justify">{% lorem 20 w random %}.</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}

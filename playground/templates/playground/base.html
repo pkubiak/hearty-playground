@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
   <title>{% block title %}{% endblock %} – Hearty Playground</title>
   <!-- <link rel="stylesheet" href="styles/monokai-sublime.css"> -->
   <!--<link rel="stylesheet" href="styles/solarized-dark.css" id="highlightjs_style">
@@ -127,17 +130,7 @@ article::before {
     <!-- <sup class="ml-1"><sup>&beta;</sup></sup> -->
   </a>
   <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Strona Główna <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">{% trans "Courses" %}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/pomoc/">Pomoc</a>
-      </li>
-    </ul>
+    {% include "playground/_menu.html" %}
 
     {% include "playground/_user_button.html" %}
   </div>
