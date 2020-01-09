@@ -1,0 +1,31 @@
+{% extends "playground/two_columns.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "User panel" %}{% endblock %}
+
+{% block top_title %}
+  <i class="fas fa-user-cog"></i>&nbsp;{% trans "User panel" %}
+{% endblock %}
+
+{% block left_column %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{% lorem 3 w %}</h5>
+
+    <div class="list-group list-group-flush">
+      <a href="{% url 'login' %}" class="list-group-item list-group-item-action">
+        <i class="fas fa-user fa-fw mr-2"></i>{% trans "User settings" %}
+      </a>
+
+      <a href="{% url 'login' %}" class="list-group-item list-group-item-action">
+        <i class="fas fa-key fa-fw mr-2"></i>{% trans "Change password" %}
+      </a>
+
+      <a href="{% url 'login' %}" class="list-group-item list-group-item-action">
+        <i class="fas fa-chart-line fa-fw mr-2"></i>{% trans "Statistics" %}
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
