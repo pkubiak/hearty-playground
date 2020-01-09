@@ -1,0 +1,21 @@
+{% extends 'playground/base.html' %}
+
+{% load i18n %}
+
+
+{% block main %}
+<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" >
+  <div class="container">
+    <h1 class="display-4">{% block top_title %}{% endblock %}</h2>
+    <p class="lead text-justify">{% block top_text %}{% endblock %}</p>
+  </div>
+</div>
+
+<div class="container p-3 mt--xxl">
+  <div class="row">
+    <div class="col-4">{% block left_column %}{% endblock %}</div>
+    <div class="col-8">{% block right_column %}{% endblock %}</div>
+  </div>
+</div>
+
+{% endblock main %}
