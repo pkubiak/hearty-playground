@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Article',
             fields=[
-                ('id', models.CharField(max_length=100, primary_key=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False)),
                 ('title', models.CharField(max_length=100)),
                 ('slug', models.CharField(max_length=100)),
                 ('content', models.TextField()),
