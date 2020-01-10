@@ -1,2 +1,5 @@
 Django>=3.0
 Markdown
+django-mdeditor
+python-frontmatter
+pymdown-extensions

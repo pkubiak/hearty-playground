@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  {% if metadata %}
+    <table class="table table-bordered table-dark table-striped mb-4">
+      <thead>
+        <tr><td colspan="2" class="font-weight-light">Document metadata (not visible to users)</td></tr>
+      </thead>
+      <tbody>
+      {% for key, value in metadata.items %}
+        <tr>
+          <th style="width:25%">{{ key }}</th>
+          <td>{{ value }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  {{ markdown | safe}}
+</body>
+</html>
