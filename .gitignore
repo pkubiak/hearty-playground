@@ -3,6 +3,7 @@ mockup/styles/
 data/
 static/
 mockup/
+uploads/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

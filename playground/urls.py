@@ -13,4 +13,6 @@ urlpatterns = [
     path('courses/', include('course_app.urls')),
     path('', RedirectView.as_view(url='pomoc/')),
     path('markdown/', markdown_preview, name='markdown_preview'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
+    *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
+]

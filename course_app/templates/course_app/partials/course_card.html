@@ -1,16 +1,20 @@
+{% load i18n %}
 <div class="col mb-3">
   <div class="card">
-    <div class="card-img-top bg-primary embed-responsive embed-responsive-16by9" style="background:url(https://picsum.photos/seed/{{ course.id }}/480/270) center center;background-size: cover"></div>
+    <div class="card-img-top bg-primary embed-responsive embed-responsive-16by9" style="background:url({% if course.banner %}{{ course.banner.url }}{% else %}https://picsum.photos/seed/{{course.id}}/320/180{% endif %}) center center;background-size: cover"></div>
     <div class="card-body">
       <h3 class="card-title font-weight-light text-truncate" title="{{ course.title }}">{{ course.title }}</h3>
-      {# <p class="card-text text-justify">Learn how to style and visually organize HTML with CSS. This course covers version 3 of CSS.</p> #}
-      {# <p class="card-text"></p> #}
       <p class="card-text text-justify">
         <small class="text-muted d-block mb-2">Last updated 3 mins ago</small>
         {{ course.description }}
       </p>
-      <a href="#" class="btn btn-primary btn-small">Continue (41% completed)</a>
-
+      <a href="#" class="btn btn-primary stretched-link">
+        {% if course.user_progress %}
+          {% blocktrans with progress=course.user_progress|stringformat:".0f" %}Continue learning ({{ progress }}% completed){% endblocktrans %}
+        {% else %}
+          {% trans "Enroll" %}
+        {% endif %}
+      </a>
     </div>
   </div>
 </div>

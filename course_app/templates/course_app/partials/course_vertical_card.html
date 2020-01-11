@@ -1,6 +1,8 @@
+{% load static %}
+
 <div class="card mb-3 overflow-hidden mt-4 shadow">
   <div class="row no-gutters">
-    <div class="col-md-3 overflow-hidden" style="background:url(https://picsum.photos/seed/{{course.id}}/320/180) center center;background-size: cover">
+    <div class="col-md-3 overflow-hidden" style="background:url({% if course.banner %}{{ course.banner.url }}{% else %}https://picsum.photos/seed/{{course.id}}/320/180{% endif %}) center center;background-size: cover">
       <div class="embed-responsive embed-responsive-16by9"><!-- TODO: upewnić się że to dobry pomysł--></div>
     </div>
     <div class="col-md-9">
