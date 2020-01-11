@@ -1,5 +1,6 @@
 {% load static %}
 
+{# TODO: fix view on mobile #}
 <div class="card mb-3 overflow-hidden mt-4 shadow">
   <div class="row no-gutters">
     <div class="col-md-3 overflow-hidden" style="background:url({% if course.banner %}{{ course.banner.url }}{% else %}https://picsum.photos/seed/{{course.id}}/320/180{% endif %}) center center;background-size: cover">
@@ -9,7 +10,7 @@
       <div class="card-body">
         <h3 class="card-title font-weight-light">
           {{ course.title }}
-          <a href="#" class="btn btn-link stretched-link float-right">
+          <a href="{% url "course.details" course.slug %}" class="btn btn-link stretched-link float-right">
             {% if course.user_progress %}
               Continue learning ({{ course.user_progress | stringformat:".0f" }}% completed)
             {% else %}

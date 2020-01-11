@@ -27,6 +27,8 @@ class Course(models.Model):
     description = models.TextField(null=False, blank=True)
     keywords = ArrayField(models.CharField(max_length=32), null=True, blank=True)
 
+    # TODO: add field available_from / available_to (datarange)
+
     def last_user_activity(self, user):
         return None  # TODO: implement
 

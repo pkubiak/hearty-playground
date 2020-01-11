@@ -1,0 +1,96 @@
+{% extends "playground/base.html" %}
+
+{% load i18n static %}
+
+{% block title %}{{ course.title }} – {% trans "Courses Details" %}{% endblock %}
+{% block main %}
+<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
+  <div class="container">
+    <h1 class="display-4">{% trans "Courses Details" %}</h2>
+  </div>
+</div>
+
+<div class="container mt--xxl">
+  {% include "course_app/partials/course_vertical_card.html" with course=course %}
+
+
+  <h2 class="display-4">Lessons</h2>
+
+  <div class="accordion mb-5" id="accordionExample">
+    {% for i in '12345' %}
+
+      <style>
+        /* TODO: przenieść do jakiegoś globalnego arkusza stylów */
+        .collapse-btn i {
+          transition: transform 0.5s;
+        }
+        .collapse-btn:not(.collapsed) i {
+          transform: rotate(90deg);
+
+        }
+      </style>
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <div class="mb-0 media align-items-center position-relative">
+            <div style="width: 80px; height: 80px; line-height: 80px;" class="mr-3 bg-primary text-light h1 text-center font-bold mb-0">{{ i }}</div>
+            <!--<img src="https://via.placeholder.com/80?text={{i}}" class="mr-3" alt="..."/>-->
+            <div class="media-body">
+                <h5 class="mt-0 text-primary">
+                  {% if i == '1' %}Welcome to the course{% else %}{% lorem 3 w random %}{% endif %}
+                </h5>
+              </a>
+              {% lorem 10 w random %}
+            </div>
+            <!--<a href="#" class="d-block text-left collapse-btn btn btn-link stretched-link collapsed px-0" type="button" data-toggle="collapse" data-target="#collapse_{{i}}" aria-expanded="true" aria-controls="collapseOne">-->
+
+            {% if i < '3' %}
+              <span class="text-primary">Completed</span>
+            {% elif i == '3' %}
+              <span class="text-secondary">In progress</span>
+            {% else %}
+              {# <a href="#" class="btn btn-outline-secondary mr-3 px-4 disabled">Start</a> #}
+            {% endif %}
+
+            <a href="#" class="collapse-btn btn btn-link stretched-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_{{i}}" aria-expanded="true" aria-controls="collapseOne">
+              <i class="rotatable fas fa-angle-right fa-2x fa-fw"></i>
+            </a>
+          </div>
+        </div>
+
+        <div id="collapse_{{i}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+            {# {% lorem 3 p random %} #}
+            <div class="d-flex align-items-center mb-3">
+              <span class="px-2">completed: 42%</span>
+              <div class="progress bg-light flex-grow-1" style="height: 8px;">
+                <div class="progress-bar" role="progressbar" style="width: 42%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <table class="table table-hover m-0">
+              {% for j in '12345678901' %}
+                <tr>
+                  <td style="width: 100%">
+                    <i class="mr-3 far fa-2x {% cycle "fa-check-square" "fa-square" %}" style="vertical-align:middle"></i>
+                    <a href="#">{{ j }}.&nbsp;{% lorem 5 w random %}</a>
+                  </td>
+                  <td class="text-nowrap">
+                    <i class="fas {% cycle "fa-book" "fa-video" "fa-tasks" "fa-medal" "fa-globe-europe" "fa-pizza-slice" "fa-puzzle-piece" "fa-flask" "fa-briefcase"%} fa-fw mr-2"></i>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Launch</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    (function(){$('.collapse').collapse()})();
+  </script>
+</div>
+
+
+{% endblock %}

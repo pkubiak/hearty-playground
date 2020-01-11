@@ -19,7 +19,9 @@ class CourseAdmin(admin.ModelAdmin):
     def banner_img(self, instance):
         """Display banner as clickable image tag."""
         if instance.banner:
-            return format_html('<a href="%s"><img src="%s" style="max-width:160px;max-height:120px"/></a>' % (instance.banner.url, instance.banner.url))
+            url = instance.banner.url
+            return format_html(f'<a href="{url}"><img src="{url}" style="max-width:160px;max-height:120px"/></a>')
+
         return None
 
     banner_img.short_description = 'Banner'
