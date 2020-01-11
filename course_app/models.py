@@ -18,3 +18,11 @@ class Course(models.Model):
 
     description = models.TextField(null=False, blank=True)
     keywords = ArrayField(models.CharField(max_length=32), null=True, blank=True)
+
+    def last_user_activity(self, user):
+        return None  # TODO: implement
+
+    @property
+    def user_progress(self, user=None) -> float:
+        """Percentage of this course completation."""
+        return 42.12  # FIXME: return something more relevant

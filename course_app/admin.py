@@ -1,17 +1,15 @@
 from django.contrib import admin
-from django.forms import widgets
-
-from .models import Course
 from django.contrib.postgres.fields import ArrayField
-from .widgets import SplitTextWidget
+from .models import Course
+from .widgets import StringArrayWidget
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
-    # list_display = ('order', 'title', 'slug')
-    # ordering = ('order', 'slug',)
+    list_display = ('id', 'title', 'description', 'keywords')
+    ordering = ('title', )
 
     formfield_overrides = {
-        ArrayField: {'widget': SplitTextWidget},
+        ArrayField: {'widget': StringArrayWidget},
     }

@@ -1,0 +1,27 @@
+<div class="card mb-3 overflow-hidden mt-4 shadow">
+  <div class="row no-gutters">
+    <div class="col-md-3 overflow-hidden" style="background:url(https://picsum.photos/seed/{{course.id}}/320/180) center center;background-size: cover">
+      <div class="embed-responsive embed-responsive-16by9"><!-- TODO: upewnić się że to dobry pomysł--></div>
+    </div>
+    <div class="col-md-9">
+      <div class="card-body">
+        <h3 class="card-title font-weight-light">
+          {{ course.title }}
+          <a href="#" class="btn btn-link stretched-link float-right">
+            {% if course.user_progress %}
+              Continue learning ({{ course.user_progress | stringformat:".0f" }}% completed)
+            {% else %}
+              Enroll
+            {% endif %}
+          </a>
+        </h3>
+        <p class="card-text">{{ course.description }}</p>
+        <ul class="list-inline text-truncate mb-0">
+          {% for keyword in course.keywords %}
+            <li class="list-inline-item"><i class="fas fa-check mx-3"></i>{{ keyword }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
