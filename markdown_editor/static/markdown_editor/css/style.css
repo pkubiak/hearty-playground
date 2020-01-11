@@ -1,0 +1,71 @@
+div.markdown_editor {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  position: relative;
+}
+
+div.markdown_editor nav {
+  align-items: center;
+  background: #ddd;
+  display: flex;
+  position: sticky;
+  top: 0;
+}
+
+div.markdown_editor nav button {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14pt;
+  margin: 0;
+  padding: 6px;
+}
+
+div.markdown_editor nav button:disabled {
+  cursor: not-allowed;
+}
+
+div.markdown_editor nav button:enabled:hover {
+  background: #aaa;
+}
+
+div.markdown_editor nav .spacer::before {
+  border-left: 1px solid black;
+  content: "";
+  margin: 4px;
+}
+
+div.markdown_editor nav .expander {
+  flex-grow: 1;
+}
+
+/* NOTE: .view wrap textarea and iframe */
+div.markdown_editor .view {
+  display: flex;
+}
+
+/* NOTE: It is important to share the same styles for both elements */
+div.markdown_editor iframe,
+div.markdown_editor textarea {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  box-sizing: content-box;
+  margin: 0;
+  padding: 16px;
+  width: 50%;
+}
+
+div.markdown_editor textarea {
+  border-right: 2px dashed #ccc;
+  font-family: monospace;
+  font-size: 12pt;
+  resize: vertical;
+}
+
+div.markdown_editor iframe {
+  border-left: 0;
+  height: auto;
+}
