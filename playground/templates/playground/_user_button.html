@@ -10,7 +10,7 @@
   <div class="dropdown-menu dropdown-menu-right">
     <a class="dropdown-item" href="{% url "user_profile" %}">{% trans "User panel" %}</a>
     {% if user.is_staff %}
-      <a class="dropdown-item" href="#">{% trans "Admin panel" %}</a>
+      <a class="dropdown-item" href="/admin">{% trans "Admin panel" %}</a>
     {% endif %}
     {# <a class="dropdown-item" href="#">Another action</a> #}
     {# <a class="dropdown-item" href="#">Something else here</a> #}

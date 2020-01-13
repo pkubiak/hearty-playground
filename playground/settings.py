@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'widget_tweaks',
-    'django_better_admin_arrayfield'
+    'adminsortable'
 ]
 
 MIDDLEWARE = [

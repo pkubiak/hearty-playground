@@ -1,16 +1,37 @@
 from django.contrib import admin
+from django.db import models
+from django.forms import Textarea, TextInput
+
 from django.contrib.postgres.fields import ArrayField
-from .models import Course
+from .models import Course, Lesson
 from .widgets import StringArrayWidget
 from django.utils.html import format_html
+from adminsortable.admin import SortableTabularInline, SortableAdmin, NonSortableParentAdmin
+
+
+@admin.register(Lesson)
+class LessonAdmin(SortableAdmin):
+    list_display = ('course', 'title')
+    list_display_links = ('title',)
+    # ordering = ('course', 'order')
+
+
+class LessonInline(SortableTabularInline):
+    model = Lesson
+    show_change_link = True
+
+    formfield_overrides = {
+        models.TextField: {'widget': TextInput(attrs={'size': 100})},
+    }
 
 
 @admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
+class CourseAdmin(NonSortableParentAdmin):
     prepopulated_fields = {"slug": ("title",)}
     list_display = ('banner_img', 'title', 'description', 'keywords')
     list_display_links = ('title', )
     ordering = ('title', )
+    inlines = [LessonInline]
 
     formfield_overrides = {
         ArrayField: {'widget': StringArrayWidget},
