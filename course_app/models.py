@@ -5,6 +5,8 @@ from functools import cached_property
 
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 from adminsortable.models import SortableMixin, SortableForeignKey
 
@@ -61,3 +63,37 @@ class Lesson(SortableMixin):
 
     def __str__(self):
         return f"{self.course.title} / {self.title}"
+
+
+class Activity(SortableMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    title = models.CharField(max_length=255, null=False, blank=False)
+
+    # font-awesome icon class
+    icon = models.CharField(max_length=32, null=True, blank=True)
+
+    lesson = SortableForeignKey(Lesson, on_delete=models.CASCADE)
+
+    # Order field for SortableMixin
+    order = models.PositiveIntegerField(default=0, editable=False, db_index=True)
+
+    # Related content_type data
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=False)
+    object_id = models.PositiveIntegerField(null=False)
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    class Meta:
+        ordering = ['order']
+
+    @property
+    def completable(self):
+        """Control if given activity require any actions to be completed."""
+        return False
+
+
+class ActivityContent(models.Model):
+    """Base class for Activity extended content."""
+
+    class Meta:
+        abstract = True

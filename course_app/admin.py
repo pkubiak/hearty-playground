@@ -3,16 +3,21 @@ from django.db import models
 from django.forms import Textarea, TextInput
 
 from django.contrib.postgres.fields import ArrayField
-from .models import Course, Lesson
+from .models import Course, Lesson, Activity
 from .widgets import StringArrayWidget
 from django.utils.html import format_html
 from adminsortable.admin import SortableTabularInline, SortableAdmin, NonSortableParentAdmin
 
 
+class ActivityInline(SortableTabularInline):
+    model = Activity
+    show_change_link = True
+
 @admin.register(Lesson)
 class LessonAdmin(SortableAdmin):
     list_display = ('course', 'title')
     list_display_links = ('title',)
+    inlines = [ActivityInline]
     # ordering = ('course', 'order')
 
 

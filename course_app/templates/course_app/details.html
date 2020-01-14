@@ -4,9 +4,11 @@
 
 {% block title %}{{ course.title }} – {% trans "Courses Details" %}{% endblock %}
 {% block main %}
+<!-- TODO: extract to external partial? -->
 <div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
   <div class="container">
     <h1 class="display-4 text-truncate  ">{% trans "Courses Details" %}</h2>
+    <!-- TODO: add back link to courses list -->
   </div>
 </div>
 
