@@ -37,6 +37,15 @@ INSTALLED_APPS = [
     'course_app',
     'markdown_editor',
 
+    # activities
+    'activity_note',
+    'activity_quiz',
+
+    # 3rd party apps
+    'widget_tweaks',
+    'adminsortable2',
+    'polymorphic',
+
     # django builtin apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,10 +53,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # 3rd party apps
-    'widget_tweaks',
-    'adminsortable'
 ]
 
 MIDDLEWARE = [

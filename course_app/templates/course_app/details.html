@@ -26,6 +26,10 @@
     .collapse-btn:not(.collapsed) i {
       transform: rotate(90deg);
     }
+
+    .tr-position-relative { /* HACK: standard position:relative is not supported for tr */
+      transform:scale(1);
+    }
   </style>
 
   <div class="accordion mb-5" id="accordionExample">
@@ -66,31 +70,34 @@
               </div>
             </div>
 
-
             <table class="table table-hover table-sm m-0">
-              {% for j in '123456789' %}
-                <!--<tr>
-                  <td style="width: 100%">
-                    <i class="mr-3 far fa-2x {% cycle "fa-check-square" "fa-square" %}" style="vertical-align:middle"></i>
-                    <a href="#">{{ j }}.&nbsp;{% lorem 5 w random %}</a>
-                  </td>
-                  <td class="text-nowrap">
-                    <i class="fas {% cycle "fa-book" "fa-video" "fa-tasks" "fa-medal" "fa-globe-europe" "fa-pizza-slice" "fa-puzzle-piece" "fa-flask" "fa-briefcase"%} fa-fw mr-2"></i>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Launch</a>
-                  </td>
-                </tr>-->
-                <tr class="position-relative" style="transform:scale(1)">
+              {% for activity in lesson.activity_set.all %}
+                <tr class="tr-position-relative">
                   <td style="width:100%" class="align-middle">
-                    <i class="fas {% cycle "fa-book" "fa-video" "fa-tasks" "fa-medal" "fa-globe-europe" "fa-pizza-slice" "fa-puzzle-piece" "fa-flask" "fa-briefcase"%} fa-fw mr-2"></i>
-                    <a href="#{{j}}" class="stretched-link">{{ j }}.&nbsp;{% lorem 5 w random %}</a>
+                    <i class="fa-fw mr-2 {{ activity.fa_icon }}"></i>
+                    <a href="#" class="stretched-link">{{ forloop.counter }}.&nbsp;{{ activity.title }}</a>
                   </td>
                   <td class="align-middle">
-                    <i class="fa-2x {% cycle "far fa-check-square" "far fa-square" "fas fa-minus invisible" %}"></i>
+                    {% if activity.completable %}
+                      {% if activity.completed %}
+                        <i class="fa-2x far fa-check-square"></i>
+                      {% else %}
+                        <i class="fa-2x far fa-square"></i>
+                      {% endif %}
+                    {% else %}
+                      <i class="fa-2x fas fa-minus invisible"></i>
+                    {% endif %}
                   </td>
                 </tr>
-
+              {% empty %}
+                <tr>
+                  <div class="alert alert-warning" role="alert">
+                    {% trans "That lesson does not contain any activities yet!" %}
+                  </div>
+                </tr>
               {% endfor %}
             </table>
+
           </div>
         </div>
       </div>
