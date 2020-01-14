@@ -1,5 +1,5 @@
 from django.db import models
-from course_app.models import Activity  #, ActivityContent
+from course_app.models import Activity
 
 
 class ActivityNote(Activity):
