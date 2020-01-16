@@ -2,35 +2,28 @@
 
 {% load static %}
 {% block main %}
-
 <div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
   <div class="container">
-    <h1 class="display-4 text-truncate  ">
-      {{ activity.title }}
-      <a href="{% url "course.details" course.slug %}" class="btn btn-secondary ml-auto">Back to course</a>
-    </h2>
-    <!-- TODO: add back link to courses list -->
-  </div>
-</div>
-
-<div class="container mt--xxl mb-5">
-
-  <div class="card">
-    <div class="card-body">
-      {# <h5 class="card-title">Card title</h5> #}
-      {# <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> #}
-      {# <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> #}
-      {{ content | safe }}
-      {% if activity.completable %}
-        <a href="#" class="btn btn-primary">Mark as completed</a>
-      {% endif %}
-      {# <a href="#" class="card-link">Another link</a> #}
+    <div class="row justify-content-md-center">
+      <h1 class="font-weight-light text-truncate d-flex justify-content-between align-items-center col-md-8">
+        <span>{{ activity.title }}</span>
+        <a href="{% url "course.details" course.slug %}" class="btn btn-secondary ml-auto"><i class="fas fa-angle-double-left"></i> Back to course</a>
+      </h1>
     </div>
   </div>
-
-  {# {{ course }} #}
-
 </div>
 
+<div class="container mt--xxl mb-5 ">
+  <div class="row justify-content-md-center">
+    <div class="card col-md-8">
+      <div class="card-body">
+        {{ content | safe }}
 
+        {% if activity.completable %}
+          <a href="#" class="btn btn-primary">Mark as completed</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

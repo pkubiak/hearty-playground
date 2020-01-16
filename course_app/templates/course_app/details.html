@@ -75,7 +75,7 @@
                 <tr class="tr-position-relative">
                   <td style="width:100%" class="align-middle">
                     <i class="fa-fw mr-2 {{ activity.fa_icon }}"></i>
-                    <a href="{% url "course.activity" course.slug activity.id %}" class="stretched-link">{{ forloop.counter }}.&nbsp;{{ activity.title }}</a>
+                    <a href="{% url "course.activity" slug=course.slug activity_uuid=activity.id url="" %}" class="stretched-link">{{ forloop.counter }}.&nbsp;{{ activity.title }}</a>
                   </td>
                   <td class="align-middle">
                     {% if activity.completable %}
