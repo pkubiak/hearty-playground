@@ -20,7 +20,11 @@
         {{ content | safe }}
 
         {% if activity.completable %}
-          <a href="#" class="btn btn-primary">Mark as completed</a>
+          {% if is_completed %}
+            Completed at: {{ completed_at }} <a href="uncomplete" class="btn btn-primary">Mark as uncompleted</a>
+          {% else %}
+            <a href="complete" class="btn btn-primary">Mark as completed</a>
+          {% endif %}
         {% endif %}
       </div>
     </div>

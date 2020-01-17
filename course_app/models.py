@@ -4,10 +4,8 @@ import random
 from functools import cached_property
 
 from django.db import models
+from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ValidationError
 
 from polymorphic.models import PolymorphicModel
 
@@ -59,7 +57,7 @@ class Lesson(models.Model):
 
     order = models.PositiveIntegerField(default=0, editable=True, db_index=True)
 
-    class Meta:
+    class Meta:  # noqa
         ordering = ['order']
 
     def __str__(self):
@@ -76,40 +74,18 @@ class Activity(PolymorphicModel):
     # Order field for SortableMixin
     order = models.PositiveIntegerField(default=0, editable=True, db_index=True)
 
-    # Related content_type data
-    # content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=False)
-    # object_id = models.PositiveIntegerField(null=False)
-    # content_object = GenericForeignKey('content_type', 'object_id')
-
-    class Meta:
+    class Meta:  # noqa
         ordering = ['order']
         verbose_name_plural = 'Activities'
         # unique_together = ('content_type', 'object_id')
 
-    # def clean(self):
-        # print('*'*100)
-        # print(self.object_id, self.title)#, self.content_type)
-        # print('*'*100)
-        # if self.content_object is None:
-        #     raise ValidationError('Related activity content object does not exists')
-        # if not isinstance(self.content_object, ActivityContent):
-        #     raise ValidationError('Related activity content does not inherits from ActivityContent base class')
 
-    # @property
-    # def fa_icon(self) -> str:
-    #     return ''
-    #     # return self.content_type.model_class().fa_icon
-    #
-    # @property
-    # def completable(self):
-    #     """Control if given activity require any actions to be completed."""
-    #     return False
-    #     # return self.content_object.completable
-#
-#
-# class ActivityContent(models.Model):
-#     """Base class for Activity extended content."""
-#     activity = GenericRelation(Activity)
-#
-#     class Meta:
-#         abstract = True
+class Solution(PolymorphicModel):
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
+
+    completed = models.BooleanField(null=False, default=False)
+    completed_at = models.DateTimeField(null=True, default=None)
+
+    class Meta:  # noqa
+        unique_together = ('activity_id', 'user_id',)
