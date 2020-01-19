@@ -10,7 +10,7 @@
       <div class="card-body">
         <h3 class="card-title font-weight-light">
           {{ course.title }}
-          <a href="{% url "course.details" course.slug %}" class="btn btn-link stretched-link float-right">
+          <a href="{% url "course_app:details" course.slug %}" class="btn btn-link stretched-link float-right">
             {% if course.user_progress %}
               Continue learning ({{ course.user_progress | stringformat:".0f" }}% completed)
             {% else %}

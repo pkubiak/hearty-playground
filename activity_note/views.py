@@ -1,63 +1,52 @@
 import markdown
 from datetime import datetime
 
+from django.urls import reverse
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest, HttpResponseRedirect
 from .models import SolutionNote
+from django.views.decorators.http import require_http_methods
 
 
+@require_http_methods(["GET", "POST"])
 def show(request, course, activity):
-    content = markdown.markdown(activity.text)
+    if request.method == 'GET':
+        content = markdown.markdown(activity.text)
 
-    solution = SolutionNote.objects.filter(
-        user_id=request.user.id,
-        activity_id=activity.id,
-        completed=True
-    ).first()
+        solution = SolutionNote.objects.filter(
+            user_id=request.user.id,
+            activity_id=activity.id,
+            completed=True
+        ).first()
 
-    is_completed = solution is not None
-    completed_at = solution.completed_at if solution else None
+        is_completed = solution is not None
+        completed_at = solution.completed_at if solution else None
 
-    return render(request, 'activity_note/show.html', {
-        'course': course,
-        'activity': activity,
-        'content': content,
-        'is_completed': is_completed,
-        'completed_at': completed_at
-    })
+        return render(request, 'activity_note/show.html', {
+            'course': course,
+            'activity': activity,
+            'content': content,
+            'is_completed': is_completed,
+            'completed_at': completed_at
+        })
 
+    elif request.method == "POST":
+        if not activity.completable:
+            return HttpResponseBadRequest('Note is not completable')
 
-def complete(request, course, activity):
-    obj, created = SolutionNote.objects.get_or_create(
-        user_id=request.user.id,
-        activity_id=activity.id,
-    )
+        completed = True if request.POST['completed'] == 'true' else False
+        obj, created = SolutionNote.objects.get_or_create(
+            user_id=request.user.id,
+            activity_id=activity.id,
+        )
 
-    if not created and obj.completed:
-        raise ValueError('Note already completed')
+        obj.completed = completed
+        obj.completed_at = datetime.now() if completed else None
+        obj.save()
 
-    if not activity.completable:
-        raise ValueError('Note is not completable')
+        if completed:
+            redirect_url = reverse('course_app:details', args=(course.slug,))
+        else:
+            redirect_url = reverse('course_app:activity', args=(course.slug, str(activity.id), ''))
 
-    obj.completed = True
-    obj.completed_at = datetime.now()
-    obj.save()
-
-    return HttpResponse("OK")
-
-
-def uncomplete(request, course, activity):
-    obj = SolutionNote.objects.get(
-        user_id=request.user.id,
-        activity_id=activity.id,
-        completed=True
-    )
-
-    if not activity.completable:
-        raise ValueError('Note is not completable')
-
-    obj.completed = False
-    obj.completed_at = None
-    obj.save()
-
-    return HttpResponse("OK")
+        return HttpResponseRedirect(redirect_url)

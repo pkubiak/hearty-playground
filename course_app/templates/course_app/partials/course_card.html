@@ -12,7 +12,7 @@
         <small class="text-muted d-block mb-2">Last updated 3 mins ago</small>
         {{ course.description }}
       </p>
-      <a href="{% url "course.details" course.slug %}" class="btn btn-primary stretched-link">
+      <a href="{% url "course_app:details" course.slug %}" class="btn btn-primary stretched-link">
         {% if course.user_progress %}
           {% blocktrans with progress=course.user_progress|stringformat:".0f" %}Continue learning ({{ progress }}% completed){% endblocktrans %}
         {% else %}

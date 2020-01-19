@@ -1,13 +1,14 @@
 {% extends "playground/base.html" %}
 
-{% load static %}
+{% load static i18n %}
+
 {% block main %}
 <div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
   <div class="container">
     <div class="row justify-content-md-center">
       <h1 class="font-weight-light text-truncate d-flex justify-content-between align-items-center col-md-8">
         <span>{{ activity.title }}</span>
-        <a href="{% url "course.details" course.slug %}" class="btn btn-secondary ml-auto"><i class="fas fa-angle-double-left"></i> Back to course</a>
+        <a href="{% url "course_app:details" course.slug %}" class="btn btn-secondary ml-auto"><i class="fas fa-angle-double-left"></i> {% trans "Back to course" %}</a>
       </h1>
     </div>
   </div>
@@ -20,11 +21,15 @@
         {{ content | safe }}
 
         {% if activity.completable %}
-          {% if is_completed %}
-            Completed at: {{ completed_at }} <a href="uncomplete" class="btn btn-primary">Mark as uncompleted</a>
-          {% else %}
-            <a href="complete" class="btn btn-primary">Mark as completed</a>
-          {% endif %}
+          <hr/>
+          <form action="" method="POST" class="text-right">
+            {% csrf_token %}
+            {% if is_completed %}
+              {% trans "Completed at:" %} {{ completed_at }} <button type="submit" class="btn btn-primary ml-3" name="completed" value="false">{% trans "Mark as uncompleted" %}</button>
+            {% else %}
+              <button type="submit" class="btn btn-primary" name="completed" value="true">{% trans "Mark as completed" %}</button>
+            {% endif %}
+          </form>
         {% endif %}
       </div>
     </div>
