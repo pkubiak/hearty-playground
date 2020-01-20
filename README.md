@@ -6,11 +6,13 @@
 | name         | status |
 |--------------|--------|
 | landing pace | - |
-| login        | - |
-| profile      | - |
-| task list    | - |
-| courses      | mocked |
-| workspace    | mocked |
+| login        | implemented |
+| profile      | partialy implemented |
+| task list    | implemented |
+| courses      | implemented |
+| ActivityNote | implemented |
+| ActivityQuiz | - |
+| ActivityWorkspace | mocked |
 | help         | implemented |
 
 ### 2020-01-09 - Courses View ###
