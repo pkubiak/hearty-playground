@@ -1,18 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-# Create your views here.
 
 
 def show(request, course, activity):
-    question = activity.question_set.first()
+    current = int(request.POST.get('next', 0))
+
+    total_count = activity.question_set.count()
+    question = activity.question_set.all()[current]
 
     return render(request, 'activity_quiz/show.html', {
         'course': course,
         'activity': activity,
-        'current': 0,
-        'total_questions_count': 5,
+        'current': current,
+        'total_count': total_count,
         'question': question,
-        'question_statuses': [False, True, True, False, False, True],
+        'question_type': question.__class__.__name__,
+        'question_statuses': [False] * total_count,
     })
     # return HttpResponse(f"ActivityQuiz course: {course}, activity: {activity}; request: {request}")

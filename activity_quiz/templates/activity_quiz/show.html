@@ -15,31 +15,30 @@
 </div>
 
 <style type="text/css">
-  /* input[type=checkbox] {display:none;} */
-.quiz-form .form-check {
-  padding-left: 0;
-}
+  .quiz-form .form-check {
+    padding-left: 0;
+  }
 
-.quiz-form input[type=checkbox], .quiz-form input[type=radio] {
-  /* margin-left: -1000px; */
-  position: absolute;
-  left:-1000px;
-  visibility: hidden;
-}
+  .quiz-form input[type=checkbox], .quiz-form input[type=radio] {
+    /* margin-left: -1000px; */
+    position: absolute;
+    left:-1000px;
+    visibility: hidden;
+  }
 
 
-.quiz-form input[type=checkbox]:checked + label i:before {
-  content: "\f14a";
-}
+  .quiz-form input[type=checkbox]:checked + label i:before {
+    content: "\f14a";
+  }
 
-.quiz-form input[type=radio]:checked + label i:before {
-  content: "\f192";
-}
+  .quiz-form input[type=radio]:checked + label i:before {
+    content: "\f192";
+  }
 
-.quiz-form label {
-    margin:0
-}
-
+  .quiz-form label {
+      margin:0;
+      cursor: pointer;
+  }
 </style>
 
 <script>
@@ -54,52 +53,53 @@ function activate_inputs() {
     <div class="card col-md-8">
       <div class="card-body">
         <p class="lead ">
-          <span class="badge badge-pill badge-secondary align-text-top">{{ current | add:1 }} / {{ total_questions_count }}</span>
+          <span class="badge badge-pill badge-secondary align-text-top mr-2">{{ current | add:1 }} / {{ total_count }}</span>
           {{ question.text }}
         </p>
         {# {{ question.answers_set.all }} #}
 
-        {% include "activity_quiz/_show_single_choice_answers.html" with question=question %}
+        <form action="" method="POST">
+          {% csrf_token %}
 
-        <!--
-        <ul class="list-group mt-1 quiz-form">
-          {% for i in '01234' %}
-            <li class="list-group-item list-group-item-action">
-              <input type="checkbox" value="1" id="checkbox_{{i}}" onchange="activate_inputs()">
-              <label class="stretched-link" for="checkbox_{{i}}">
-                <i class="far fa-square fa-2x fa-fw align-middle mr-2"></i> {% lorem 7 w random %}
-              </label>
-            </li>
-          {% endfor %}
-        </ul>
-      -->
-
-        <div class="text-right">
-          {% if question.hint %}
-            <a href="#" class="btn btn-sm btn-link">Show Hint</a>
+          {% if question_type == 'SingleChoiceQuestion' %}
+            {% include "activity_quiz/_single_choice_answers.html" with question=question %}
+          {% elif question_type == 'MultipleChoiceQuestion' %}
+            {% include "activity_quiz/_multiple_choice_answers.html" with question=question %}
+          {% else %}
+            <div class="alert alert-danger">Unsupported Question Type!</div>
           {% endif %}
-          {% if question.hint and question.solution %}/{% endif %}
-          {% if question.solution %}
-            <a href="#" class="btn btn-sm btn-link">Show Solution</a>
-          {% endif %}
-        </div>
 
-        <div class="mt-4 d-flex align-items-center">
-          <div class="flex-grow-1 text-left" style="flex-basis:0">
-            {% if current > 0 %}
-            <a href="#" class="btn btn-primary"><i class="fas fa-angle-left mr-1"></i> Previous question</a>
+
+          <div class="text-right">
+            {% if question.hint %}
+              <a href="#" class="btn btn-sm btn-link">Show Hint</a>
+            {% endif %}
+            {% if question.hint and question.solution %}/{% endif %}
+            {% if question.solution %}
+              <a href="#" class="btn btn-sm btn-link">Show Solution</a>
             {% endif %}
           </div>
 
-          <div class="flex-grow-1 text-center"  style="flex-basis:0">
-            {% include "activity_quiz/_progress_bar.html" with current=current progress=question_statuses %}
-          </div>
+          <div class="mt-4 d-flex align-items-center">
+            <div class="flex-grow-1 text-left" style="flex-basis:0">
+              {% if current > 0 %}
+              <button name="next" value="{{ current | add:-1 }}" class="btn btn-primary"><i class="fas fa-angle-left mr-1"></i> Previous question</button>
+              {% endif %}
+            </div>
 
-          <div class="flex-grow-1 text-right" style="flex-basis:0">
-            <a href="#" class="btn btn-primary">Next question <i class="fas fa-angle-right ml-1"></i></a>
-          </div>
-        </div>
+            <div class="flex-grow-1 text-center"  style="flex-basis:0">
+              {% include "activity_quiz/_progress_bar.html" with current=current progress=question_statuses %}
+            </div>
 
+            <div class="flex-grow-1 text-right" style="flex-basis:0">
+              {% if current|add:1 < total_count %}
+                <button type="submit" name="next" value="{{ current | add:1 }}" class="btn btn-primary">Next question <i class="fas fa-angle-right ml-1"></i></button>
+              {% else %}
+                <button type="submit" name="next" value="0" class="btn btn-primary">Review & Finish <i class="fas fa-angle-right ml-1"></i></button>
+              {% endif %}
+            </div>
+          </div>
+        </form>
 
       </div>
     </div>

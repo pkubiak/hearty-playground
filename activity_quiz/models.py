@@ -8,6 +8,8 @@ from polymorphic.models import PolymorphicModel
 
 
 class ActivityQuiz(Activity):
+    fa_icon = "fas fa-tasks"
+    
     max_attempts = models.PositiveIntegerField(default=1)
 
 
@@ -39,6 +41,9 @@ class Question(PolymorphicModel):
         self.hint = self.hint or None
         self.solution = self.solution or None
         super().save(*args, **kwargs)
+
+    def question_type(self):
+        return self.__class__.__name__
 
 
 class SingleChoiceQuestion(Question):

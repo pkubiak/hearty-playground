@@ -1,18 +1,14 @@
 {# Draw empty/full dots progress indicator #}
 
-<ul class="list-inline m-0">
 {% for status in progress %}
-  <li class="d-inline-block">
-    <i class="{% if status %}fas{% else %}far{% endif %} fa-circle fa-fw"></i>
-    {% if forloop.counter0 == current %}
-      <i class="fas fa-sort-up fa-fw" style="position:absolute;margin-left:-1.25rem;margin-top:1.25rem"></i>
-    {% endif %}
-  </li>
+<button type="submit" name="next" value="{{ forloop.counter0 }}" class="btn p-0 m-0 btn-link position-relative" {% if forloop.counter0 == current %}disabled{% endif %}>
+  <i class="{% if status %}fas{% else %}far{% endif %} fa-circle fa-fw"></i>
+  {% if forloop.counter0 == current %}
+    <i class="fas fa-sort-up fa-fw" style="position:absolute;left:0"></i>
+  {% endif %}
+</button>
+
 {% endfor %}
-  <li class="ml-2 d-inline-block">
-    <i class="fas fa-medal fa-fw"></i>
-    {% if current == -1 %}
-      <i class="fas fa-sort-up fa-fw" style="position:absolute;margin-left:-1.25rem;margin-top:1.25rem"></i>
-    {% endif %}
-  </li>
-</ul>
+<button type="submit" class="btn p-0 m-0 ml-2 btn-link position-relative">
+  <i class="fas fa-medal fa-fw"></i>
+</button>
