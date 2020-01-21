@@ -2,13 +2,15 @@ import uuid
 
 from django.db import models
 
-from course_app.models import Activity
+from course_app.models import Activity, Solution
 
 from polymorphic.models import PolymorphicModel
+from django.contrib.postgres.fields import JSONField
 
 
 class ActivityQuiz(Activity):
     fa_icon = "fas fa-tasks"
+    completable = True
 
     max_attempts = models.PositiveIntegerField(default=1)
 
@@ -91,3 +93,19 @@ class OpenAnswer(models.Model):
 
     question = models.ForeignKey(OpenQuestion, related_name='answers_set', on_delete=models.CASCADE)
     text = models.TextField(null=False, blank=False)
+
+
+class SolutionQuiz(Solution):
+    attempt = models.PositiveIntegerField(default=0, null=False)
+    started_at = models.DateTimeField(auto_now_add=True, null=False)
+
+    answers = JSONField()
+
+
+    def set_progress(self, user, question, value):
+        pass
+        # ZWPA: Database Session State
+
+
+    # class Meta:  # noqa
+    #     unique_together = ('activity_id', 'user_id', 'attempt')

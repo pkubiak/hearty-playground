@@ -1,1 +1,7 @@
-<input class="form-control form-control-lg" name="answer" type="text" placeholder="{% if question.placeholder %}{{ question.placeholder }}{% else %}Insert value{% endif %}" />
+<input
+  class="form-control form-control-lg"
+  name="answer"
+  type="text"
+  placeholder="{% if question.placeholder %}{{ question.placeholder }}{% else %}Insert value{% endif %}"
+  value="{{ solution }}"
+  />

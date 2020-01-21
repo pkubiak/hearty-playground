@@ -46,24 +46,27 @@ function activate_inputs() {
   $('.quiz-form input:checked').closest('li').addClass('active');
   $('.quiz-form input:not(:checked)').closest('li').removeClass('active');
 }
+
+$(function(){
+  activate_inputs();
+});
 </script>
 
 <div class="container mt--xxl mb-5 ">
   <div class="row justify-content-md-center">
     <div class="card col-md-8">
       <div class="card-body">
+        <span class="float-left badge badge-pill badge-secondary align-text-top mr-2">{{ current | add:1 }} / {{ total_count }}</span>
         <p class="lead ">
-          <span class="badge badge-pill badge-secondary align-text-top mr-2">{{ current | add:1 }} / {{ total_count }}</span>
           {{ question.text }}
         </p>
-        {# {{ question.answers_set.all }} #}
 
         <form action="" method="POST">
           {% csrf_token %}
-          <input type="hidden" name="current" value="{{ current }}" />
+          <input type="hidden" name="current" value="{{ question.id }}" />
 
           {% if question_type == 'SingleChoiceQuestion' %}
-            {% include "activity_quiz/_single_choice_answers.html" with question=question %}
+            {% include "activity_quiz/_single_choice_answers.html" with question=question solution=solution %}
           {% elif question_type == 'MultipleChoiceQuestion' %}
             {% include "activity_quiz/_multiple_choice_answers.html" with question=question %}
           {% elif question_type == 'OpenQuestion' %}
@@ -83,6 +86,7 @@ function activate_inputs() {
             {% endif %}
           </div>
 
+          {# {{ solution }} #}
           <div class="mt-4 d-flex align-items-center">
             <div class="flex-grow-1 text-left" style="flex-basis:0">
               {% if current > 0 %}
@@ -91,7 +95,7 @@ function activate_inputs() {
             </div>
 
             <div class="flex-grow-1 text-center"  style="flex-basis:0">
-              {% include "activity_quiz/_progress_bar.html" with current=current progress=question_statuses %}
+              {% include "activity_quiz/_progress_bar.html" with current=current progress=statuses %}
             </div>
 
             <div class="flex-grow-1 text-right" style="flex-basis:0">
