@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ActivityQuiz, Question, SingleChoiceQuestion, SingleChoiceAnswer, MultipleChoiceQuestion, MultipleChoiceAnswer
+from .models import ActivityQuiz, Question, SingleChoiceQuestion, SingleChoiceAnswer, MultipleChoiceQuestion, MultipleChoiceAnswer, OpenQuestion, OpenAnswer
 from course_app.admin import ActivityChildAdmin
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from adminsortable2.admin import SortableInlineAdminMixin
@@ -10,8 +10,8 @@ class QuestionInline(SortableInlineAdminMixin, admin.TabularInline):
     show_change_link = True
     extra = 0
 
-    def has_change_permission(self, request, obj):
-        return False
+    # def has_change_permission(self, request, obj):
+    #     return False
 
 
 @admin.register(ActivityQuiz)
@@ -51,3 +51,13 @@ class MultipleChoiceAnswerInline(SortableInlineAdminMixin, admin.TabularInline):
 class MultipleChoiceQuestionAdmin(QuestionChildAdmin):
     base_model = MultipleChoiceQuestion
     inlines = [MultipleChoiceAnswerInline]
+
+
+class OpenAnswerInline(admin.TabularInline):
+    model = OpenAnswer
+
+
+@admin.register(OpenQuestion)
+class OpenQuestionAdmin(QuestionChildAdmin):
+    base_model = OpenQuestion
+    inlines = [OpenAnswerInline]

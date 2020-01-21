@@ -60,11 +60,14 @@ function activate_inputs() {
 
         <form action="" method="POST">
           {% csrf_token %}
+          <input type="hidden" name="current" value="{{ current }}" />
 
           {% if question_type == 'SingleChoiceQuestion' %}
             {% include "activity_quiz/_single_choice_answers.html" with question=question %}
           {% elif question_type == 'MultipleChoiceQuestion' %}
             {% include "activity_quiz/_multiple_choice_answers.html" with question=question %}
+          {% elif question_type == 'OpenQuestion' %}
+            {% include "activity_quiz/_open_answers.html" with question=question %}
           {% else %}
             <div class="alert alert-danger">Unsupported Question Type!</div>
           {% endif %}

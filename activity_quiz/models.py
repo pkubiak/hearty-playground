@@ -9,7 +9,7 @@ from polymorphic.models import PolymorphicModel
 
 class ActivityQuiz(Activity):
     fa_icon = "fas fa-tasks"
-    
+
     max_attempts = models.PositiveIntegerField(default=1)
 
 
@@ -60,7 +60,7 @@ class SingleChoiceAnswer(models.Model):
 
     order = models.PositiveIntegerField(default=0, editable=True, db_index=True)
 
-    class Meta:
+    class Meta:  # noqa
         ordering = ['order']
 
 
@@ -78,9 +78,16 @@ class MultipleChoiceAnswer(models.Model):
 
     order = models.PositiveIntegerField(default=0, editable=True, db_index=True)
 
-    class Meta:
+    class Meta:  # noqa
         ordering = ['order']
 
 
-# class OpenAnswerQuestion(Question):
-#     pass
+class OpenQuestion(Question):
+    placeholder = models.CharField(null=True, blank=True, max_length=32)
+
+
+class OpenAnswer(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    question = models.ForeignKey(OpenQuestion, related_name='answers_set', on_delete=models.CASCADE)
+    text = models.TextField(null=False, blank=False)
