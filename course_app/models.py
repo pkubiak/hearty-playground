@@ -79,6 +79,9 @@ class Activity(PolymorphicModel):
         verbose_name_plural = 'Activities'
         # unique_together = ('content_type', 'object_id')
 
+    def __str__(self):  # noqa
+        return f"{self.title} ({self.id})"
+
 
 class Solution(PolymorphicModel):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE, null=False)
