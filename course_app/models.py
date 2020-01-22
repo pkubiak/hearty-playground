@@ -2,13 +2,13 @@ import os
 import uuid
 import random
 from functools import cached_property
+from typing import Optional
 
 from django.db import models
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 
 from polymorphic.models import PolymorphicModel
-
 
 def course_directory_path(instance, filename):
     _, ext = os.path.splitext(filename)
@@ -57,8 +57,19 @@ class Lesson(models.Model):
 
     order = models.PositiveIntegerField(default=0, editable=True, db_index=True)
 
+    @cached_property
+    def total_score(self) -> Optional[int]:
+        scores = []
+        for activity in self.activity_set.all():
+            if activity.completable:
+                scores.append(activity.score)
+        if scores:
+            return sum(scores)
+        return None
+
     class Meta:  # noqa
         ordering = ['order']
+
 
     def __str__(self):
         return f"{self.course.title} / {self.title}"
@@ -70,6 +81,9 @@ class Activity(PolymorphicModel):
     title = models.CharField(max_length=255, null=False, blank=False)
 
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+
+    # Score for completing activity
+    score = models.PositiveIntegerField(default=1, null=False)
 
     # Order field for SortableMixin
     order = models.PositiveIntegerField(default=0, editable=True, db_index=True)
