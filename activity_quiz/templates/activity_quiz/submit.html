@@ -1,0 +1,31 @@
+{% extends "playground/base.html" %}
+
+{% load static i18n markdown %}
+
+{% block title %}{{ activity.title }}{% endblock %}
+{% block main %}
+<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <h1 class="font-weight-light text-truncate d-flex justify-content-between align-items-center col-md-8 mb-4">
+        <span>{{ activity.title }}</span>
+        <a href="{% url "course_app:details" course.slug %}" class="btn btn-secondary ml-auto"><i class="fas fa-angle-double-left"></i> {% trans "Back to course" %}</a>
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div class="container mt--xxl mb-5">
+  <div class="row justify-content-md-center">
+    <div class="card col-md-8">
+      <div class="card-body">
+        <form action="" method="POST">
+          {% csrf_token %}
+          <button type="submit" name="finish">Finish</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

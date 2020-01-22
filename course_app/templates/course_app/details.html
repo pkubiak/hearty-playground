@@ -32,7 +32,7 @@
     }
   </style>
 
-  <div class="accordion mb-5">
+  <div class="accordion mb-5" id="coursesList">
     {% for lesson, activities in lessons %}
       <div class="card">
         <div class="card-header" id="heading_{{ forloop.counter }}">
@@ -40,7 +40,6 @@
             <div style="width: 80px; height: 80px; line-height: 80px;" class="mr-3 bg-primary text-light h1 text-center font-bold mb-0">
               {{ forloop.counter }}
             </div>
-            <!--<img src="https://via.placeholder.com/80?text={{i}}" class="mr-3" alt="..."/>-->
             <div class="media-body">
               <h5 class="mt-0 text-primary">{{ lesson.title }}</h5>
               {{ lesson.description }}
@@ -61,7 +60,7 @@
           </div>
         </div>
 
-        <div id="collapse_{{ forloop.counter }}" class="collapse" aria-labelledby="heading_{{ forloop.counter }}">
+        <div id="collapse_{{ forloop.counter }}" class="collapse" aria-labelledby="heading_{{ forloop.counter }}" data-parent="#coursesList">
           <div class="card-body">
             <div class="d-flex align-items-center mb-3">
               <span class="px-2">You have already completed: 42%</span>

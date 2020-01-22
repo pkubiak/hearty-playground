@@ -1,8 +1,12 @@
+from django.db import models
 from django.contrib import admin
-from .models import ActivityQuiz, Question, SingleChoiceQuestion, SingleChoiceAnswer, MultipleChoiceQuestion, MultipleChoiceAnswer, OpenQuestion, OpenAnswer
-from course_app.admin import ActivityChildAdmin
+
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from adminsortable2.admin import SortableInlineAdminMixin
+from markdown_editor.widgets import AdminMarkdownWidget
+
+from course_app.admin import ActivityChildAdmin
+from .models import ActivityQuiz, Question, SingleChoiceQuestion, SingleChoiceAnswer, MultipleChoiceQuestion, MultipleChoiceAnswer, OpenQuestion, OpenAnswer
 
 
 class QuestionInline(SortableInlineAdminMixin, admin.TabularInline):
@@ -15,7 +19,7 @@ class QuestionInline(SortableInlineAdminMixin, admin.TabularInline):
 
 
 @admin.register(ActivityQuiz)
-class ActivtyQuizAdmin(ActivityChildAdmin):
+class ActivityQuizAdmin(ActivityChildAdmin):
     base_model = ActivityQuiz
     inlines = [QuestionInline]
 
@@ -24,6 +28,10 @@ class ActivtyQuizAdmin(ActivityChildAdmin):
 class QuestionAdmin(PolymorphicParentModelAdmin):
     base_model = Question
     list_filter = (PolymorphicChildModelFilter,)
+
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownWidget},
+    }
 
     def get_child_models(self):
         return Question.__subclasses__()
@@ -41,6 +49,10 @@ class SingleChoiceAnswerInline(SortableInlineAdminMixin, admin.TabularInline):
 class SingleChoiceQuestionAdmin(QuestionChildAdmin):
     base_model = SingleChoiceQuestion
     inlines = [SingleChoiceAnswerInline]
+    
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownWidget},
+    }
 
 
 class MultipleChoiceAnswerInline(SortableInlineAdminMixin, admin.TabularInline):

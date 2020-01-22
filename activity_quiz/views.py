@@ -2,12 +2,24 @@ from django.shortcuts import render
 from .models import SolutionQuiz, Question, SingleChoiceQuestion, MultipleChoiceQuestion, OpenQuestion
 
 
+def show_summary(request, course, activity, solution):
+    return render(request, 'activity_quiz/submit.html', {
+        'course': course,
+        'activity': activity,
+    })
+
+
 def show(request, course, activity):
     solution, created = SolutionQuiz.objects.get_or_create(
         user_id=request.user.id,
         activity_id=activity.id,
         defaults={'answers': {}}
     )
+
+    current = int(request.POST.get('next', 0))
+
+    if current == -1:
+        return show_summary(request, course, activity, solution)
 
     questions_ids = list(map(str, activity.question_set.all().values_list('id', flat=True)))
     total_count = len(questions_ids)
@@ -34,11 +46,9 @@ def show(request, course, activity):
 
     solution.save()
 
-    current = int(request.POST.get('next', 0))
-
     question = activity.question_set.all()[current]
 
-    return render(request, 'activity_quiz/show.html', {
+    return render(request, question.template, {
         'course': course,
         'activity': activity,
         'current': current,

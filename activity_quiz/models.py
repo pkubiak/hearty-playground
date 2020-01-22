@@ -12,7 +12,9 @@ class ActivityQuiz(Activity):
     fa_icon = "fas fa-tasks"
     completable = True
 
-    max_attempts = models.PositiveIntegerField(default=1)
+    max_attempts = models.PositiveIntegerField(null=False, default=1)
+
+    timelimit = models.PositiveIntegerField(null=False, default=0)
 
 
 class Question(PolymorphicModel):
@@ -49,7 +51,7 @@ class Question(PolymorphicModel):
 
 
 class SingleChoiceQuestion(Question):
-    pass
+    template = 'activity_quiz/questions/single_choice_question.html'
 
 
 class SingleChoiceAnswer(models.Model):
@@ -67,7 +69,7 @@ class SingleChoiceAnswer(models.Model):
 
 
 class MultipleChoiceQuestion(Question):
-    pass
+    template = 'activity_quiz/questions/multiple_choice_question.html'
 
 
 class MultipleChoiceAnswer(models.Model):
@@ -85,6 +87,8 @@ class MultipleChoiceAnswer(models.Model):
 
 
 class OpenQuestion(Question):
+    template = 'activity_quiz/questions/open_question.html'
+    
     placeholder = models.CharField(null=True, blank=True, max_length=32)
 
 

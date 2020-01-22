@@ -1,3 +1,6 @@
+{% extends 'activity_quiz/show.html' %}
+
+{% block content %}
 <input
   class="form-control form-control-lg"
   name="answer"
@@ -5,3 +8,4 @@
   placeholder="{% if question.placeholder %}{{ question.placeholder }}{% else %}Insert value{% endif %}"
   value="{{ solution }}"
   />
+{% endblock %}
