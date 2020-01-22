@@ -38,6 +38,14 @@ def details(request, slug):
         for activity in activities:
             activity.is_completed_by_current_user = is_completed.get(activity.id, False)
 
+    # Compute current user completion score
+    for lesson, activities in lessons:
+        lesson.current_user_score = sum(activity.score for activity in activities if activity.is_completed_by_current_user)
+        total_score = lesson.total_score
+        if total_score:
+            lesson.current_user_progress = round(100.0 * lesson.current_user_score / total_score, 1)
+
+
     return render(request, 'course_app/details.html', {
         'course': course,
         'lessons': lessons
