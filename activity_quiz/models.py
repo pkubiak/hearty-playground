@@ -1,5 +1,6 @@
 import uuid
-
+from typing import Any, Optional, List
+from dataclasses import dataclass
 from django.db import models
 
 from course_app.models import Activity, Solution
@@ -15,6 +16,9 @@ class ActivityQuiz(Activity):
     max_attempts = models.PositiveIntegerField(null=False, default=1)
 
     timelimit = models.PositiveIntegerField(null=False, default=0)
+
+    # Optional text to show, after quiz end
+    congratulations = models.TextField(null=True, blank=True)
 
 
 class Question(PolymorphicModel):
@@ -53,6 +57,22 @@ class Question(PolymorphicModel):
 class SingleChoiceQuestion(Question):
     template = 'activity_quiz/questions/single_choice_question.html'
 
+    def serialize_answer(self, request) -> Optional[str]:
+        answers = set(request.POST.getlist('answer'))
+
+        for answer in self.answers_set.all():
+            if str(answer.id) in answers:
+                return str(answer.id)
+
+        return None
+
+    def evaluate_answer(self, saved_answer) -> float:
+        for answer in self.answers_set.all():
+            if answer.correct and str(answer.id) == saved_answer:
+                return 1.0
+
+        return 0.0
+
 
 class SingleChoiceAnswer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -70,6 +90,26 @@ class SingleChoiceAnswer(models.Model):
 
 class MultipleChoiceQuestion(Question):
     template = 'activity_quiz/questions/multiple_choice_question.html'
+
+    def serialize_answer(self, request) -> List[str]:
+        answers = set(request.POST.getlist('answer'))
+        answers_ids = set(map(str, self.answers_set.all().values_list('id', flat=True)))
+
+        return list(answers & answers_ids)
+
+    def evaluate_answer(self, saved_answer: List[str]) -> float:
+        if not isinstance(saved_answer, list):
+            raise TypeError('Answer should be list')
+
+        max_score = 0
+        score = 0
+        for answer in self.answers_set.all():
+            if answer.score > 0:
+                max_score += answer.score
+            if str(answer.id) in saved_answer:
+                score += answer.score
+
+        return max(score, 0) / max_score
 
 
 class MultipleChoiceAnswer(models.Model):
@@ -91,6 +131,21 @@ class OpenQuestion(Question):
 
     placeholder = models.CharField(null=True, blank=True, max_length=32)
 
+    def serialize_answer(self, request):
+        answer = request.POST.get('answer')
+
+        if answer is not None:
+            answer = str(answer)
+
+        return answer
+
+    def evaluate_answer(self, saved_answer: str) -> float:
+        for answer in self.answers_set.all():
+            if answer.text.strip() == saved_answer.strip():
+                return 1.0
+
+        return 0.0
+
 
 class OpenAnswer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -100,14 +155,43 @@ class OpenAnswer(models.Model):
 
 
 class SolutionQuiz(Solution):
+    # id of attempt
     attempt = models.PositiveIntegerField(default=0, null=False)
 
+    # JSON serialized answers
     answers = JSONField()
 
-    # def set_progress(self, user, question, value):
-    #     pass
-    # ZWPA: Database Session State
+    @dataclass
+    class QuestionAnswer:  # noqa
+        # ZWPA: Database Session State
+        show_hint: bool = False
+        show_solution: bool = False
+        answer: Any = None
 
+    def __getitem__(self, question_uuid):  # noqa
+        question_uuid = str(question_uuid)
 
-    # class Meta:  # noqa
-    #     unique_together = ('activity_id', 'user_id', 'attempt')
+        if self.answers is None:
+            self.answers = {}
+
+        if question_uuid not in self.answers or not isinstance(self.answers[question_uuid], dict):
+            self.answers[question_uuid] = dict()
+        a = self.answers[question_uuid]
+
+        return SolutionQuiz.QuestionAnswer(
+            a.get('show_hint', False),
+            a.get('show_solution', False),
+            a.get('answer', None)
+        )
+
+    def __setitem__(self, question_uuid, value):  # noqa
+        if not isinstance(value, SolutionQuiz.QuestionAnswer):
+            raise TypeError('You must use QuestionAnswer instance')
+
+        question_uuid = str(question_uuid)
+
+        self.answers[question_uuid] = dict(
+            show_hint=value.show_hint,
+            show_solution=value.show_solution,
+            answer=value.answer
+        )

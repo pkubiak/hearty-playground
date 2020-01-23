@@ -6,7 +6,7 @@
 <ul class="list-group mt-1 quiz-form">
 {% for answer in question.answers_set.all %}
   <li class="list-group-item list-group-item-action">
-    <input type="radio" name="answer" value="{{ answer.id }}" id="radio_{{ forloop.counter }}" onchange="activate_inputs()" {% if solution == answer.id|slugify %}checked{% endif %} />
+    <input type="radio" name="answer" value="{{ answer.id }}" id="radio_{{ forloop.counter }}" onchange="activate_inputs()" {% if solution == answer.id|slugify %}checked{% endif %} {% if completed %}disabled{% endif %}/>
     <label class="stretched-link" for="radio_{{ forloop.counter }}">
       <i class="far fa-circle fa-2x fa-fw align-middle mr-2"></i> {{ answer.text }}
     </label>

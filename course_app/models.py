@@ -107,6 +107,8 @@ class Solution(PolymorphicModel):
     completed_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=False, auto_now=True)
 
+    score = models.FloatField(null=True)
+
     class Meta:  # noqa
         unique_together = ('activity_id', 'user_id',)
 

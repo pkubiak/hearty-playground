@@ -56,12 +56,13 @@ $(function(){
   <div class="row justify-content-md-center">
     <div class="card col-md-8">
       <div class="card-body">
-        <span class="float-left badge badge-pill badge-secondary mr-2 mt-1">{{ current | add:1 }} / {{ total_count }}</span>
+        <h3>Question <span class="badge badge-secondary mr-2 mt-1 align-text-bottom">{{ current | add:1 }} / {{ total_count }}</span></h3>
+
         {{ question.text | markdown }}
 
         <form action="" method="POST">
           {% csrf_token %}
-          <input type="hidden" name="current" value="{{ question.id }}" />
+          <input type="hidden" name="current" value="{{ current }}" />
 
           {% block content %}{% endblock %}
 

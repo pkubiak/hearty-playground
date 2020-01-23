@@ -21,8 +21,37 @@
       <div class="card-body">
         <form action="" method="POST">
           {% csrf_token %}
-          <button type="submit" name="finish">Finish</button>
+          <h2>You have finished quiz!</h2>
+          {% if completed %}
+            {% if activity.congratulations %}
+              {{ activity.congratulations | markdown }}
+            {% else %}
+              <p class="lead">{% lorem 20 w random %}</p>
+            {% endif %}
+            <h2 class="display-4 text-center my-5">Your score: {{ score | floatformat:1}}%</h2>
 
+          {% else %}
+            <p class="lead">{% lorem 30 w random %}</p>
+
+            <div class="text-center mb-5">
+              <button type="submit" name="finish" value="sure" class="btn btn-primary btn-lg px-5">I absolutely sure! </button>
+            </div>
+
+          {% endif %}
+
+          <div class="mt-4 d-flex align-items-center">
+            <div class="flex-grow-1 text-left" style="flex-basis: 0">
+              <button name="next" value="{{ total_count | add:-1 }}" class="btn btn-primary"><i class="fas fa-angle-left mr-1"></i> Previous question</button>
+            </div>
+
+            <div class="flex-grow-1 text-center"  style="flex-basis: 0">
+              {% include "activity_quiz/_progress_bar.html" with current=current progress=statuses %}
+            </div>
+
+            <div class="flex-grow-1 text-right" style="flex-basis: 0">
+              <button type="submit" name="next" value="0" class="btn btn-primary"><i class="fas fa-backward mr-1"></i> Back to start</button>
+            </div>
+          </div>
         </form>
       </div>
     </div>

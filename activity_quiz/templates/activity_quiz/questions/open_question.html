@@ -6,6 +6,7 @@
   name="answer"
   type="text"
   placeholder="{% if question.placeholder %}{{ question.placeholder }}{% else %}Insert value{% endif %}"
-  value="{{ solution }}"
+  value="{% if solution %}{{ solution }}{% endif %}"
+  {% if completed %}disabled{% endif %}
   />
 {% endblock %}

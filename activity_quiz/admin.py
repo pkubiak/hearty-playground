@@ -23,6 +23,10 @@ class ActivityQuizAdmin(ActivityChildAdmin):
     base_model = ActivityQuiz
     inlines = [QuestionInline]
 
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownWidget},
+    }
+
 
 @admin.register(Question)
 class QuestionAdmin(PolymorphicParentModelAdmin):
@@ -49,7 +53,7 @@ class SingleChoiceAnswerInline(SortableInlineAdminMixin, admin.TabularInline):
 class SingleChoiceQuestionAdmin(QuestionChildAdmin):
     base_model = SingleChoiceQuestion
     inlines = [SingleChoiceAnswerInline]
-    
+
     formfield_overrides = {
         models.TextField: {'widget': AdminMarkdownWidget},
     }

@@ -17,6 +17,3 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email', 'display_name')
     ordering = ('email',)
     filter_horizontal = ()
-
-
-print(UserAdmin.fieldsets)
