@@ -10,43 +10,27 @@
     <h1>{% trans "Statistics" %}</h1>
 
     <div class="d-flex mb-4">
-      <div class="alert alert-primary flex-even m-1 text-center">
-        {# <i class="fas fa-check mr-1 fa-4x"></i> #}
+      <div class="alert alert-primary flex-even m-1 text-center overflow-hidden">
         <h3 class="display-4">{{ completed_count }}</h3>
         <h6>{% trans "Completed activities" %}</h6>
+        <i class="fas fa-check fa-7x centrize" style="opacity: 0.1"></i>
       </div>
-      <div class="alert alert-primary flex-even m-1 text-center">
+      <div class="alert alert-primary flex-even m-1 text-center overflow-hidden">
         <h3 class="display-4">{{ in_progress_count }}</h3>
         <h6>{% trans "In progress activities" %} </h6>
+        <i class="far fa-clock fa-7x centrize" style="opacity: 0.1"></i>
       </div>
-      <div class="alert alert-primary flex-even m-1 text-center">
+      <div class="alert alert-primary flex-even m-1 text-center overflow-hidden">
+        <h3 class="display-4">0</h3>
+        <h6>{% trans "Completed courses" %} </h6>
+        <i class="fas fa-trophy fa-7x centrize" style="opacity: 0.1"></i>
       </div>
     </div>
 
-    {# <h2> class="mb-3">{% trans "Achievements" %}</h2> #}
+    {% include "user_app/_achievements.html" %}
 
-    <h2 class="mb-3">{% trans "Your recent progress" %}</h2>
-    {% for solution in solutions %}
-      <div class="alert {% if solution.completed %}alert-success{% else %}alert-secondary{% endif %}">
-        <div class="d-flex justify-content-between">
-          <small>
-            {% if solution.completed %}
-              <i class="fas fa-check mr-1"></i> {% trans "Completed at" %} {{ solution.completed_at }}
-            {% else %}
-              <i class="far fa-clock mr-1"></i> {% trans "In progress" %} ({% trans "started" %}: {{ solution.started_at | naturaltime }})
-            {% endif %}
-          </small>
-          <small>{% trans "Updated at" %} {{ solution.updated_at | naturaltime }}</small>
-        </div>
-        <h5 class="mb-0 mt-2">
-          <a href="{% url 'course_app:activity' solution.activity.lesson.course.slug solution.activity.id "" %}" class="text-inherit stretched-link">
-            {{ solution.activity.lesson.course.title }} <i class="fas fa-angle-right"></i>
-            {{ solution.activity.lesson.title }} <i class="fas fa-angle-right"></i>
-            {{ solution.activity.title }}
-          </a>
-        </h5>
-      </div>
-    {% endfor %}
+    {% include "user_app/_recent_progress.html" %}
+
   </div>
 </div>
 {% endblock %}

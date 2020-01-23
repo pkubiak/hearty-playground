@@ -1,0 +1,24 @@
+{% load i18n humanize %}
+
+<h2 class="mb-3"><i class="fas fa-chart-line fa-fw mr-2"></i> {% trans "Your recent progress" %}</h2>
+{% for solution in solutions %}
+  <div class="alert {% if solution.completed %}alert-success{% else %}alert-secondary{% endif %}">
+    <div class="d-flex justify-content-between">
+      <small>
+        {% if solution.completed %}
+          <i class="fas fa-check mr-1"></i> {% trans "Completed at" %} {{ solution.completed_at }}
+        {% else %}
+          <i class="far fa-clock mr-1"></i> {% trans "In progress" %} ({% trans "started" %}: {{ solution.started_at | naturaltime }})
+        {% endif %}
+      </small>
+      <small>{% trans "Updated at" %} {{ solution.updated_at | naturaltime }}</small>
+    </div>
+    <h5 class="mb-1 mt-3 font-weight-light">
+      <a href="{% url 'course_app:activity' solution.activity.lesson.course.slug solution.activity.id "" %}" class="text-inherit stretched-link">
+        {{ solution.activity.lesson.course.title }} <i class="fas fa-angle-right"></i>
+        {{ solution.activity.lesson.title }} <i class="fas fa-angle-right"></i>
+        {{ solution.activity.title }}
+      </a>
+    </h5>
+  </div>
+{% endfor %}
