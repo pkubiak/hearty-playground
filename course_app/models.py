@@ -10,6 +10,7 @@ from django.contrib.postgres.fields import ArrayField
 
 from polymorphic.models import PolymorphicModel
 
+
 def course_directory_path(instance, filename):
     _, ext = os.path.splitext(filename)
 
@@ -43,7 +44,7 @@ class Course(models.Model):
             return None
         return val
 
-    def __str__(self):
+    def __str__(self):  # noqa
         return f"{self.title} ({self.id})"
 
 
@@ -70,8 +71,7 @@ class Lesson(models.Model):
     class Meta:  # noqa
         ordering = ['order']
 
-
-    def __str__(self):
+    def __str__(self):  # noqa
         return f"{self.course.title} / {self.title}"
 
 
@@ -102,7 +102,15 @@ class Solution(PolymorphicModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
 
     completed = models.BooleanField(null=False, default=False)
+
+    started_at = models.DateTimeField(null=False, auto_now_add=True)
     completed_at = models.DateTimeField(null=True, default=None)
+    updated_at = models.DateTimeField(null=False, auto_now=True)
 
     class Meta:  # noqa
         unique_together = ('activity_id', 'user_id',)
+
+    @property
+    def duration(self):
+        if self.completed_at:
+            return self.completed_at - self.started_at

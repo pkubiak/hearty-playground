@@ -101,7 +101,6 @@ class OpenAnswer(models.Model):
 
 class SolutionQuiz(Solution):
     attempt = models.PositiveIntegerField(default=0, null=False)
-    started_at = models.DateTimeField(auto_now_add=True, null=False)
 
     answers = JSONField()
 

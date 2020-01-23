@@ -14,7 +14,8 @@
     <h5 class="card-title">{% lorem 3 w %}</h5>
 
     <div class="list-group list-group-flush">
-      <a href="{% url 'login' %}" class="list-group-item list-group-item-action">
+      {% url 'user_app:profile' as url_profile %}
+      <a href="{{ url_profile }}" class="list-group-item list-group-item-action {% if request.path == url_profile %}active{% endif %}">
         <i class="fas fa-user fa-fw mr-2"></i>{% trans "User settings" %}
       </a>
 
@@ -22,7 +23,8 @@
         <i class="fas fa-key fa-fw mr-2"></i>{% trans "Change password" %}
       </a>
 
-      <a href="{% url 'login' %}" class="list-group-item list-group-item-action">
+      {% url 'user_app:statistics' as url_statistics %}
+      <a href="{{ url_statistics }}" class="list-group-item list-group-item-action {% if request.path == url_statistics %}active{% endif %}">
         <i class="fas fa-chart-line fa-fw mr-2"></i>{% trans "Statistics" %}
       </a>
     </div>
