@@ -32,6 +32,7 @@ class ActivityQuizAdmin(ActivityChildAdmin):
 class QuestionAdmin(PolymorphicParentModelAdmin):
     base_model = Question
     list_filter = (PolymorphicChildModelFilter,)
+    list_display = ('__str__', 'activity', 'text',)
 
     formfield_overrides = {
         models.TextField: {'widget': AdminMarkdownWidget},

@@ -2,11 +2,19 @@
 
 {% block content %}
 <input
-  class="form-control form-control-lg"
+  class="form-control form-control-lg {% if completed %}{% if score == 1.0 %}is-valid{% else %}is-invalid{% endif %}{% endif %}"
   name="answer"
   type="text"
   placeholder="{% if question.placeholder %}{{ question.placeholder }}{% else %}Insert value{% endif %}"
   value="{% if solution %}{{ solution }}{% endif %}"
   {% if completed %}disabled{% endif %}
   />
+{% if completed %}
+<div class="invalid-feedback">
+Acceptable answers:
+{% for answer in question.answers_set.all %}
+  <span class="badge badge-danger">{{ answer.text }}</span>
+{% endfor %}
+</div>
+{% endif %}
 {% endblock %}

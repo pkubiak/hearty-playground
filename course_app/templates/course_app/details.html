@@ -45,7 +45,7 @@
               {{ lesson.description }}
             </div>
 
-            {% if lesson.total_score %}
+            {% if lesson.total_score and lesson.current_user_score %}
               {% if lesson.current_user_score < lesson.total_score %}
                 <span class="text-secondary">In progress</span>
               {% else %}

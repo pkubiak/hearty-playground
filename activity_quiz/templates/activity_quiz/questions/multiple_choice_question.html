@@ -5,7 +5,7 @@
 
   <ul class="list-group mt-1 quiz-form">
   {% for answer in question.answers_set.all %}
-    <li class="list-group-item list-group-item-action">
+    <li class="list-group-item list-group-item-action {% if completed %}{% if answer.score > 0 %}list-group-item-success{% elif answer.id|slugify in solution %}list-group-item-danger{% endif %}{% endif %}">
       <input type="checkbox" name="answer" value="{{ answer.id }}" id="radio_{{ forloop.counter }}" onchange="activate_inputs()" {% if answer.id|slugify in solution %}checked{% endif %} {% if completed %}disabled{% endif %}/>
       <label class="stretched-link" for="radio_{{ forloop.counter }}">
         <i class="far fa-square fa-2x fa-fw align-middle mr-2"></i> {{ answer.text }}

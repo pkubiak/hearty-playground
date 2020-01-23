@@ -21,8 +21,8 @@
       <div class="card-body">
         <form action="" method="POST">
           {% csrf_token %}
-          <h2>You have finished quiz!</h2>
           {% if completed %}
+            <h2>You have finished quiz!</h2>
             {% if activity.congratulations %}
               {{ activity.congratulations | markdown }}
             {% else %}
@@ -30,7 +30,12 @@
             {% endif %}
             <h2 class="display-4 text-center my-5">Your score: {{ score | floatformat:1}}%</h2>
 
+            <div class="text-center mb-5">
+              <button type="submit" name="finish" value="retake" class="btn btn-success btn-lg px-5">Restart Quiz</button>
+            </div>
           {% else %}
+            <h2>Finish and evaluate!</h2>
+
             <p class="lead">{% lorem 30 w random %}</p>
 
             <div class="text-center mb-5">

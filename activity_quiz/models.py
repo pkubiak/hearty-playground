@@ -2,6 +2,8 @@ import uuid
 from typing import Any, Optional, List
 from dataclasses import dataclass
 from django.db import models
+from functools import cached_property
+
 
 from course_app.models import Activity, Solution
 
@@ -67,9 +69,10 @@ class SingleChoiceQuestion(Question):
         return None
 
     def evaluate_answer(self, saved_answer) -> float:
-        for answer in self.answers_set.all():
-            if answer.correct and str(answer.id) == saved_answer:
-                return 1.0
+        if isinstance(saved_answer, str):
+            for answer in self.answers_set.all():
+                if answer.correct and str(answer.id) == saved_answer:
+                    return 1.0
 
         return 0.0
 
@@ -140,9 +143,10 @@ class OpenQuestion(Question):
         return answer
 
     def evaluate_answer(self, saved_answer: str) -> float:
-        for answer in self.answers_set.all():
-            if answer.text.strip() == saved_answer.strip():
-                return 1.0
+        if isinstance(saved_answer, str):
+            for answer in self.answers_set.all():
+                if answer.text.strip() == saved_answer.strip():
+                    return 1.0
 
         return 0.0
 
@@ -154,19 +158,19 @@ class OpenAnswer(models.Model):
     text = models.TextField(null=False, blank=False)
 
 
-class SolutionQuiz(Solution):
-    # id of attempt
-    attempt = models.PositiveIntegerField(default=0, null=False)
-
-    # JSON serialized answers
-    answers = JSONField()
-
+class SolutionState:
     @dataclass
     class QuestionAnswer:  # noqa
-        # ZWPA: Database Session State
         show_hint: bool = False
         show_solution: bool = False
         answer: Any = None
+
+    @property
+    def answers(self):
+        return self.solution.answers
+
+    def __init__(self, solution):
+        self.solution = solution
 
     def __getitem__(self, question_uuid):  # noqa
         question_uuid = str(question_uuid)
@@ -178,14 +182,14 @@ class SolutionQuiz(Solution):
             self.answers[question_uuid] = dict()
         a = self.answers[question_uuid]
 
-        return SolutionQuiz.QuestionAnswer(
+        return SolutionState.QuestionAnswer(
             a.get('show_hint', False),
             a.get('show_solution', False),
             a.get('answer', None)
         )
 
     def __setitem__(self, question_uuid, value):  # noqa
-        if not isinstance(value, SolutionQuiz.QuestionAnswer):
+        if not isinstance(value, SolutionState.QuestionAnswer):
             raise TypeError('You must use QuestionAnswer instance')
 
         question_uuid = str(question_uuid)
@@ -195,3 +199,15 @@ class SolutionQuiz(Solution):
             show_solution=value.show_solution,
             answer=value.answer
         )
+
+
+class SolutionQuiz(Solution):
+    # id of attempt
+    attempt = models.PositiveIntegerField(default=0, null=False)
+
+    # JSON serialized answers
+    answers = JSONField()  # ZWPA: Database Session State
+
+    @cached_property
+    def state(self):
+        return SolutionState(self)

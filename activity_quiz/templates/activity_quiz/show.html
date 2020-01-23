@@ -41,6 +41,7 @@
   }
 </style>
 
+{% if not completed %}
 <script>
 function activate_inputs() {
   $('.quiz-form input:checked').closest('li').addClass('active');
@@ -51,6 +52,7 @@ $(function(){
   activate_inputs();
 });
 </script>
+{% endif %}
 
 <div class="container mt--xxl mb-5">
   <div class="row justify-content-md-center">

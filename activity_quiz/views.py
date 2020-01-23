@@ -1,13 +1,6 @@
-from django.shortcuts import render
-from .models import SolutionQuiz, Question, SingleChoiceQuestion, MultipleChoiceQuestion, OpenQuestion
+from django.shortcuts import render, redirect
+from .models import SolutionQuiz
 from datetime import datetime
-
-
-# def show_summary(request, course, activity, solution):
-#     pass
-#
-# def show_results(request, course, activity, solution):
-#     pass
 
 
 def show(request, course, activity):
@@ -27,15 +20,19 @@ def show(request, course, activity):
 
         total_score = 0
         for question in activity.question_set.all():
-            total_score += question.evaluate_answer(solution[question.id].answer)
+            total_score += question.evaluate_answer(solution.state[question.id].answer)
         solution.score = total_score / total_count
 
         solution.save()
 
     completed = solution.completed
 
+    if completed and request.POST.get('finish') == 'retake':
+        solution.delete()
+        return redirect('course_app:activity', course.slug, str(activity.id), '')
+
     # Update last question
-    if request.method == 'POST' and not completed:
+    if request.method == 'POST' and not completed and request.POST.get('current'):
         current = int(request.POST.get('current', 0))
         print('current:', current)
 
@@ -46,9 +43,9 @@ def show(request, course, activity):
         print('*' * 100)
 
         # update stored answers
-        s = solution[question.id]
+        s = solution.state[question.id]
         s.answer = question.serialize_answer(request)
-        solution[question.id] = s
+        solution.state[question.id] = s
 
         solution.save()
 
@@ -60,19 +57,22 @@ def show(request, course, activity):
             'activity': activity,
             'current': current,
             'total_count': total_count,
-            'statuses': [bool(solution[key].answer) for key in questions_ids],
+            'statuses': [bool(solution.state[key].answer) for key in questions_ids],
             'completed': completed,
             'score': 100.0 * (solution.score or 0),
         })
 
     question = activity.question_set.all()[current]
+    answer = solution.state[str(question.id)].answer
+
     return render(request, question.template, {
         'course': course,
         'activity': activity,
         'current': current,
         'total_count': total_count,
         'question': question,
-        'statuses': [bool(solution[key].answer) for key in questions_ids],
-        'solution': solution[str(question.id)].answer,
-        'completed': completed, #activity.completed,
+        'statuses': [bool(solution.state[key].answer) for key in questions_ids],
+        'solution': answer,
+        'completed': completed,
+        'score': question.evaluate_answer(answer) if completed else None
     })
