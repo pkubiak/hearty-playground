@@ -11,8 +11,6 @@ from django.views.decorators.http import require_http_methods
 @require_http_methods(["GET", "POST"])
 def show(request, course, activity):
     if request.method == 'GET':
-        content = markdown.markdown(activity.text)
-
         solution = SolutionNote.objects.filter(
             user_id=request.user.id,
             activity_id=activity.id,
@@ -25,7 +23,6 @@ def show(request, course, activity):
         return render(request, 'activity_note/show.html', {
             'course': course,
             'activity': activity,
-            'content': content,
             'is_completed': is_completed,
             'completed_at': completed_at
         })
