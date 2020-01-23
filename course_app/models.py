@@ -10,7 +10,6 @@ from django.contrib.postgres.fields import ArrayField
 
 from polymorphic.models import PolymorphicModel
 
-
 def course_directory_path(instance, filename):
     _, ext = os.path.splitext(filename)
 
