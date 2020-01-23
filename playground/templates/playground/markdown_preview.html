@@ -1,3 +1,4 @@
+{% load markdown %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +25,6 @@
       </tbody>
     </table>
   {% endif %}
-  {{ markdown }}
+  {{ content | markdown }}
 </body>
 </html>

@@ -28,7 +28,7 @@
 {% block right_column %}
   <div class="card">
     <div class="card-body">
-      <h1>
+      <h1 class="mb-4">
         {{ to_display.title }}
         <a href="{% url 'admin:help_app_article_change' to_display.pk %}" class="btn btn-sm btn-outline-primary rounded-pill ml-auto">
           <i class="fas fa-pencil-alt"></i> {% trans "Edit" %}

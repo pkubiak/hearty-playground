@@ -32,6 +32,9 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    # Mocked path to user avatar photo
+    avatar_url = "https://randomuser.me/api/portraits/men/32.jpg"
+
     email = models.EmailField(
         max_length=255,
         unique=True,

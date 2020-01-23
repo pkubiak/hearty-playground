@@ -14,13 +14,6 @@ def markdown_preview(request):
         metadata, content = frontmatter.parse(text)
 
         return render(request, 'playground/markdown_preview.html', {
-            'markdown': markdown.markdown(content, extensions=[
-                'markdown.extensions.extra',
-                'markdown.extensions.admonition',
-                'pymdownx.mark',
-                'pymdownx.tasklist',
-                'pymdownx.caret',
-                'pymdownx.tilde',
-            ]),
+            'content': content,
             'metadata': metadata
         })

@@ -8,11 +8,11 @@ from course_app.models import Solution
 
 @login_required
 def profile(request):
-    user_language = random.choice(['en', 'pl'])
-    translation.activate(user_language)
+    # user_language = random.choice(['en', 'pl'])
+    # translation.activate(user_language)
     # response = HttpResponse(...)
     response = render(request, 'user_app/profile.html', {})
-    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, user_language)
+    # response.set_cookie(settings.LANGUAGE_COOKIE_NAME, user_language)
 
     return response
 
