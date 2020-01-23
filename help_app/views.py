@@ -18,5 +18,5 @@ def show(request, slug: str):
 
     return render(request, 'help_app/index.html', {
         'articles': articles,
-        'to_display': to_display
+        'to_display': to_display,
     })

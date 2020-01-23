@@ -30,9 +30,11 @@
     <div class="card-body">
       <h1 class="mb-4">
         {{ to_display.title }}
+        {% if user.is_authenticated %}
         <a href="{% url 'admin:help_app_article_change' to_display.pk %}" class="btn btn-sm btn-outline-primary rounded-pill ml-auto">
           <i class="fas fa-pencil-alt"></i> {% trans "Edit" %}
         </a>
+        {% endif %}
       </h1>
 
       {{ to_display.content | markdown }}

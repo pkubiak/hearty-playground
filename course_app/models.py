@@ -58,6 +58,9 @@ class Lesson(models.Model):
 
     order = models.PositiveIntegerField(default=0, editable=True, db_index=True)
 
+    class Meta:  # noqa
+        ordering = ['order']
+
     @cached_property
     def total_score(self) -> Optional[int]:
         scores = []
@@ -67,9 +70,6 @@ class Lesson(models.Model):
         if scores:
             return sum(scores)
         return None
-
-    class Meta:  # noqa
-        ordering = ['order']
 
     def __str__(self):  # noqa
         return f"{self.course.title} / {self.title}"

@@ -12,6 +12,9 @@ class UserAdmin(BaseUserAdmin):
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login',)})
     )
+    add_fieldsets = [
+        (None, {'fields': ('email', 'password1', 'password2')}),
+    ]
 
     list_display = ('email', 'display_name', 'is_staff')
     search_fields = ('email', 'display_name')
