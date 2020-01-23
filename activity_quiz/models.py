@@ -88,7 +88,7 @@ class MultipleChoiceAnswer(models.Model):
 
 class OpenQuestion(Question):
     template = 'activity_quiz/questions/open_question.html'
-    
+
     placeholder = models.CharField(null=True, blank=True, max_length=32)
 
 
@@ -105,10 +105,9 @@ class SolutionQuiz(Solution):
 
     answers = JSONField()
 
-
-    def set_progress(self, user, question, value):
-        pass
-        # ZWPA: Database Session State
+    # def set_progress(self, user, question, value):
+    #     pass
+    # ZWPA: Database Session State
 
 
     # class Meta:  # noqa

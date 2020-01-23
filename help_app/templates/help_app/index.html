@@ -3,6 +3,8 @@
 {% load i18n markdown %}
 
 
+{% block title %}{{ to_display.title }} – {% trans "Help" %}{% endblock %}
+
 {% block top_title %}
   <i class="fas fa-graduation-cap"></i> {% trans "Help" %}
 {% endblock %}
@@ -14,7 +16,7 @@
 
       <div class="list-group list-group-flush">
         {% for article in articles %}
-          <a href="{% url 'show' article.slug %}" class="list-group-item list-group-item-action{% if article.slug == to_display.slug %} active{% endif %}">
+          <a href="{% url 'help_app:show' article.slug %}" class="list-group-item list-group-item-action{% if article.slug == to_display.slug %} active{% endif %}">
             {{ article.title }}
           </a>
         {% endfor %}

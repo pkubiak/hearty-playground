@@ -1,9 +1,8 @@
-import markdown
 from datetime import datetime
 
 from django.urls import reverse
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest, HttpResponseRedirect
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from .models import SolutionNote
 from django.views.decorators.http import require_http_methods
 

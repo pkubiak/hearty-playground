@@ -1,5 +1,4 @@
-from django.http import Http404
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .models import Article
 
 
@@ -9,7 +8,7 @@ def index(request):
     if not first_article:
         raise Article.DoesNotExist('Default Article does not exist')
 
-    return redirect('show', slug=first_article.slug)
+    return redirect('help_app:show', slug=first_article.slug)
 
 
 def show(request, slug: str):
