@@ -1,0 +1,107 @@
+{% extends "playground/base.html" %}
+
+{% load static i18n markdown %}
+
+{% block title %}{{ activity.title }}{% endblock %}
+{% block main %}
+<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <h1 class="font-weight-light text-truncate d-flex justify-content-between align-items-center col-md-8 mb-4">
+        <span>{{ activity.title }}</span>
+        <a href="{% url "course_app:details" course.slug %}" class="btn btn-secondary ml-auto"><i class="fas fa-angle-double-left"></i> {% trans "Back to course" %}</a>
+      </h1>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  .quiz-form .form-check {
+    padding-left: 0;
+  }
+
+  .quiz-form input[type=checkbox], .quiz-form input[type=radio] {
+    position: absolute;
+    left:-1000px;
+    visibility: hidden;
+  }
+
+
+  .quiz-form input[type=checkbox]:checked + label i:before {
+    content: "\f14a";
+  }
+
+  .quiz-form input[type=radio]:checked + label i:before {
+    content: "\f192";
+  }
+
+  .quiz-form label {
+      margin:0;
+      cursor: pointer;
+  }
+</style>
+
+{% if not completed %}
+<script>
+function activate_inputs() {
+  $('.quiz-form input:checked').closest('li').addClass('active');
+  $('.quiz-form input:not(:checked)').closest('li').removeClass('active');
+}
+
+$(function(){
+  activate_inputs();
+});
+</script>
+{% endif %}
+
+<div class="container mt--xxl mb-5">
+  <div class="row justify-content-md-center">
+    <div class="card col-md-8">
+      <div class="card-body">
+        <h3>Question <span class="badge badge-secondary mr-2 mt-1 align-text-bottom">{{ current | add:1 }} / {{ total_count }}</span></h3>
+
+        {{ question.text | markdown }}
+
+        <form action="" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="current" value="{{ current }}" />
+
+          {% block content %}{% endblock %}
+
+          <div class="text-right">
+            {% if question.hint %}
+              <a href="#" class="btn btn-sm btn-link">Show Hint</a>
+            {% endif %}
+            {% if question.hint and question.solution %}/{% endif %}
+            {% if question.solution %}
+              <a href="#" class="btn btn-sm btn-link">Show Solution</a>
+            {% endif %}
+          </div>
+
+          <div class="mt-4 d-flex align-items-center">
+            <div class="flex-grow-1 text-left" style="flex-basis: 0">
+              {% if current > 0 %}
+              <button name="next" value="{{ current | add:-1 }}" class="btn btn-primary"><i class="fas fa-angle-left mr-1"></i> Previous question</button>
+              {% endif %}
+            </div>
+
+            <div class="flex-grow-1 text-center"  style="flex-basis: 0">
+              {% include "activity_quiz/_progress_bar.html" with current=current progress=statuses %}
+            </div>
+
+            <div class="flex-grow-1 text-right" style="flex-basis: 0">
+              {% if current|add:1 < total_count %}
+                <button type="submit" name="next" value="{{ current | add:1 }}" class="btn btn-primary">Next question <i class="fas fa-angle-right ml-1"></i></button>
+              {% else %}
+                <button type="submit" name="next" value="-1" class="btn btn-primary">Review & Finish <i class="fas fa-angle-right ml-1"></i></button>
+              {% endif %}
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

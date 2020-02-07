@@ -2,6 +2,7 @@ import os
 import uuid
 import random
 from functools import cached_property
+from typing import Optional
 
 from django.db import models
 from django.conf import settings
@@ -43,7 +44,7 @@ class Course(models.Model):
             return None
         return val
 
-    def __str__(self):
+    def __str__(self):  # noqa
         return f"{self.title} ({self.id})"
 
 
@@ -60,7 +61,17 @@ class Lesson(models.Model):
     class Meta:  # noqa
         ordering = ['order']
 
-    def __str__(self):
+    @cached_property
+    def total_score(self) -> Optional[int]:
+        scores = []
+        for activity in self.activity_set.all():
+            if activity.completable:
+                scores.append(activity.score)
+        if scores:
+            return sum(scores)
+        return None
+
+    def __str__(self):  # noqa
         return f"{self.course.title} / {self.title}"
 
 
@@ -71,6 +82,9 @@ class Activity(PolymorphicModel):
 
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
 
+    # Score for completing activity
+    score = models.PositiveIntegerField(default=1, null=False)
+
     # Order field for SortableMixin
     order = models.PositiveIntegerField(default=0, editable=True, db_index=True)
 
@@ -79,13 +93,26 @@ class Activity(PolymorphicModel):
         verbose_name_plural = 'Activities'
         # unique_together = ('content_type', 'object_id')
 
+    def __str__(self):  # noqa
+        return f"{self.title} ({self.id})"
+
 
 class Solution(PolymorphicModel):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE, null=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
 
     completed = models.BooleanField(null=False, default=False)
+
+    started_at = models.DateTimeField(null=False, auto_now_add=True)
     completed_at = models.DateTimeField(null=True, default=None)
+    updated_at = models.DateTimeField(null=False, auto_now=True)
+
+    score = models.FloatField(null=True)
 
     class Meta:  # noqa
         unique_together = ('activity_id', 'user_id',)
+
+    @property
+    def duration(self):
+        if self.completed_at:
+            return self.completed_at - self.started_at

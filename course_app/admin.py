@@ -24,12 +24,7 @@ class ActivityAdmin(PolymorphicParentModelAdmin):
     list_display = ('id', 'title', 'lesson', 'order')#, 'content_type')
     list_filter = (PolymorphicChildModelFilter,)
 
-    # inlines = [
-    #     ActivityNoteInline
-    # ]
-    # fields = ('title', 'lesson', 'content_type', 'object_id')
     def get_child_models(self):
-        print(Activity.__subclasses__())
         return Activity.__subclasses__()
 
 

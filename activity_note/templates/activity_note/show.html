@@ -1,6 +1,8 @@
 {% extends "playground/base.html" %}
 
-{% load static i18n %}
+{% load static i18n markdown %}
+
+{% block title %}{{ activity.title }}{% endblock %}
 
 {% block main %}
 <div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
@@ -18,7 +20,7 @@
   <div class="row justify-content-md-center">
     <div class="card col-md-8">
       <div class="card-body">
-        {{ content | safe }}
+        {{ activity.text | markdown }}
 
         {% if activity.completable %}
           <hr/>

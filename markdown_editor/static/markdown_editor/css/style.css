@@ -9,6 +9,7 @@ div.markdown_editor nav {
   align-items: center;
   background: #ddd;
   display: flex;
+  flex-wrap: wrap;
   position: sticky;
   top: 0;
 }
@@ -21,6 +22,7 @@ div.markdown_editor nav button {
   font-size: 14pt;
   margin: 0;
   padding: 6px;
+  white-space: nowrap;
 }
 
 div.markdown_editor nav button:disabled {

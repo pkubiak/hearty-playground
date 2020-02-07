@@ -3,8 +3,6 @@ from course_app.models import Activity, Solution
 
 
 class ActivityNote(Activity):
-    """TODO: """
-
     fa_icon = "fas fa-book"
 
     text = models.TextField(null=False, blank=True)

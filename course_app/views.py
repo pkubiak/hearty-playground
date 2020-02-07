@@ -1,11 +1,10 @@
 from django.shortcuts import render
-from .models import Course, Activity, Solution, Lesson
-from django.db import models
-from importlib import import_module
-from django.urls import include, path
-from django.urls import resolve, get_urlconf
-from urllib.parse import urlparse
+from .models import Course, Activity, Solution
+from django.urls import resolve
+from django.contrib.auth.decorators import login_required
 
+
+@login_required
 def index(request):
     """Display list of all available courses."""
     all_courses = list(Course.objects.all())
@@ -18,6 +17,7 @@ def index(request):
     })
 
 
+@login_required
 def details(request, slug):
     """Display details of single course: progress and all available content."""
     course = Course.objects.get(slug=slug)
@@ -38,12 +38,20 @@ def details(request, slug):
         for activity in activities:
             activity.is_completed_by_current_user = is_completed.get(activity.id, False)
 
+    # Compute current user completion score
+    for lesson, activities in lessons:
+        lesson.current_user_score = sum(activity.score for activity in activities if activity.is_completed_by_current_user)
+        total_score = lesson.total_score
+        if total_score:
+            lesson.current_user_progress = 100.0 * lesson.current_user_score / total_score
+
     return render(request, 'course_app/details.html', {
         'course': course,
         'lessons': lessons
     })
 
 
+@login_required
 def activity(request, slug, activity_uuid, url):
     """Polymorphic view which pass through request to appropriete activity app."""
     course = Course.objects.get(slug=slug)

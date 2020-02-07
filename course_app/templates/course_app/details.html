@@ -32,7 +32,7 @@
     }
   </style>
 
-  <div class="accordion mb-5">
+  <div class="accordion mb-5" id="coursesList">
     {% for lesson, activities in lessons %}
       <div class="card">
         <div class="card-header" id="heading_{{ forloop.counter }}">
@@ -40,19 +40,17 @@
             <div style="width: 80px; height: 80px; line-height: 80px;" class="mr-3 bg-primary text-light h1 text-center font-bold mb-0">
               {{ forloop.counter }}
             </div>
-            <!--<img src="https://via.placeholder.com/80?text={{i}}" class="mr-3" alt="..."/>-->
             <div class="media-body">
               <h5 class="mt-0 text-primary">{{ lesson.title }}</h5>
               {{ lesson.description }}
             </div>
 
-            {% if forloop.counter < 3 %}
-              <span class="text-primary">Completed</span>
-            {% elif forloop.counter == 3 %}
-              <span class="text-secondary">In progress</span>
-            {% else %}
-              {# <span class="text-secondary">Not available</span> #}
-              {# <a href="#" class="btn btn-outline-secondary mr-3 px-4 disabled">Start</a> #}
+            {% if lesson.total_score and lesson.current_user_score %}
+              {% if lesson.current_user_score < lesson.total_score %}
+                <span class="text-secondary">In progress</span>
+              {% else %}
+                <span class="text-primary">Completed</span>
+              {% endif %}
             {% endif %}
 
             <a href="#" class="collapse-btn btn btn-link stretched-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne">
@@ -61,14 +59,16 @@
           </div>
         </div>
 
-        <div id="collapse_{{ forloop.counter }}" class="collapse" aria-labelledby="heading_{{ forloop.counter }}">
+        <div id="collapse_{{ forloop.counter }}" class="collapse" aria-labelledby="heading_{{ forloop.counter }}" data-parent="#coursesList">
           <div class="card-body">
-            <div class="d-flex align-items-center mb-3">
-              <span class="px-2">You have already completed: 42%</span>
-              <div class="progress bg-light flex-grow-1" style="height: 8px;">
-                <div class="progress-bar" role="progressbar" style="width: 42%;" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+            {% if lesson.total_score %}
+              <div class="d-flex align-items-center mb-3">
+                <span class="px-2">You have already completed: {{ lesson.current_user_progress | floatformat:0 }}%</span>
+                <div class="progress bg-light flex-grow-1" style="height: 8px;">
+                  <div class="progress-bar" role="progressbar" style="width: {{ lesson.current_user_progress }}%;" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
               </div>
-            </div>
+            {% endif %}
 
             <table class="table table-hover table-sm m-0">
               {% for activity in activities %}

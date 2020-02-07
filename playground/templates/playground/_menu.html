@@ -9,7 +9,7 @@
     <a class="nav-link active" href="{% url "course_app:index" %}">{% trans "Courses" %}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link disabled" href="/pomoc/">{% trans "Authors" %}</a>
+    <a class="nav-link" href="{% url 'help_app:show' 'about-authors' %}">{% trans "Authors" %}</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="/pomoc/">{% trans "Help" %}</a>

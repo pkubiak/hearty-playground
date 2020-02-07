@@ -1,7 +1,9 @@
 {% extends 'playground/two_columns.html' %}
 
-{% load i18n %}
+{% load i18n markdown %}
 
+
+{% block title %}{{ to_display.title }} – {% trans "Help" %}{% endblock %}
 
 {% block top_title %}
   <i class="fas fa-graduation-cap"></i> {% trans "Help" %}
@@ -14,7 +16,7 @@
 
       <div class="list-group list-group-flush">
         {% for article in articles %}
-          <a href="{% url 'show' article.slug %}" class="list-group-item list-group-item-action{% if article.slug == to_display.slug %} active{% endif %}">
+          <a href="{% url 'help_app:show' article.slug %}" class="list-group-item list-group-item-action{% if article.slug == to_display.slug %} active{% endif %}">
             {{ article.title }}
           </a>
         {% endfor %}
@@ -26,57 +28,16 @@
 {% block right_column %}
   <div class="card">
     <div class="card-body">
-      <h1>
+      <h1 class="mb-4">
         {{ to_display.title }}
+        {% if user.is_authenticated %}
         <a href="{% url 'admin:help_app_article_change' to_display.pk %}" class="btn btn-sm btn-outline-primary rounded-pill ml-auto">
           <i class="fas fa-pencil-alt"></i> {% trans "Edit" %}
         </a>
+        {% endif %}
       </h1>
 
-      {{ to_display.content_html | safe }}
+      {{ to_display.content | markdown }}
     </div>
   </div>
 {% endblock %}
-
-<!--
-<h1 class="text-light bg-primary pt-5" style="background: #eee; padding-bottom: 80px">
-  <div class="container">
-    <i class="fas fa-graduation-cap"></i> {% trans "Help" %}
-  </div>
-</h1>
-
-<div class="container p-3" style="margin-top: -80px">
-  <div class="row">
-    <div class="col-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{% trans "What's the problem?" %}</h5>
-
-          <div class="list-group list-group-flush">
-            {% for article in articles %}
-              <a href="{% url 'show' article.slug %}" class="list-group-item list-group-item-action{% if article.slug == to_display.slug %} active{% endif %}">
-                {{ article.title }}
-              </a>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-8">
-      <div class="card">
-        <div class="card-body">
-          <h1>
-            {{ to_display.title }}
-            <a href="{% url 'admin:help_app_article_change' to_display.pk %}" class="btn btn-sm btn-outline-primary rounded-pill ml-auto">
-              <i class="fas fa-pencil-alt"></i> {% trans "Edit" %}
-            </a>
-          </h1>
-
-          {{ to_display.content_html | safe }}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
--->
