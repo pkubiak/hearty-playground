@@ -3,25 +3,17 @@ from django.db import models
 from django.forms import TextInput
 
 from django.contrib.postgres.fields import ArrayField
-# from django.contrib.contenttypes.admin import GenericStackedInline
 from .models import Course, Lesson, Activity
 from .widgets import StringArrayWidget
 from django.utils.html import format_html
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from adminsortable2.admin import SortableInlineAdminMixin
 
-# from activity_note.models import ActivityNoteInline
 
-#
-# class ActivityGenericInline(GenericStackedInline):
-#     model = Activity
-#     ct_field = 'content_type'
-#     ct_fk_field = 'object_id'
-#
 @admin.register(Activity)
 class ActivityAdmin(PolymorphicParentModelAdmin):
     base_model = Activity
-    list_display = ('id', 'title', 'lesson', 'order')#, 'content_type')
+    list_display = ('id', 'title', 'lesson', 'order')
     list_filter = (PolymorphicChildModelFilter,)
 
     def get_child_models(self):
@@ -42,7 +34,6 @@ class LessonAdmin(admin.ModelAdmin):
     list_display = ('course', 'title')
     list_display_links = ('title',)
     inlines = [ActivityInline]
-    # ordering = ('course', 'order')
 
 
 class LessonInline(SortableInlineAdminMixin, admin.TabularInline):

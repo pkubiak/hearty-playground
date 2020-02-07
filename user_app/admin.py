@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, Achievement, AcquiredAchievement
+from .models import User, Achievement
 from django.db import models
 from django.forms import TextInput, ModelForm
 
@@ -29,7 +29,7 @@ def colors_suggestions(default_colors=('007bff', '6c757d', '28a745', 'dc3545', '
     results = []
     for color in default_colors:
         text_color = Achievement._text_color(color)
-        html = f'<button class="btn btn-sm" style="background:#{color}; color: #{text_color}" type="button" onclick="document.getElementById(\'id_color\').value=\'{color}\'">#{color}</button>'
+        html = f'<button class="btn btn-sm" style="background:#{color}; color: #{text_color}" type="button" onclick="document.getElementById(\'id_color\').value=\'{color}\'">#{color}</button>'  # noqa
         results.append(html)
     return ' '.join(results)
 

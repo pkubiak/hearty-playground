@@ -15,6 +15,5 @@ class Article(models.Model):
 
     content = models.TextField(null=False, blank=False)
 
-
     class Meta(object):
         ordering = ('order', )

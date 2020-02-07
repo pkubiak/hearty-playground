@@ -3,7 +3,6 @@ import markdown as md
 from django import template
 from django.utils.html import mark_safe
 from bs4 import BeautifulSoup
-import pymdownx
 
 register = template.Library()
 
@@ -11,7 +10,9 @@ register = template.Library()
 def _append_class(el, class_):
     el['class'] = el.get('class', []) + [class_]
 
+
 BOOTSTRAP_CONTEXTUAL_CLASSES = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark']
+
 
 @register.filter
 @mark_safe
@@ -52,13 +53,4 @@ def markdown(value, arg=None):
             title.name = 'h4'
             title['class'] = ['alert-heading']
 
-    res = str(doc.body.decode_contents())
-    # print(res)
-    return res
-
-
-"""
-[X] TASK LIST
-[.] warningi
-[ ] Definition list
-"""
+    return str(doc.body.decode_contents())

@@ -14,6 +14,7 @@ class ParseHTMLMixin:
     def assertLength(self, collection, length):
         self.assertEqual(len(collection), length)
 
+
 class MarkdownTemplateTagTestCase(unittest.TestCase, ParseHTMLMixin):
     def test_heading_rendering(self):
         output = markdown('# Heading #')
@@ -24,7 +25,7 @@ class MarkdownTemplateTagTestCase(unittest.TestCase, ParseHTMLMixin):
         - [X] Done
         - [ ] Not done
             - [ ] Nested        
-        """)
+        """)  # noqa
 
         self.assertLength(doc.select('input[type=checkbox]'), 3)
         self.assertLength(doc.select('ul.task-list'), 2)
@@ -43,7 +44,7 @@ class MarkdownTemplateTagTestCase(unittest.TestCase, ParseHTMLMixin):
         output = markdown("https://google.com")
 
         self.assertEqual(output, '<p><a href="https://google.com">https://google.com</a></p>')
-    
+
     def test_autolinking_email(self):
         output = markdown("fake.email@email.com")
 
@@ -81,7 +82,7 @@ class MarkdownTemplateTagBootstrapPostprocessingTestCase(unittest.TestCase, Pars
 
         self.assertLength(doc.find_all('th'), 2)
         self.assertLength(doc.find_all('td'), 2)
-        
+
     def test_alerts_without_title(self):
         doc = self.parse_markdown_to_html("""
         !!! warning ""

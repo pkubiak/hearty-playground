@@ -1,7 +1,6 @@
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.shortcuts import render
 
-import markdown
 import frontmatter
 
 

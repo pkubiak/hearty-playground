@@ -4,7 +4,6 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
 from django.core.validators import RegexValidator
-from django.utils.html import format_html
 from django.template.loader import render_to_string
 
 
@@ -71,7 +70,7 @@ class Achievement(models.Model):
 
     icon_class = models.TextField(null=False, blank=False, validators=[
         RegexValidator(
-            regex='^(fas|far|fal|fab|fad|) fa-[-\w]+$',
+            regex=r'^(fas|far|fal|fab|fad|) fa-[-\w]+$',
             message='Invalid font-awesom icon class',
             code='invalid_icon_class'
         )
@@ -116,4 +115,3 @@ class AcquiredAchievement(models.Model):
     class Meta:
         auto_created = True  # HACK: otherwise django rise some integrity errors and prevent of using horizontal_filter in admin
         unique_together = ('user', 'achievement')
-
