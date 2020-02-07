@@ -11,6 +11,10 @@ class Article(models.Model):
     slug = models.SlugField(max_length=100, null=False, blank=False,
                             unique=True)
 
-    order = models.IntegerField(blank=False, default=1000)
+    order = models.IntegerField(blank=False, default=0)
 
     content = models.TextField(null=False, blank=False)
+
+
+    class Meta(object):
+        ordering = ('order', )
