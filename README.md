@@ -1,6 +1,46 @@
 # Hearty Playground #
 
-### 2019-12-06 ###
+## Features ##
+
+- Markdown
+  - Advanced Custom markdown editor 
+  - Configured many markdown features
+  - templatetag for consistend markdown rendering
+  
+- User management
+  - User creation
+  - Custom user class (with email, avatar)
+  - Simple user panel
+  - Statistics
+    - User progress monitoring
+  - Achievements
+    - Possibility to define own achievements (colors, icons, text)
+    - as for now only manual acquisition
+- Course and lessons
+  - grouping activities into courses and lessons
+- Activities
+  - Extensible architeture based on django apps and MTI via polymorphics models
+  - Polymorphic routing
+  - Progress Counting
+  - ActivityNote
+    - Simple completable activity
+  - ActivityQuiz
+    - Three types of questions
+      - single answer
+      - multi answer
+      - open answer
+    - multiple attempts
+    - full markdown rendering
+    - score counting
+    
+- Admin panel
+  - creating course, lessons, activities
+  
+- Help module
+  - possibility to create static pages with help (in markdown)
+  
+ 
+
 ### Planned Views ###
 
 | name         | status |
