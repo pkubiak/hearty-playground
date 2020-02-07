@@ -1,5 +1,6 @@
 # Hearty Playground #
 
+### 2019-12-06 ###
 ### Planned Views ###
 
 | name         | status |
@@ -7,8 +8,11 @@
 | landing pace | - |
 | login        | implemented |
 | profile      | partialy implemented |
-| task list    | implmeneted |
-| courses      | mocked |
+| task list    | implemented |
+| courses      | implemented |
+| ActivityNote | implemented |
+| ActivityQuiz | implemented |
+| ActivityWorkspace | mocked |
 | workspace    | mocked |
 | help         | implemented |
 
