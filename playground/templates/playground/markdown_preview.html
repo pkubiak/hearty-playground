@@ -1,14 +1,9 @@
-{% load markdown %}
+{% load markdown static %}
 <!DOCTYPE html>
 <html>
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <style>
-    img {
-      max-width: 100%;
-    }
-  </style>
-</head>
+  <link rel="stylesheet" href="{% static "markdown_editor/css/markdown_defaults.css" %}" />
 <body>
   {% if metadata %}
     <table class="table table-bordered table-dark table-striped mb-4">
