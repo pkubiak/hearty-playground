@@ -6,3 +6,9 @@ django-widget-tweaks
 psycopg2
 django-polymorphic
 django-admin-sortable2
+
+# Prospector is a tool to analyse Python code and output information about errors, potential problems, convention violations and complexity.
+pylama
+flake8-bugbear
+flake8-comprehensions
+flake8-expression-complexity
