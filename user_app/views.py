@@ -4,6 +4,7 @@ from django.conf import settings
 import random
 from django.contrib.auth.decorators import login_required
 from course_app.models import Solution
+from .models import Achievement
 
 
 @login_required
@@ -24,16 +25,7 @@ def statistics(request):
     in_progress_count = Solution.objects.filter(user_id=request.user.id, completed=False).count()
     completed_count = Solution.objects.filter(user_id=request.user.id, completed=True).count()
 
-    achievements = [
-        dict(icon='fab fa-html5', name='HTML5 master', color='primary'),
-        dict(icon='fas fa-dragon', name='Fire dragon of CSS', color='danger'),
-        dict(icon='fas fa-hat-wizard', name='Wizard of the Web', color='secondary'),
-        dict(icon='fab fa-js', name='Javascript Ninja', color='warning'),
-        dict(icon='fas fa-pizza-slice', name='Pizza eater', color='primary'),
-        dict(icon='fas fa-hand-holding-heart', name='Hearty Playground Supporter', color='danger'),
-        dict(icon='fas fa-heart', name='Hearty Foundation Member', color='danger'),
-        dict(icon='far fa-keyboard', name='Fast typper', color='success'),
-    ]
+    achievements = Achievement.objects.all()
 
     return render(request, 'user_app/statistics.html', {
         'solutions': solutions,

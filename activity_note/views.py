@@ -7,7 +7,7 @@ from django.utils import timezone
 
 
 @require_http_methods(["GET", "POST"])
-def Show(request, course, activity):
+def show(request, course, activity):
     if request.method == 'GET':
         solution = SolutionNote.objects.filter(
             user_id=request.user.id,
