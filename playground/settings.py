@@ -103,7 +103,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'libraries': {
-                'markdown': 'playground.templatetags.markdown'
+                'markdown': 'markdown_editor.templatetags.markdown'
             }
         },
     },
@@ -162,10 +162,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
-
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, "static"),
-#]
 
 # Configure uploads location
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')

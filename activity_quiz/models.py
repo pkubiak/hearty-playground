@@ -19,6 +19,9 @@ class ActivityQuiz(Activity):
 
     timelimit = models.PositiveIntegerField(null=False, default=0)
 
+    # Optional text to show, before user click submit answers
+    confirmation_text = models.TextField(null=True, blank=True)
+
     # Optional text to show, after quiz end
     congratulations = models.TextField(null=True, blank=True)
 

@@ -9,7 +9,7 @@
   <div class="container">
     <div class="row justify-content-md-center">
       <h1 class="font-weight-light text-truncate d-flex justify-content-between align-items-center col-md-8">
-        <span>{{ activity.title }}</span>
+        <span class="flex-shrink-1 text-truncate mr-2" title="{{ activity.title }}">{{ activity.title }}</span>
         <a href="{% url "course_app:details" course.slug %}" class="btn btn-secondary ml-auto"><i class="fas fa-angle-double-left"></i> {% trans "Back to course" %}</a>
       </h1>
     </div>

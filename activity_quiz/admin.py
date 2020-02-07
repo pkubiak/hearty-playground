@@ -6,16 +6,14 @@ from adminsortable2.admin import SortableInlineAdminMixin
 from markdown_editor.widgets import AdminMarkdownWidget
 
 from course_app.admin import ActivityChildAdmin
-from .models import ActivityQuiz, Question, SingleChoiceQuestion, SingleChoiceAnswer, MultipleChoiceQuestion, MultipleChoiceAnswer, OpenQuestion, OpenAnswer
+from .models import (ActivityQuiz, Question, SingleChoiceQuestion, SingleChoiceAnswer, MultipleChoiceQuestion, MultipleChoiceAnswer,
+                     OpenQuestion, OpenAnswer)
 
 
 class QuestionInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Question
     show_change_link = True
     extra = 0
-
-    # def has_change_permission(self, request, obj):
-    #     return False
 
 
 @admin.register(ActivityQuiz)
