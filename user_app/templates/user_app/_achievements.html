@@ -5,6 +5,8 @@
 <div  class="mb-4 clearfix">
 {% for achievement in achievements %}
   {{ achievement.to_html }}
+{% empty %}
+  <div class="alert alert-warning">You have not acquired any achievements!</div>
 {% endfor %}
 </div>
 

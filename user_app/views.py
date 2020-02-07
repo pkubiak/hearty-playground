@@ -1,10 +1,8 @@
 from django.shortcuts import render
-from django.utils import translation
-from django.conf import settings
-import random
 from django.contrib.auth.decorators import login_required
 from course_app.models import Solution
 from .models import Achievement
+from django.db.models import F
 
 
 @login_required
@@ -25,7 +23,7 @@ def statistics(request):
     in_progress_count = Solution.objects.filter(user_id=request.user.id, completed=False).count()
     completed_count = Solution.objects.filter(user_id=request.user.id, completed=True).count()
 
-    achievements = Achievement.objects.all()
+    achievements = Achievement.objects.annotate(acquired_at=F('acquiredachievement__acquired_at')).filter(user__id=request.user.id).order_by('acquired_at').all()
 
     return render(request, 'user_app/statistics.html', {
         'solutions': solutions,

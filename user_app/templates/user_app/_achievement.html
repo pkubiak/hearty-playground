@@ -1,3 +1,7 @@
-<button type="button" class="btn m-2 float-left p-0" style="width: 4rem; height: 4rem; background-color: #{{achievement.color}}; border-color: {{achievement.color}}; color: #{{achievement.text_color}}" data-toggle="tooltip" data-placement="top" title="{{achievement.title}}">
+{% load humanize %}
+<button type="button"
+        class="btn m-2 float-left p-0"
+        style="width: 4rem; height: 4rem; background-color: #{{achievement.color}}; border-color: {{achievement.color}}; color: #{{achievement.text_color}}"
+        data-toggle="tooltip" data-placement="top" title="{{achievement.title}}{% if achievement.acquired_at %} (acquired {{ achievement.acquired_at | naturaltime }}){% endif %}">
     <i class="{{achievement.icon_class}} fa-3x fa-fw"></i>
 </button>

@@ -53,6 +53,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
+    achievements = models.ManyToManyField('Achievement', through='AcquiredAchievement', blank=True)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -84,7 +86,7 @@ class Achievement(models.Model):
     ])
 
     def __str__(self):
-        return f"Achievement({self.title})"
+        return f"Achievement | {self.title}"
 
     @classmethod
     def _text_color(cls, bg_color: str) -> str:
@@ -103,3 +105,15 @@ class Achievement(models.Model):
 
     def to_html(self):
         return render_to_string("user_app/_achievement.html", {'achievement': self}, None)
+
+
+class AcquiredAchievement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    achievement = models.ForeignKey(Achievement,  on_delete=models.CASCADE, null=False)
+
+    acquired_at = models.DateTimeField(auto_now_add=True, null=False, blank=False, editable=False)
+
+    class Meta:
+        auto_created = True  # HACK: otherwise django rise some integrity errors and prevent of using horizontal_filter in admin
+        unique_together = ('user', 'achievement')
+
