@@ -1,0 +1,37 @@
+{% extends "playground/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Courses" %}{% endblock %}
+
+{% block main %}
+
+<!-- FIXME: buy https://www.shutterstock.com/image-vector/vector-hand-drawn-seamless-pattern-education-336615470 -->
+<!-- FIXME: create https://aplusweb.design/wp-content/uploads/2017/11/html5-and-css3.png -->
+
+<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
+  <div class="container">
+    <h1 class="display-4">{% trans "Courses" %}</h2>
+    <p class="lead text-justify" style="text-shadow:0 0 6px #0009">TODO: Whether you’re trying to level up your career, build your side project, or simply play around with programming, you’ve found the right place to start. Explore our programs and courses, try an exercise or two, and join our community of 45 million learners.</p>
+  </div>
+</div>
+
+<div class="container mt--xxl">
+  {% if highlighted %}
+    {% include "course_app/partials/course_vertical_card.html" with course=highlighted %}
+  {% endif %}
+
+  <h2 class="display-4 mt-5 mb-3">{% trans "Full Catalog" %}</h2>
+
+  {% if all_courses %}
+    <div class="row row-cols-1 row-cols-md-3 mb-5">
+      {% for course in all_courses %}
+        {% include "course_app/partials/course_card.html" with course=course %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-light" role="alert">
+      TODO: A simple light alert—check it out!
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,10 +1,15 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>{% block title %}{% endblock %} – Hearty Playground</title>
   <!-- <link rel="stylesheet" href="styles/monokai-sublime.css"> -->
-  <link rel="stylesheet" href="styles/solarized-dark.css" id="highlightjs_style">
+  <!--<link rel="stylesheet" href="styles/solarized-dark.css" id="highlightjs_style">
 	<script src="highlight.pack.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.initHighlightingOnLoad();</script>-->
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
@@ -105,6 +110,15 @@ article::before {
   background: linear-gradient(0deg, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%);
 
 }*/
+
+.pb-xxl {
+  padding-bottom: 5rem;
+}
+
+.mt--xxl {
+  margin-top: -5rem;
+}
+
 </style>
 
 <body class="d-flex flex-column" style="max-height:100%; background: white">
@@ -115,36 +129,10 @@ article::before {
     PLAYGROUND<img src="http://www.rw-designer.com/icon-image/16287-24x24x32.png" style="margin-top:-24px; margin-left:-4px"/>
     <!-- <sup class="ml-1"><sup>&beta;</sup></sup> -->
   </a>
-  <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Strona Główna <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Lista Zadań</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/pomoc/">Pomoc</a>
-      </li>
-      <li class="nav-item ml-3">
-        <a class="btn btn-outline-primary rounded-pill" href="#"><i class="fas fa-sign-in-alt"></i> Zaloguj</a>
-      </li>
-    </ul>
+  <div class="navbar-collapse flex-grow-0" id="navbarNav">
+    {% include "playground/_menu.html" %}
 
-    <div class="btn-group ml-3 rounded-pill d-none">
-
-      <button type="button" class="rounded-pill btn  pl-0 py-0 pr-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="Background:#dadada">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" height="42" class="border-primary rounded-circle mr-1"/>
-        <span style="line-height:42px">Marco Lowery</span>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Separated link</a>
-      </div>
-    </div>
+    {% include "playground/_user_button.html" %}
   </div>
 </nav>
 

@@ -1,0 +1,27 @@
+{% extends 'playground/modal.html' %}
+
+{% block title %}Login form{% endblock %}
+{% block modal_title %}Login form{% endblock %}
+
+{% block modal_content %}
+  <form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    {% include "playground/_form.html" %}
+
+    <div class="pt-2">
+      <button type="submit" class="btn btn-primary" value="login">Submit</button>
+      <a href="{% url 'password_reset' %}" class="btn btn-link">Lost password?</a>
+    </div>
+  </form>
+{% endblock modal_content %}

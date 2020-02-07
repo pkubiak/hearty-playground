@@ -1,0 +1,113 @@
+{% extends "playground/base.html" %}
+
+{% load i18n static %}
+
+{% block title %}{{ course.title }} – {% trans "Courses Details" %}{% endblock %}
+{% block main %}
+<!-- TODO: extract to external partial? -->
+<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
+  <div class="container">
+    <h1 class="display-4 text-truncate  ">{% trans "Courses Details" %}</h2>
+    <!-- TODO: add back link to courses list -->
+  </div>
+</div>
+
+<div class="container mt--xxl">
+  {% include "course_app/partials/course_vertical_card.html" with course=course %}
+
+
+  <h2 class="display-4">Lessons</h2>
+
+  <style>
+    /* TODO: przenieść do jakiegoś globalnego arkusza stylów */
+    .collapse-btn i {
+      transition: transform 0.5s;
+    }
+    .collapse-btn:not(.collapsed) i {
+      transform: rotate(90deg);
+    }
+
+    .tr-position-relative { /* HACK: standard position:relative is not supported for tr */
+      transform:scale(1);
+    }
+  </style>
+
+  <div class="accordion mb-5">
+    {% for lesson, activities in lessons %}
+      <div class="card">
+        <div class="card-header" id="heading_{{ forloop.counter }}">
+          <div class="mb-0 media align-items-center position-relative">
+            <div style="width: 80px; height: 80px; line-height: 80px;" class="mr-3 bg-primary text-light h1 text-center font-bold mb-0">
+              {{ forloop.counter }}
+            </div>
+            <!--<img src="https://via.placeholder.com/80?text={{i}}" class="mr-3" alt="..."/>-->
+            <div class="media-body">
+              <h5 class="mt-0 text-primary">{{ lesson.title }}</h5>
+              {{ lesson.description }}
+            </div>
+
+            {% if forloop.counter < 3 %}
+              <span class="text-primary">Completed</span>
+            {% elif forloop.counter == 3 %}
+              <span class="text-secondary">In progress</span>
+            {% else %}
+              {# <span class="text-secondary">Not available</span> #}
+              {# <a href="#" class="btn btn-outline-secondary mr-3 px-4 disabled">Start</a> #}
+            {% endif %}
+
+            <a href="#" class="collapse-btn btn btn-link stretched-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne">
+              <i class="rotatable fas fa-angle-right fa-2x fa-fw"></i>
+            </a>
+          </div>
+        </div>
+
+        <div id="collapse_{{ forloop.counter }}" class="collapse" aria-labelledby="heading_{{ forloop.counter }}">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <span class="px-2">You have already completed: 42%</span>
+              <div class="progress bg-light flex-grow-1" style="height: 8px;">
+                <div class="progress-bar" role="progressbar" style="width: 42%;" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+            <table class="table table-hover table-sm m-0">
+              {% for activity in activities %}
+                <tr class="tr-position-relative">
+                  <td style="width:100%" class="align-middle">
+                    <i class="fa-fw mr-2 {{ activity.fa_icon }}"></i>
+                    <a href="{% url "course_app:activity" slug=course.slug activity_uuid=activity.id url="" %}" class="stretched-link">{{ forloop.counter }}.&nbsp;{{ activity.title }}</a>
+                  </td>
+                  <td class="align-middle">
+                    {% if activity.completable %}
+                      {% if activity.is_completed_by_current_user %}
+                        <i class="fa-2x far fa-check-square"></i>
+                      {% else %}
+                        <i class="fa-2x far fa-square"></i>
+                      {% endif %}
+                    {% else %}
+                      <i class="fa-2x fas fa-minus invisible"></i>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <div class="alert alert-warning" role="alert">
+                    {% trans "That lesson does not contain any activities yet!" %}
+                  </div>
+                </tr>
+              {% endfor %}
+            </table>
+
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    (function(){$('.collapse').collapse()})();
+  </script>
+</div>
+
+
+{% endblock %}

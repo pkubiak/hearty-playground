@@ -1,6 +1,9 @@
 # Customs
 mockup/styles/
-/static/
+data/
+static/
+mockup/
+uploads/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
