@@ -36,10 +36,16 @@
           {% else %}
             <h2>Finish and evaluate!</h2>
 
-            <p class="lead">{% lorem 30 w random %}</p>
+            <p class="lead">
+              {% if activity.confirmation_text %}
+                {{ activity.confirmation_text | markdown }}
+              {% else %}
+                {% lorem 30 w random %}
+              {% endif %}
+            </p>
 
             <div class="text-center mb-5">
-              <button type="submit" name="finish" value="sure" class="btn btn-primary btn-lg px-5">I am absolutely sure! </button>
+              <button type="submit" name="finish" value="sure" class="btn btn-primary btn-lg px-5">Yes, I am absolutely sure! </button>
             </div>
 
           {% endif %}
