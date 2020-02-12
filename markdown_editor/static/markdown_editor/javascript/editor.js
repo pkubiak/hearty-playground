@@ -117,7 +117,7 @@ class MarkdownEditor {
 
 /* ------------------------------------------------------------------------------------------------------------ */
 
-function insert_markdown(before, placeholder, after) {
+function replace_selection(fn) {
   // NOTE: based on https://www.everythingfrontend.com/posts/insert-text-into-textarea-at-cursor-position.html
   return function(event) {
     const input = this.el; // function is bind to instance of MarkdownEditor
@@ -130,17 +130,86 @@ function insert_markdown(before, placeholder, after) {
     const selection = input.value.slice(start, end);
 
     // and just run the command
-    const textToInsert = before + (selection || placeholder) + after;
-    const isSupported =  document.execCommand('insertText', false /*no UI*/, textToInsert);
+    const textToInsert = fn(selection);
+    if(textToInsert !== null) {
+      const isSupported =  document.execCommand('insertText', false /*no UI*/, textToInsert);
 
-    // slower fallback for browsers which doesn't support 'insertText'
-    if(!isSupported) {
-      input.value = input.value.slice(0, start) + textToInsert + input.value.slice(end);
-      input.selectionStart = input.selectionEnd = start + textToInsert.length;
+      // slower fallback for browsers which doesn't support 'insertText'
+      if(!isSupported) {
+        input.value = input.value.slice(0, start) + textToInsert + input.value.slice(end);
+        input.selectionStart = input.selectionEnd = start + textToInsert.length;
+      }
     }
 
     event.preventDefault();
   }
+}
+
+function insert_markdown(before, placeholder, after) {
+  return replace_selection(text => {
+    return before + (text || placeholder) + after;
+  });
+}
+
+function create_list(marker) {
+  return replace_selection(text => {
+    const lines = (text || "item 1\nitem 2\nitem 3\n\n").split("\n");
+    for(let i=0;i<lines.length;i++) {
+      const value = lines[i].trim();
+      if(value) {
+        lines[i] = marker + lines[i];
+      }
+    }
+    return lines.join("\n")
+  })
+}
+
+function table_autoformat() {
+  return replace_selection(function(text){
+    const regex = /\|.*\|/g;
+    const header_regex = /^:?-+:?$/;
+    let max_widths = null, match;
+
+    // Calculate width of each column
+    while((match = regex.exec(text)) !== null) {
+      const line = match[0].split('|');
+
+      if(max_widths === null) {
+        max_widths = [];
+        for(let i=0;i<line.length;i++)
+          max_widths.push(0);
+      }
+
+      if(max_widths.length != line.length) {
+        alert("Malformed table can't be autoformated");
+        return null;
+      }
+
+      for(let i = 0; i < line.length; i++) {
+        const value = line[i].trim();
+        if(value.match(header_regex))
+          continue;
+        max_widths[i] = Math.max(max_widths[i], value.length);
+      }
+    }
+
+    // Equalize columns width
+    text = text.replace(regex, function(match) {
+      const line = match.split('|');
+
+      for(let i=1;i<line.length-1;i++) {
+        const value = line[i].trim();
+        if(value.match(header_regex)) {
+          line[i] = value[0] + '-'.repeat(max_widths[i]) + value[value.length-1];
+        } else {
+          line[i] = ' ' + value + ' '.repeat(max_widths[i] - value.length) + ' ';
+        }
+      }
+      return line.join('|');
+    });
+
+    return text;
+  });
 }
 
 function _heading_helper(nth) {
@@ -204,22 +273,27 @@ MarkdownEditor.TOOLBAR_ITEMS = {
   'ul': {
     'title': 'add unordered list',
     'button': '<i class="fas fa-fw fa-list"></i>',
-    'action': insert_markdown('\n- ', 'item 1', '\n- item 2\n- item 3\n\n'),
+    'action': create_list('- '),
   },
   'ol': {
     'title': 'add ordered list',
     'button': '<i class="fas fa-fw fa-list-ol"></i>',
-    'action': insert_markdown('\n1. ', 'item 1', '\n2. item 2\n3. item 3\n\n'),
+    'action': create_list('1. '),
   },
   'task': {
     'title': 'add task list',
     'button': '<i class="fas fa-fw fa-tasks"></i>',
-    'action': insert_markdown('\n- [X] ', 'task 1', '\n- [ ] task 2\n- [ ] task 3\n\n'),
+    'action': create_list('- [ ] '),
   },
   'table': {
     'title': 'insert table',
     'button': '<i class="fas fa-fw fa-table"></i>',
     'action': insert_markdown('\n| column 1 | column 2 |\n|----------|----------|\n| ', 'value 1', '  | value 2  |\n\n'),
+  },
+  'table_autoformat': {
+    'title': 'auto format table',
+    'button': '<i class="fas fa-magic"></i>',
+    'action': table_autoformat(),
   },
   'refresh': {
     'title': 'refresh preview',
@@ -250,6 +324,6 @@ MarkdownEditor.DEFAULT_TOOLBAR = [
   'image', 'link', '|',
   'bold', 'italic', 'mark', 'strikethrough', 'sup', 'sub', '|',
   'ul', 'ol', 'task', '|',
-  'table', '|',
+  'table', 'table_autoformat', '|',
   '<->', 'refresh', 'expand', 'help'
 ];
