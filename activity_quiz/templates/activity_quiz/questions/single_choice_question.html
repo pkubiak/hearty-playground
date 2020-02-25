@@ -1,6 +1,10 @@
 {% extends 'activity_quiz/show.html' %}
 
+{% load markdown %}
+
 {% block content %}
+{{ question.text | markdown }}
+
 <h6 class="m-0 ml-2 d-inline-block mt-3 mb-2">Single correct answer possible!</h6>
 
 <ul class="list-group mt-1 quiz-form">

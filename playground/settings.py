@@ -103,7 +103,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'libraries': {
-                'markdown': 'markdown_editor.templatetags.markdown'
+                'markdown': 'markdown_editor.templatetags.markdown',
+                'utils': 'playground.templatetags.utils',
             }
         },
     },

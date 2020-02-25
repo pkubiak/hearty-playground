@@ -1,4 +1,5 @@
 import uuid
+import re
 from typing import Any, Optional, List
 from dataclasses import dataclass
 from django.db import models
@@ -9,6 +10,8 @@ from course_app.models import Activity, Solution
 
 from polymorphic.models import PolymorphicModel
 from django.contrib.postgres.fields import JSONField
+from markdown_editor.templatetags.markdown import markdown
+from django.core.exceptions import ValidationError
 
 
 class ActivityQuiz(Activity):
@@ -104,6 +107,8 @@ class MultipleChoiceQuestion(Question):
         return list(answers & answers_ids)
 
     def evaluate_answer(self, saved_answer: List[str]) -> float:
+        if saved_answer is None:
+            return 0.0
         if not isinstance(saved_answer, list):
             raise TypeError('Answer should be list')
 
@@ -158,6 +163,70 @@ class OpenAnswer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     question = models.ForeignKey(OpenQuestion, related_name='answers_set', on_delete=models.CASCADE)
+    text = models.TextField(null=False, blank=False)
+
+
+class OrderingQuestion(Question):
+    template = 'activity_quiz/questions/ordering_question.html'
+
+    GAP_REGEX = r'\[\[(.*?)\]\]'
+    MAGIC_UNICODE = '🕊'
+
+    def serialize_answer(self, request):
+        answers, used_answers = [], set()
+        max_distractor_idx = len(self.all_distractors)
+
+        for i in range(len(self.correct_answers)):
+            answer = request.POST.get(f"gap_{i}", '')
+
+            if not re.fullmatch(r'\d+', answer):
+                answer = None
+            else:
+                answer = int(answer)
+                if 0 <= answer < len(self.all_distractors) and answer not in used_answers:
+                    used_answers.add(answer)
+                else:
+                    answer = None
+            answers.append(answer)
+
+        if all(answer is None for answer in answers):
+            return None
+        return answers
+
+    def evaluate_answer(self, saved_answers: List[int]) -> float:
+        if saved_answers is None:
+            return 0.0
+        correct = 0
+
+        all_distractors = self.all_distractors
+        for answer, correct_answer in zip(saved_answers, self.correct_answers):
+            if answer and all_distractors[answer] == correct_answer: # FIXME: IndexError
+                correct += 1
+
+        return correct / len(self.correct_answers)
+
+    @property
+    def correct_answers(self) -> List[str]:
+        """List of gaps answers."""
+        return re.findall(self.GAP_REGEX, self.text)
+
+    @property
+    def all_distractors(self) -> List[str]:
+        """All possible question distractors in some order"""
+        distractors = list(self.distractors.all().values_list('text', flat=True))
+        return sorted(self.correct_answers + distractors)
+
+    def text_fragments(self):
+        text = re.sub(self.GAP_REGEX, self.MAGIC_UNICODE, self.text)
+        html = markdown(text)
+        return html.split(self.MAGIC_UNICODE)
+
+
+class OrderingAnswer(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    question = models.ForeignKey(OrderingQuestion, related_name='distractors', on_delete=models.CASCADE)
+
     text = models.TextField(null=False, blank=False)
 
 

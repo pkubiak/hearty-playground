@@ -58,9 +58,7 @@ $(function(){
   <div class="row justify-content-md-center">
     <div class="card col-md-8">
       <div class="card-body">
-        <h3>Question <span class="badge badge-secondary mr-2 mt-1 align-text-bottom">{{ current | add:1 }} / {{ total_count }}</span></h3>
-
-        {{ question.text | markdown }}
+        <h3 class="mb-3">Question <span class="badge badge-secondary mr-2 mt-1 align-text-bottom">{{ current | add:1 }} / {{ total_count }}</span></h3>
 
         <form action="" method="POST">
           {% csrf_token %}

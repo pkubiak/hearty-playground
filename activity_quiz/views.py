@@ -9,7 +9,6 @@ def show(request, course, activity):
         activity_id=activity.id,
         defaults={'answers': {}}
     )
-
     questions_ids = list(map(str, activity.question_set.all().values_list('id', flat=True)))
     total_count = len(questions_ids)
 
@@ -34,13 +33,8 @@ def show(request, course, activity):
     # Update last question
     if request.method == 'POST' and not completed and request.POST.get('current'):
         current = int(request.POST.get('current', 0))
-        print('current:', current)
 
         question = activity.question_set.all()[current]
-
-        print('*' * 100)
-        print(request.POST)
-        print('*' * 100)
 
         # update stored answers
         s = solution.state[question.id]

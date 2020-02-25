@@ -1,0 +1,126 @@
+{% extends 'activity_quiz/show.html' %}
+
+{% load markdown utils %}
+
+{% block content %}
+
+{% for fragment in question.text_fragments %}{{ fragment | safe }}{% spaceless %}
+    {% if not forloop.last %}
+    <select class="gap-value" name="gap_{{forloop.counter0}}"{% if completed %} disabled{% endif %}>
+        <option></option>
+        {% for answer in question.all_distractors %}
+        <option value="{{forloop.counter0}}" {% if forloop.counter0 == solution|at_index:forloop.parentloop.counter0 %} selected{% endif %}>{{ answer }}</option>
+        {% endfor %}
+    </select>
+        {% if not completed %}
+            <button type="button" class="gap-btn btn btn-sm mx-1 my-1 px-3"></button>
+        {% else %}
+            {% with answer_idx=solution|at_index:forloop.counter0 %}
+            {% with answer=question.all_distractors|at_index:answer_idx %}
+            {% with correct_answer=question.correct_answers|at_index:forloop.counter0 %}
+                {% if answer == correct_answer %}
+                <button type="button" class="gap-btn btn btn-sm btn-success mx-1 my-1 px-3">{{ correct_answer }}</button>
+                {% else %}
+                <button type="button" class="gap-btn btn btn-sm btn-danger my-1 px-3">{% if answer %}<s>{{answer}}</s>{% endif %} {{ correct_answer}}</button>
+                {% endif %}
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
+        {% endif %}
+    {% endif %}
+{% endspaceless %}{% endfor %}
+
+<h6 class="m-0 ml-2 d-inline-block mt-3 mb-2">Put correct answers into gaps ():</h6>
+
+{# Display answer buttons #}
+<div class="card text-white bg-light mb-3">
+    <div class="card-body p-2">
+    {% for answer in question.all_distractors %}
+        <button type="button" value="{{forloop.counter0}}" class="answer-btn btn mx-1 my-1 px-3">{{ answer }}</button>
+    {% endfor %}
+    </div>
+</div>
+
+  
+<style>
+select.gap-value {
+    display: none;
+}
+</style>
+
+{% if not completed %}
+<script>
+let focusedGap = null;
+
+$('select.gap-value + button.gap-btn').each((idx, button) => {
+    let select = $(button).prev('select');
+
+    $(button).blur((event) => {
+        /* track changing focus from gap button to answer button */
+        if(event.originalEvent && event.originalEvent.relatedTarget && $(event.originalEvent.relatedTarget).hasClass('answer-btn'))
+            focusedGap = select;
+        else
+            focusedGap = null;
+    });
+
+    $(button).click(() => {
+        /* clear gap value */
+        if(select.val() != '') {
+            select.val('');
+            update();
+        }
+    });
+});
+
+$('button.answer-btn').click(function(event) {
+    /* set value of focuedGap or first empty gap based on value of clicked button */
+    let firstEmpty = focusedGap;
+    focusedGap = null;
+
+    if(!firstEmpty) {
+        firstEmpty = $('select.gap-value').filter((idx, item) => {
+            return $(item).val() == '';
+        }).first();
+    }
+
+    if(firstEmpty) {
+        firstEmpty.val($(this).val());
+        update();
+    }
+});
+</script>
+{% endif %}
+
+<script>
+function update() {
+    let used_values = [];
+    $('select.gap-value + button.gap-btn').each((idx, button) => {
+        let select = $(button).prev('select');
+        let value = select.val();
+        console.log('value', value, $(button).data('fixed'))
+        if(!select.attr('disabled')) {
+            /* update gap displaded text based on select value */
+            let text = select.find('option:selected').text();
+            let is_empty = value == '';
+
+            $(button).text(is_empty ? '???' : text).
+                toggleClass('btn-primary', !is_empty).
+                toggleClass('btn-secondary', is_empty);
+        }
+        used_values.push(value);
+    });
+
+    $('button.answer-btn').each((idx, button) => {
+        /* disabled already used answer buttons */
+        let disabled = used_values.includes($(button).val());
+        $(button).
+            attr('disabled', disabled).
+            toggleClass('btn-primary', !disabled).
+            toggleClass('btn-secondary', disabled);
+    });
+}
+
+$(function(){update();});
+</script>
+
+{% endblock %}

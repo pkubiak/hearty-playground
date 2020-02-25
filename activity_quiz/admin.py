@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib import admin
+from django.forms import TextInput
 
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from adminsortable2.admin import SortableInlineAdminMixin
@@ -7,7 +8,7 @@ from markdown_editor.widgets import AdminMarkdownWidget
 
 from course_app.admin import ActivityChildAdmin
 from .models import (ActivityQuiz, Question, SingleChoiceQuestion, SingleChoiceAnswer, MultipleChoiceQuestion, MultipleChoiceAnswer,
-                     OpenQuestion, OpenAnswer)
+                     OpenQuestion, OpenAnswer, OrderingQuestion, OrderingAnswer)
 
 
 class QuestionInline(SortableInlineAdminMixin, admin.TabularInline):
@@ -42,7 +43,9 @@ class QuestionAdmin(PolymorphicParentModelAdmin):
 
 class QuestionChildAdmin(PolymorphicChildModelAdmin):
     base_model = Question
-
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownWidget},
+    }
 
 class SingleChoiceAnswerInline(SortableInlineAdminMixin, admin.TabularInline):
     model = SingleChoiceAnswer
@@ -76,3 +79,17 @@ class OpenAnswerInline(admin.TabularInline):
 class OpenQuestionAdmin(QuestionChildAdmin):
     base_model = OpenQuestion
     inlines = [OpenAnswerInline]
+
+
+class OrderingAnswerInline(admin.TabularInline):
+    model = OrderingAnswer
+
+    formfield_overrides = {
+        models.TextField: {'widget': TextInput(attrs={'size':100})},
+    }
+
+
+@admin.register(OrderingQuestion)
+class OrderingQuestionAdmin(QuestionChildAdmin):
+    base_model = OrderingQuestion
+    inlines = [OrderingAnswerInline]
