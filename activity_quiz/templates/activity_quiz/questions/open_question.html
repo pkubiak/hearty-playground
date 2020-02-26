@@ -6,12 +6,15 @@
 {% block content %}
 {{ question.text | markdown }}
 
+<hr/> 
+
 <input
   class="mt-3 form-control form-control-lg {% if completed %}{% if score == 1.0 %}is-valid{% else %}is-invalid{% endif %}{% endif %}"
   name="answer"
   type="text"
   placeholder="{% if question.placeholder %}{{ question.placeholder }}{% else %}Insert value{% endif %}"
   value="{% if solution %}{{ solution }}{% endif %}"
+  onkeydown="preventFormSubmit"
   {% if completed %}disabled{% endif %}
   />
 {% if completed %}
@@ -22,4 +25,13 @@ Acceptable answers:
 {% endfor %}
 </div>
 {% endif %}
+
+<script>
+/* https://stackoverflow.com/a/56075247/5822988 */
+function preventFromSubmit(keyEvent) {
+  if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+    keyEvent.preventDefault();
+  }
+}
+</script>
 {% endblock %}
