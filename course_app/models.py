@@ -64,7 +64,7 @@ class Lesson(models.Model):
     @cached_property
     def total_score(self) -> Optional[int]:
         scores = []
-        for activity in self.activity_set.all():
+        for activity in self.activity_set.filter(enabled=True).all():
             if activity.completable:
                 scores.append(activity.score)
         if scores:
@@ -88,6 +88,8 @@ class Activity(PolymorphicModel):
     # Order field for SortableMixin
     order = models.PositiveIntegerField(default=0, editable=True, db_index=True)
 
+    enabled = models.BooleanField(default=False, choices=((True, 'YES'), (False, 'NO')))
+   
     class Meta:  # noqa
         ordering = ['order']
         verbose_name_plural = 'Activities'

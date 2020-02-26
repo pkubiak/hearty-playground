@@ -9,7 +9,7 @@ def index(request):
     """Display list of all available courses."""
     all_courses = list(Course.objects.all())
 
-    highlighted = all_courses.pop()
+    highlighted = all_courses.pop() if all_courses else None
 
     return render(request, 'course_app/index.html', {
         'all_courses': all_courses,
@@ -55,7 +55,7 @@ def details(request, slug):
 def activity(request, slug, activity_uuid, url):
     """Polymorphic view which pass through request to appropriete activity app."""
     course = Course.objects.get(slug=slug)
-    activity_obj = Activity.objects.get(id=activity_uuid)
+    activity_obj = Activity.objects.get(id=activity_uuid, enabled=True)
 
     app_name = activity_obj._meta.app_label
 

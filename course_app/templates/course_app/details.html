@@ -30,6 +30,10 @@
     .tr-position-relative { /* HACK: standard position:relative is not supported for tr */
       transform:scale(1);
     }
+    .disabled-row {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
   </style>
 
   <div class="accordion mb-5" id="coursesList">
@@ -72,10 +76,10 @@
 
             <table class="table table-hover table-sm m-0">
               {% for activity in activities %}
-                <tr class="tr-position-relative">
+                <tr class="tr-position-relative{% if not activity.enabled %} disabled-row{% endif %}">
                   <td style="width:100%" class="align-middle">
                     <i class="fa-fw mr-2 {{ activity.fa_icon }}"></i>
-                    <a href="{% url "course_app:activity" slug=course.slug activity_uuid=activity.id url="" %}" class="stretched-link">{{ forloop.counter }}.&nbsp;{{ activity.title }}</a>
+                    <a {% if activity.enabled %}href="{% url "course_app:activity" slug=course.slug activity_uuid=activity.id url="" %}"{% endif %} class="stretched-link">{{ forloop.counter }}.&nbsp;{{ activity.title }}</a>
                   </td>
                   <td class="align-middle">
                     {% if activity.completable %}
