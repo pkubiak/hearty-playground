@@ -22,3 +22,6 @@ flake8-expression-complexity
 
 # gunicorn 'Green Unicorn' is a WSGI HTTP Server for UNIX, fast clients and sleepy applications.
 gunicorn
+
+# Get and set values in your .env file in local and production servers.
+python-dotenv
