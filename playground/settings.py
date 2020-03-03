@@ -120,8 +120,8 @@ WSGI_APPLICATION = 'playground.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 url = urllib.parse.urlparse(os.getenv('DATABASE_URL'))
-print(url)
 assert url.scheme == 'postgres'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -130,6 +130,7 @@ DATABASES = {
         'PASSWORD': url.password,
         'HOST': url.hostname,
         'PORT': url.port,
+        'CONN_MAX_AGE': 500,
     }
 }
 
