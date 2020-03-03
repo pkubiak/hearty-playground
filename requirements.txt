@@ -13,8 +13,12 @@ beautifulsoup4
 # Pygments is a syntax highlighting package written in Python.
 Pygments
 
-# Prospector is a tool to analyse Python code and output information about errors, potential problems, convention violations and complexity.
 pylama
 flake8-bugbear
 flake8-comprehensions
 flake8-expression-complexity
+
+## DEPLOYMENT ###
+
+# gunicorn 'Green Unicorn' is a WSGI HTTP Server for UNIX, fast clients and sleepy applications.
+gunicorn
