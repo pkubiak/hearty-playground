@@ -7,6 +7,9 @@ psycopg2
 django-polymorphic
 django-admin-sortable2
 
+# The friendly PIL fork (Python Imaging Library) [for supporting ImageField]
+Pillow
+
 # Used for augmenting markdown generated HTML with bootstrap classes
 beautifulsoup4
 
@@ -17,6 +20,8 @@ pylama
 flake8-bugbear
 flake8-comprehensions
 flake8-expression-complexity
+
+
 
 ## DEPLOYMENT ###
 
