@@ -4,17 +4,17 @@
 
 
 {% block main %}
-<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4">
-  <div class="container">
+<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl pt-4 mb-0">
+  <div class="container-lg">
     <h1 class="display-4">{% block top_title %}{% endblock %}</h2>
     <p class="lead text-justify">{% block top_text %}{% endblock %}</p>
   </div>
 </div>
 
-<div class="container p-3 mt--xxl">
+<div class="container-lg p-3 mt--xxl">
   <div class="row">
-    <div class="col-4">{% block left_column %}{% endblock %}</div>
-    <div class="col-8">{% block right_column %}{% endblock %}</div>
+    <div class="col-md-4 mb-3 mb-md-0">{% block left_column %}{% endblock %}</div>
+    <div class="col-md-8">{% block right_column %}{% endblock %}</div>
   </div>
 </div>
 

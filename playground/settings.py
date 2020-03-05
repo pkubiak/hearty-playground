@@ -53,6 +53,7 @@ if DEBUG is True:
 
 INSTALLED_APPS = [
     # project's apps
+    'playground',
     'user_app',
     'help_app',
     'course_app',

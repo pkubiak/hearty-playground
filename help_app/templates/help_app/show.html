@@ -11,10 +11,15 @@
 
 {% block left_column %}
   <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">{% trans "What's the problem?" %}</h5>
+    <div class="card-body navbar-light navbar-expand-md py-3 py-md-4">
+      <h5 class="card-title mb-0 d-flex justify-content-between align-items-center">
+        {% trans "What's the problem?" %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#articleListToggler" aria-controls="articleListToggler" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </h5>
 
-      <div class="list-group list-group-flush">
+      <div class="list-group list-group-flush collapse navbar-collapse" id="articleListToggler">
         {% for article_link in all_articles %}
           <a href="{% url 'help_app:show' article_link.slug %}" class="list-group-item list-group-item-action{% if article_link.slug == article.slug %} active{% endif %}">
             {{ article_link.title }}
