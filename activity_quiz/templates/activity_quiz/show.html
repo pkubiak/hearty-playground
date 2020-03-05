@@ -76,25 +76,7 @@ $(function(){
             {% endif %}
           </div>
 
-          <div class="mt-4 d-flex align-items-center">
-            <div class="flex-grow-1 text-left" style="flex-basis: 0">
-              {% if current > 0 %}
-              <button name="next" value="{{ current | add:-1 }}" class="btn btn-primary"><i class="fas fa-angle-left mr-1"></i> Previous question</button>
-              {% endif %}
-            </div>
-
-            <div class="flex-grow-1 text-center"  style="flex-basis: 0">
-              {% include "activity_quiz/_progress_bar.html" with current=current progress=statuses %}
-            </div>
-
-            <div class="flex-grow-1 text-right" style="flex-basis: 0">
-              {% if current|add:1 < total_count %}
-                <button type="submit" name="next" value="{{ current | add:1 }}" class="btn btn-primary">Next question <i class="fas fa-angle-right ml-1"></i></button>
-              {% else %}
-                <button type="submit" name="next" value="-1" class="btn btn-primary">Review & Finish <i class="fas fa-angle-right ml-1"></i></button>
-              {% endif %}
-            </div>
-          </div>
+          {% include 'activity_quiz/_navigation.html'%}
         </form>
       </div>
     </div>

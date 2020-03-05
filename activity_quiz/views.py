@@ -43,9 +43,9 @@ def show(request, course, activity):
 
         solution.save()
 
-    current = int(request.POST.get('next', -1 if completed else 0))
+    current = int(request.POST.get('next', total_count if completed else 0))
 
-    if current == -1:
+    if current == total_count:
         return render(request, 'activity_quiz/submit.html', {
             'course': course,
             'activity': activity,

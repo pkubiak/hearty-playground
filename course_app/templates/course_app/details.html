@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <div id="collapse_{{ forloop.counter }}" class="collapse" aria-labelledby="heading_{{ forloop.counter }}" data-parent="#coursesList">
+        <div id="collapse_{{ forloop.counter }}" class="collapse{% if forloop.first %} show{% endif %}" aria-labelledby="heading_{{ forloop.counter }}" data-parent="#coursesList">
           <div class="card-body">
             {% if lesson.total_score %}
               <div class="d-flex align-items-center mb-3">
@@ -107,10 +107,6 @@
       </div>
     {% endfor %}
   </div>
-
-  <script>
-    (function(){$('.collapse').collapse()})();
-  </script>
 </div>
 
 
