@@ -17,3 +17,7 @@ class Article(models.Model):
 
     class Meta(object):
         ordering = ('order', )
+
+    @classmethod
+    def all_articles(cls):
+        return cls.objects.order_by('order', 'slug').all()

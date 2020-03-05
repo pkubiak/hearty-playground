@@ -3,7 +3,7 @@
 {% load i18n markdown %}
 
 
-{% block title %}{{ to_display.title }} – {% trans "Help" %}{% endblock %}
+{% block title %}{{ article.title }} – {% trans "Help" %}{% endblock %}
 
 {% block top_title %}
   <i class="fas fa-graduation-cap"></i> {% trans "Help" %}
@@ -15,9 +15,9 @@
       <h5 class="card-title">{% trans "What's the problem?" %}</h5>
 
       <div class="list-group list-group-flush">
-        {% for article in articles %}
-          <a href="{% url 'help_app:show' article.slug %}" class="list-group-item list-group-item-action{% if article.slug == to_display.slug %} active{% endif %}">
-            {{ article.title }}
+        {% for article_link in all_articles %}
+          <a href="{% url 'help_app:show' article_link.slug %}" class="list-group-item list-group-item-action{% if article_link.slug == article.slug %} active{% endif %}">
+            {{ article_link.title }}
           </a>
         {% endfor %}
       </div>
@@ -29,15 +29,15 @@
   <div class="card">
     <div class="card-body">
       <h1 class="mb-4">
-        {{ to_display.title }}
+        {{ article.title }}
         {% if user.is_authenticated %}
-        <a href="{% url 'admin:help_app_article_change' to_display.pk %}" class="btn btn-sm btn-outline-primary rounded-pill ml-auto">
+        <a href="{% url 'admin:help_app_article_change' article.pk %}" class="btn btn-sm btn-outline-primary rounded-pill ml-auto">
           <i class="fas fa-pencil-alt"></i> {% trans "Edit" %}
         </a>
         {% endif %}
       </h1>
 
-      {{ to_display.content | markdown }}
+      {{ article.content | markdown }}
     </div>
   </div>
 {% endblock %}

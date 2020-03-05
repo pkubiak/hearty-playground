@@ -1,0 +1,12 @@
+{% extends 'help_app/show.html' %}
+
+{% load i18n %}
+
+{% block title %}Article does not exist – {% trans "Help" %}{% endblock %}
+
+{% block right_column %}
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Does not exist</h4>
+        <p>Requested article does not exist!</p>
+    </div>
+{% endblock %}
