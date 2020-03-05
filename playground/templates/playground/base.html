@@ -12,8 +12,9 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Margarine&family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="https://heartyfoundation.com/wp-content/uploads/2019/03/cropped-heartyfun-logo-2-32x32.png" sizes="32x32" />
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -25,24 +26,43 @@
 <style>
 body, html { width: 100%; height: 100%; max-height: 100%}
 
+body {
+  max-height:100%;
+  background: white;
+}
+
 ul.tabs {
-font-family: 'Source Code Pro', monospace; font-size:12pt;margin-top:10px;padding:0;list-style:none;display:flex;margin-bottom:0;
+  font-family: 'Source Code Pro', monospace;
+  font-size:12pt;
+  margin-top:10px;
+  padding:0;
+  list-style:none;
+  display:flex;
+  margin-bottom:0;
 }
 
 code, input.code {
-font-family: 'Source Code Pro', monospace;
-font-size: 14pt !important;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14pt !important;
 }
 
 input.code, span.code, div.code {
-border:0px; color: white;
-background:rgba(255,255,255,0.1);
-padding: 2px 4px;
-outline: 1px dashed white;
-margin: 0 4px;
+  border:0px; color: white;
+  background:rgba(255,255,255,0.1);
+  padding: 2px 4px;
+  outline: 1px dashed white;
+  margin: 0 4px;
 }
-span.code{min-width:200px;display:inline-block;}
-div.code {margin:8px 0; display:inline-block;min-width:90%;}
+span.code{
+  min-width:200px;
+  display:inline-block;
+}
+
+div.code {
+  margin:8px 0;
+  display:inline-block;
+  min-width:90%;
+}
 
 span.code:empty::before, div.code:empty::before{
 	content: attr(placeholder);
@@ -93,7 +113,6 @@ article img {
   background: #999d;
 }
 i.fa-python::before {
-
 	background: radial-gradient(circle at 59% 35%, rgba(54,115,167,1) 0%, rgba(54,115,167,1) 18%, rgba(240,199,0,0) 18%, rgba(240,199,0,0) 100%), radial-gradient(circle at 42% 65%, rgba(240,199,0,1) 0%,rgba(240,199,0,1) 18%, rgba(54,115,167,0) 18%, rgba(54,115,167,0) 100%),  linear-gradient(138deg, rgba(54,115,167,1) 0%, rgba(54,115,167,1) 50%, rgba(240,199,0,1) 50%, rgba(240,199,0,1) 100%);
 	-webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -113,7 +132,7 @@ article::before {
 }*/
 
 .pb-xxl {
-  padding-bottom: 5rem;
+  padding-bottom: 4rem;
 }
 
 .mt--xxl {
@@ -141,25 +160,50 @@ img {
   max-width: 100%;
 }
 
+/* --------------------------------- */
+#navbar-brand {
+  line-height:48px;
+  font-family: 'Itim';
+  font-family: 'Margarine';
+  font-size:22pt;
+  font-weight:bold;
+  color:#343a40;
+  text-transform: uppercase;
+}
+
+#navbar-brand .beta-icon {
+  font-size:0.6em;
+  margin-top:-24px;
+  margin-left:-8px;
+
+}
+
+#navbar-brand .logo {
+  height: 48px;
+}
 </style>
 
-<body class="d-flex flex-column" style="max-height:100%; background: white">
+<body class="d-flex flex-column">
 
-<nav class="navbar navbar-expand-lg navbar-light py-0 justify-content-between flex-grow-0 flex-shrink-0 bg-light" style="background:#ccc">
-  <a class="navbar-brand" href="/" style="line-height:48px; font-family: 'Margarine'; font-size:22pt;font-weight:bold;color:#343a40;"><!-- style="color: #454545;font-weight: bold; background:url(https://heartyfoundation.com/wp-content/uploads/2019/03/heartyfun-logo.png) no-repeat;background-size:contain;padding-left:3.2cm;font-family:'Ubuntu'">-->
-    <img src="https://heartyfoundation.com/wp-content/uploads/2019/03/heartyfun-logo.png" height="48" class="d-inline-block align-top mr-3" alt="">
-    PLAYGROUND<img src="http://www.rw-designer.com/icon-image/16287-24x24x32.png" style="margin-top:-24px; margin-left:-4px"/>
-    <!-- <sup class="ml-1"><sup>&beta;</sup></sup> -->
+<nav class="navbar navbar-expand-lg navbar-light py-0 justify-content-between flex-grow-0 flex-shrink-0 bg-light">
+  <a id="navbar-brand" class="navbar-brand" href="/">
+    <img src="{% static "playground/images/heartyfun-logo.png" %}" class="logo align-top" alt="Hearty Foundation">
+    <span class="d-none d-lg-inline ml-2">Playground</span>
+    <img class="beta-icon" src="{% static "playground/images/balloons.png" %}" alt="&beta;"/>
   </a>
-  <div class="navbar-collapse flex-grow-0" id="navbarNav">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse flex-grow-0 mb-2" id="navbarNav">
     {% include "playground/_menu.html" %}
 
     {% include "playground/_user_button.html" %}
   </div>
+  
 </nav>
 
 <!--   overflow-hidden -->
-<main class="flex-grow-1" style="border-radius: 8px 8px 0 0; background: #eee">
+<main class="flex-grow-1" style="border-radius: 8px 8px 0 0; background: #eee;">
   {% block main %}{% endblock %}
 </main>
 
