@@ -1,0 +1,25 @@
+<div class="row mt-4">
+    <div class="col col-12 col-lg-5 order-lg-2 text-center mb-3">
+        {% include "activity_quiz/_progress_bar.html" with current=current progress=statuses %}
+    </div>
+    <div class="col order-lg-1 text-left">
+        {% if current > 0 %}
+        <button name="next" value="{{ current | add:-1 }}" class="btn btn-primary text-nowrap">
+            <i class="fas fa-angle-left mr-1"></i> Previous question
+        </button>
+        {% endif %}
+    </div>
+    <div class="col order-lg-3 text-right">
+        {% if current == total_count %}
+            <button type="submit" name="next" value="0" class="btn btn-primary text-nowrap">Back to start <i class="fas fa-forward ml-1"></i></button>
+        {% else %}
+            <button type="submit" name="next" value="{{ current | add:1 }}" class="btn btn-primary text-nowrap">
+                {% if current|add:1 < total_count %}
+                Next question <i class="fas fa-angle-right ml-1"></i>
+                {% else %}
+                Review & Finish <i class="fas fa-angle-right ml-1"></i>
+                {% endif %}
+            </button>
+        {% endif %}
+    </div>
+</div>

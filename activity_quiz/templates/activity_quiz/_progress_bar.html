@@ -9,9 +9,9 @@
   </button>
 {% endfor %}
 
-<button type="submit" name="next" value="-1" class="btn p-0 m-0 ml-2 btn-link position-relative">
+<button type="submit" name="next" value="{{ total_count }}" class="btn p-0 m-0 ml-2 btn-link position-relative">
   <i class="fas fa-medal fa-fw"></i>
-  {% if current == -1 %}
+  {% if current == total_count %}
     <i class="fas fa-sort-up fa-fw position-absolute" style="left: 0"></i>
   {% endif %}
 </button>
