@@ -1,8 +1,7 @@
 {% load i18n %}
 
 {% if user.is_authenticated %}
-<div class="btn-group ml-3 rounded-pill">
-
+<div class="btn-group ml-lg-3 rounded-pill">
   <button type="button" class="rounded-pill btn  pl-0 py-0 pr-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:#dadada">
     <img src="{{ user.avatar_url }}" height="36" class="border-primary rounded-circle mr-1"/>
     <span style="line-height:36px">{{ user.display_name }}</span>
