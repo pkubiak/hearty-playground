@@ -33,6 +33,9 @@ class UserManager(BaseUserManager):
 
         return user
 
+    def has_superuser(self):
+        return User.objects.filter(is_superuser=True).count() > 0
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     # Mocked path to user avatar photo
