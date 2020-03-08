@@ -27,9 +27,9 @@ load_dotenv(os.path.join(BASE_DIR, '.env.development'), verbose=True)
 SECRET_KEY = '82doa^13=knk#w4g1-(xr1sflo03(nqs1zxb62_u5y@4-j@2=!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.getenv('DEBUG', 'False') != False)
 
-ALLOWED_HOSTS = ['localhost', '.herokuapp.com']
+ALLOWED_HOSTS = ['*', 'localhost', '.herokuapp.com']
 
 
 if DEBUG is True:
