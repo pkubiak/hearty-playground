@@ -9,6 +9,7 @@ def index(request):
     """Display list of all available courses."""
     all_courses = list(Course.objects.all())
 
+    # TODO: select recently worked on ?
     highlighted = all_courses.pop() if all_courses else None
 
     return render(request, 'course_app/index.html', {

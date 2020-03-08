@@ -18,6 +18,10 @@
 <div class="container mt--xxl">
   {% if highlighted %}
     {% include "course_app/partials/course_vertical_card.html" with course=highlighted %}
+  {% else %}
+    <div class="alert alert-light" role="alert">
+      There are no courses at that moment! Please stay tuned!
+    </div>
   {% endif %}
 
   <h2 class="display-4 mt-5 mb-3">{% trans "Full Catalog" %}</h2>
