@@ -12,6 +12,7 @@ Pillow
 
 # Used for augmenting markdown generated HTML with bootstrap classes
 beautifulsoup4
+html5lib
 
 # Pygments is a syntax highlighting package written in Python.
 Pygments
@@ -20,7 +21,6 @@ pylama
 flake8-bugbear
 flake8-comprehensions
 flake8-expression-complexity
-
 
 
 ## DEPLOYMENT ###
