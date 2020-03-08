@@ -185,7 +185,7 @@ img {
 
 <body class="d-flex flex-column">
 
-<nav class="navbar navbar-expand-lg navbar-light py-0 justify-content-between flex-grow-0 flex-shrink-0 bg-light">
+<nav class="navbar navbar-expand-md navbar-light py-0 justify-content-between flex-grow-0 flex-shrink-0 bg-light">
   <a id="navbar-brand" class="navbar-brand" href="/">
     <img src="{% static "playground/images/heartyfun-logo.png" %}" class="logo align-top" alt="Hearty Foundation">
     <span class="d-none d-lg-inline ml-2">Playground</span>
@@ -194,7 +194,7 @@ img {
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse flex-grow-0 mb-2 mb-lg-0" id="navbarNav">
+  <div class="collapse navbar-collapse flex-grow-0 mb-2 mb-md-0 text-right" id="navbarNav">
     {% include "playground/_menu.html" %}
 
     {% include "playground/_user_button.html" %}

@@ -19,7 +19,7 @@
         </button>
       </h5>
 
-      <div class="list-group list-group-flush collapse navbar-collapse" id="articleListToggler">
+      <div class="list-group list-group-flush collapse navbar-collapse mt-2" id="articleListToggler">
         {% for article_link in all_articles %}
           <a href="{% url 'help_app:show' article_link.slug %}" class="list-group-item list-group-item-action{% if article_link.slug == article.slug %} active{% endif %}">
             {{ article_link.title }}
