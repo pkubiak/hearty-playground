@@ -32,22 +32,21 @@ DEBUG = (os.getenv('DEBUG', 'False') != 'False')
 ALLOWED_HOSTS = ['*', 'localhost', '.herokuapp.com']
 
 
-if DEBUG is True:
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
-            },
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
         },
-        'loggers': {
-            'django.db.backends': {
-                'handlers': ['console'],
-                'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-            },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': 'WARNING'
         },
-    }
+    },
+}
 
 # Application definition
 
