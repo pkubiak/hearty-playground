@@ -1,0 +1,66 @@
+@import url("highlight.css");
+
+img {
+    max-width: 100%;
+}
+
+.task-list {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.task-list .task-list {
+    padding-left: 40px;
+}
+
+.emojione {
+    width: 32px; height: 32px;
+}
+
+div.alert p:last-child{
+    margin-bottom: 0;
+}
+
+dd {
+    margin-left: 2rem;
+}
+
+
+table.highlighttable {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+div.highlight {
+    padding: 1rem;
+    max-width: 100%;
+    overflow: hidden;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+table.highlighttable div.highlight {
+    margin-bottom: 0;
+}
+
+td.code {
+    padding: 0 !important;
+    width: 100%;
+}
+div.highlight pre, div.linenodiv pre {
+    margin-bottom: 0;
+}
+
+div.linenodiv {
+    background: #eee;
+    padding: 1rem 0.75rem;
+    padding-right: 0.5rem;
+}
+
+/* selected lines highlighting */
+span.hll {
+    background: yellow !important;
+    width: 100%;
+    display:block;
+}
