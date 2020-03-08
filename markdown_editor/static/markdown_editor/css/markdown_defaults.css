@@ -64,3 +64,45 @@ span.hll {
     width: 100%;
     display:block;
 }
+
+@media (max-width: 576px) {
+    img.float-right, img.float-right {
+        float: none !important;
+        display: block;
+        margin: 10px auto !important;
+    }
+}
+
+.responsive-box {
+    background: url(https://via.placeholder.com/300x200?text=xs);
+    min-height: 200px;
+    width: 100%;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .responsive-box {
+        background: url(https://via.placeholder.com/300x200?text=sm);
+    }
+ }
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .responsive-box {
+        background: url(https://via.placeholder.com/300x200?text=md);
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .responsive-box {
+        background: url(https://via.placeholder.com/300x200?text=lg);
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .responsive-box {
+        background: url(https://via.placeholder.com/300x200?text=xl);
+    }
+}
