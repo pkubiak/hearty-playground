@@ -27,7 +27,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env.development'), verbose=True)
 SECRET_KEY = '82doa^13=knk#w4g1-(xr1sflo03(nqs1zxb62_u5y@4-j@2=!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.getenv('DEBUG', 'False') != False)
+DEBUG = (os.getenv('DEBUG', 'False') != 'False')
 
 ALLOWED_HOSTS = ['*', 'localhost', '.herokuapp.com']
 
@@ -167,7 +167,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGOUT_REDIRECT_URL = '/'
