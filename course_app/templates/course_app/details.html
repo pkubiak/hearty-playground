@@ -15,26 +15,7 @@
 <div class="container mt--xxl">
   {% include "course_app/partials/course_vertical_card.html" with course=course %}
 
-
   <h2 class="display-4">Lessons</h2>
-
-  <style>
-    /* TODO: przenieść do jakiegoś globalnego arkusza stylów */
-    .collapse-btn i {
-      transition: transform 0.5s;
-    }
-    .collapse-btn:not(.collapsed) i {
-      transform: rotate(90deg);
-    }
-
-    .tr-position-relative { /* HACK: standard position:relative is not supported for tr */
-      transform:scale(1);
-    }
-    .disabled-row {
-      opacity: 0.5;
-      text-decoration: line-through;
-    }
-  </style>
 
   <div class="accordion mb-5" id="coursesList">
     {% for lesson, activities in lessons %}
@@ -108,6 +89,4 @@
     {% endfor %}
   </div>
 </div>
-
-
 {% endblock %}
