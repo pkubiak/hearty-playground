@@ -34,7 +34,7 @@ def show(request, course, activity):
     if request.method == 'POST' and not completed and request.POST.get('current'):
         current = int(request.POST.get('current', 0))
 
-        question = activity.question_set.all()[current]
+        question = activity.question_set.order_by('order', 'id').all()[current]
 
         # update stored answers
         s = solution.state[question.id]
@@ -56,7 +56,7 @@ def show(request, course, activity):
             'score': 100.0 * (solution.score or 0),
         })
 
-    question = activity.question_set.all()[current]
+    question = activity.question_set.order_by('order', 'id').all()[current]
     answer = solution.state[str(question.id)].answer
 
     return render(request, question.template, {

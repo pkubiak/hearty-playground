@@ -4,6 +4,7 @@ data/
 staticfiles/
 mockup/
 uploads/
+.env.development
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

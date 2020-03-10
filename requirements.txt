@@ -36,3 +36,9 @@ python-dotenv
 
 # Radically simplified static file serving for Python web apps
 whitenoise
+
+# 
+django-storages
+
+# AWS SDK for Python 
+boto3
