@@ -1,59 +1,41 @@
-{% extends "playground/base.html" %}
+{% extends "activity_quiz/show.html" %}
 
 {% load static i18n markdown %}
 
 {% block title %}{{ activity.title }}{% endblock %}
-{% block main %}
-<div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
-  <div class="container">
-    <div class="row justify-content-md-center">
-      <h1 class="font-weight-light text-truncate d-flex justify-content-between align-items-center col-md-8 mb-4">
-        <span>{{ activity.title }}</span>
-        <a href="{% url "course_app:details" course.slug %}" class="btn btn-secondary ml-auto"><i class="fas fa-angle-double-left"></i> {% trans "Back to course" %}</a>
-      </h1>
-    </div>
-  </div>
-</div>
 
-<div class="container mt--xxl mb-5">
-  <div class="row justify-content-md-center">
-    <div class="card col-md-8">
-      <div class="card-body">
-        <form action="" method="POST">
-          {% csrf_token %}
-          {% if completed %}
-            <h2>You have finished quiz!</h2>
-            {% if activity.congratulations %}
-              {{ activity.congratulations | markdown }}
-            {% else %}
-              <p class="lead">{% lorem 20 w random %}</p>
-            {% endif %}
-            <h2 class="display-4 text-center my-5">Your score: {{ score | floatformat:1}}%</h2>
+{% block quiz_content %}
+  <form action="" method="POST">
+    {% csrf_token %}
+    {% if completed %}
+      <h2>You have finished quiz!</h2>
+      {% if activity.congratulations %}
+        {{ activity.congratulations | markdown }}
+      {% else %}
+        <p class="lead">{% lorem 20 w random %}</p>
+      {% endif %}
+      <h2 class="display-4 text-center my-5">Your score: {{ score | floatformat:1}}%</h2>
 
-            <div class="text-center mb-5">
-              <button type="submit" name="finish" value="retake" class="btn btn-success btn-lg px-5">Restart Quiz</button>
-            </div>
-          {% else %}
-            <h2>Finish and evaluate!</h2>
-
-            <p class="lead">
-              {% if activity.confirmation_text %}
-                {{ activity.confirmation_text | markdown }}
-              {% else %}
-                {% lorem 30 w random %}
-              {% endif %}
-            </p>
-
-            <div class="text-center mb-5">
-              <button type="submit" name="finish" value="sure" class="btn btn-primary btn-lg px-5">Yes, I am absolutely sure! </button>
-            </div>
-
-          {% endif %}
-
-          {% include 'activity_quiz/_navigation.html' with current=total_count %}
-        </form>
+      <div class="text-center mb-5">
+        <button type="submit" name="finish" value="retake" class="btn btn-success btn-lg px-5">Restart Quiz</button>
       </div>
-    </div>
-  </div>
-</div>
+    {% else %}
+      <h2>Finish and evaluate!</h2>
+
+      <div class="lead mb-4">
+        {% if activity.confirmation_text %}
+          {{ activity.confirmation_text | markdown }}
+        {% else %}
+          {% lorem 30 w random %}
+        {% endif %}
+      </div>
+
+      <div class="text-center mb-5">
+        <button type="submit" name="finish" value="sure" class="btn btn-primary btn-lg px-5">Yes, I am absolutely sure! </button>
+      </div>
+
+    {% endif %}
+
+    {% include 'activity_quiz/_navigation.html' with current=total_count %}
+  </form>
 {% endblock %}

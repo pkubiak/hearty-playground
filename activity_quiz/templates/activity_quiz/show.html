@@ -5,6 +5,7 @@
 {% block title %}{{ activity.title }}{% endblock %}
 {% block main %}
 
+{% block quiz_header %}
 <div class="jumbotron jumbotron-fluid bg-primary text-white pb-xxl mb-0 pt-4" style="background-image: url({% static "course_app/background.png" %}); box-shadow: 0 0 3px #000d">
   <div class="container">
     <div class="row justify-content-md-center">
@@ -15,6 +16,7 @@
     </div>
   </div>
 </div>
+{% endblock %}
 
 <style type="text/css">
   .quiz-form .form-check {
@@ -59,6 +61,7 @@ $(function(){
   <div class="row justify-content-md-center">
     <div class="card col-12 col-lg-9 col-xl-8">
       <div class="card-body">
+        {% block quiz_content %}
         <h3 class="mb-3">Question <span class="badge badge-secondary mr-2 mt-1 align-text-bottom">{{ current | add:1 }} / {{ total_count }}</span></h3>
 
         <form action="" method="POST">
@@ -79,6 +82,7 @@ $(function(){
 
           {% include 'activity_quiz/_navigation.html'%}
         </form>
+        {% endblock %}
       </div>
     </div>
   </div>
