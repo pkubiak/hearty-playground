@@ -8,9 +8,9 @@
     </div>
     <div class="col-md-9">
       <div class="card-body">
-        <h3 class="card-title font-weight-light">
+        <h3 class="card-title font-weight-light d-flex flex-wrap align-items-center justify-content-between">
           {{ course.title }}
-          <a href="{% url "course_app:details" course.slug %}" class="btn btn-link stretched-link float-right">
+          <a href="{% url "course_app:details" course.slug %}" class="btn btn-link stretched-link px-0">
             {% if course.user_progress %}
               Continue learning ({{ course.user_progress | stringformat:".0f" }}% completed)
             {% else %}
