@@ -27,8 +27,13 @@ def markdown(value, arg=None):
         'pymdownx.smartsymbols',
         'pymdownx.magiclink',
         'pymdownx.emoji',
-        'pymdownx.superfences'
-    ])
+        'pymdownx.superfences',
+        'pymdownx.highlight',
+    ], extension_configs={
+        'pymdownx.highlight': {
+            'linenums_style': 'pymdownx-inline'
+        }
+    }, output_format='html5')
 
     doc = BeautifulSoup(html, 'html5lib')
 
@@ -52,5 +57,10 @@ def markdown(value, arg=None):
         for title in alert.select('p.admonition-title'):
             title.name = 'h4'
             title['class'] = ['alert-heading']
+
+    # Add class to all highlighted lines
+    for hll in doc.select('span.lineno + span.hll'):
+        lineno = hll.previous
+        _append_class(lineno, 'lineno-hll')
 
     return str(doc.body.decode_contents())

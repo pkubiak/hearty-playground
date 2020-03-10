@@ -1,7 +1,4 @@
 Django>=3.0
-Markdown
-python-frontmatter
-pymdown-extensions
 django-widget-tweaks
 psycopg2
 django-polymorphic
@@ -9,6 +6,12 @@ django-admin-sortable2
 
 # The friendly PIL fork (Python Imaging Library) [for supporting ImageField]
 Pillow
+
+
+## Rendering markdown ##
+Markdown
+python-frontmatter
+pymdown-extensions
 
 # Used for augmenting markdown generated HTML with bootstrap classes
 beautifulsoup4
